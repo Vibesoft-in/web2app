@@ -19,15 +19,11 @@ class SendPushBatchJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $timeout = 120;
+
     public int $tries = 2;
 
     /**
-     * @param  int  $appId
      * @param  list<string>  $tokens
-     * @param  string  $title
-     * @param  string  $body
-     * @param  string|null  $deepLink
-     * @param  int|null  $campaignId
      */
     public function __construct(
         public int $appId,

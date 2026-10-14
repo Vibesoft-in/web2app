@@ -2,7 +2,6 @@
 
 namespace App\Services\Build;
 
-use GdImage;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -42,12 +41,12 @@ class ImageSanitizer
 
         if ($width < self::MIN_DIMENSION || $height < self::MIN_DIMENSION) {
             imagedestroy($img);
-            throw new InvalidArgumentException("Image dimensions are too small. Minimum is ".self::MIN_DIMENSION."x".self::MIN_DIMENSION."px.");
+            throw new InvalidArgumentException('Image dimensions are too small. Minimum is '.self::MIN_DIMENSION.'x'.self::MIN_DIMENSION.'px.');
         }
 
         if ($width > self::MAX_DIMENSION || $height > self::MAX_DIMENSION) {
             imagedestroy($img);
-            throw new InvalidArgumentException("Image dimensions are too large. Maximum is ".self::MAX_DIMENSION."x".self::MAX_DIMENSION."px.");
+            throw new InvalidArgumentException('Image dimensions are too large. Maximum is '.self::MAX_DIMENSION.'x'.self::MAX_DIMENSION.'px.');
         }
 
         // Create clean truecolor canvas to guarantee EXIF strip

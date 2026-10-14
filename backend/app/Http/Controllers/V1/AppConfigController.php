@@ -31,10 +31,11 @@ class AppConfigController extends Controller
                 ->first();
         }
 
-        $configData = $appConfig ? $appConfig->config : [];
+        /** @var array<string, mixed> $configData */
+        $configData = (array) ($appConfig?->config ?? []);
 
         // Ensure store site url domain is added to webview allowed hosts
-        $allowedHosts = $configData['webview_allowed_hosts'] ?? [];
+        $allowedHosts = is_array($configData['webview_allowed_hosts'] ?? null) ? $configData['webview_allowed_hosts'] : [];
         if ($app->connection && ! empty($app->connection->site_url)) {
             $host = parse_url($app->connection->site_url, PHP_URL_HOST);
             if ($host && ! in_array($host, $allowedHosts, true)) {
@@ -44,21 +45,18 @@ class AppConfigController extends Controller
         $configData['webview_allowed_hosts'] = $allowedHosts;
 
         // Ensure basic metadata
-        if (! isset($configData['app']['name'])) {
-            $configData['app']['name'] = $app->name;
-        }
-        if (! isset($configData['app']['currency'])) {
-            $configData['app']['currency'] = 'INR';
-        }
-        if (! isset($configData['app']['min_version'])) {
-            $configData['app']['min_version'] = '1.0.0';
-        }
-        if (! isset($configData['app']['maintenance'])) {
-            $configData['app']['maintenance'] = false;
-        }
+        /** @var array<string, mixed> $appData */
+        $appData = isset($configData['app']) && is_array($configData['app']) ? $configData['app'] : [];
+        $appData['name'] = $appData['name'] ?? $app->name;
+        $appData['currency'] = $appData['currency'] ?? 'INR';
+        $appData['min_version'] = $appData['min_version'] ?? '1.0.0';
+        $appData['maintenance'] = $appData['maintenance'] ?? false;
+        $configData['app'] = $appData;
+
 
         return response()->json([
             'data' => $configData,
         ]);
+
     }
 }

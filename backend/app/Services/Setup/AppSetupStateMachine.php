@@ -4,6 +4,7 @@ namespace App\Services\Setup;
 
 use App\Enums\SetupStep;
 use App\Models\App;
+use App\Services\Billing\EntitlementService;
 use Illuminate\Support\Facades\DB;
 
 class AppSetupStateMachine
@@ -45,8 +46,8 @@ class AppSetupStateMachine
         $tenant = $app->tenant;
         if (! $tenant || ! $tenant->hasActiveSubscription($app->id)) {
             $reasons[] = 'An active subscription plan is required.';
-        } elseif (! app(\App\Services\Billing\EntitlementService::class)->can($tenant, 'build', $app)) {
-            if (app(\App\Services\Billing\EntitlementService::class)->isFeatureLocked($tenant, $app)) {
+        } elseif (! app(EntitlementService::class)->can($tenant, 'build', $app)) {
+            if (app(EntitlementService::class)->isFeatureLocked($tenant, $app)) {
                 $reasons[] = 'Subscription expired and grace period ended.';
             } else {
                 $reasons[] = 'Monthly build limit reached on your current plan.';

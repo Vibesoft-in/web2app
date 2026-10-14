@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Jobs\SendPushBatchJob;
 use App\Models\App;
 use App\Models\AppUser;
-use App\Models\NotificationCampaign;
 use App\Models\PushDevice;
 use App\Models\Tenant;
+use App\Services\Billing\UsageEventService;
 use App\Services\Notifications\FcmServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
@@ -246,7 +246,7 @@ class TenantAndUserCacheIsolationTest extends TestCase
             body: 'Hello'
         );
 
-        $job->handle($fcmMock, app(\App\Services\Billing\UsageEventService::class));
+        $job->handle($fcmMock, app(UsageEventService::class));
 
         // Tenant 1's device token should be cleaned up
         $this->assertDatabaseMissing('push_devices', [

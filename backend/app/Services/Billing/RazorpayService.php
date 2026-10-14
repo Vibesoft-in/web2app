@@ -12,8 +12,11 @@ use RuntimeException;
 class RazorpayService
 {
     protected string $keyId;
+
     protected string $keySecret;
+
     protected string $webhookSecret;
+
     protected PricingCalculator $calculator;
 
     public function __construct(PricingCalculator $calculator)
@@ -27,10 +30,6 @@ class RazorpayService
     /**
      * Create an order on Razorpay with server-calculated pricing.
      *
-     * @param  Tenant  $tenant
-     * @param  App  $app
-     * @param  Plan  $plan
-     * @param  string  $billingCycle
      * @param  array<string, int>  $addons
      * @return array{
      *     order_id: string,
@@ -92,10 +91,6 @@ class RazorpayService
     /**
      * Create a recurring subscription on Razorpay.
      *
-     * @param  Tenant  $tenant
-     * @param  App  $app
-     * @param  Plan  $plan
-     * @param  string  $razorpayPlanId
      * @return array<string, mixed>
      */
     public function createSubscription(

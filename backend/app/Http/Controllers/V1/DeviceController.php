@@ -22,6 +22,7 @@ class DeviceController extends Controller
 
         /** @var App $app */
         $app = $request->attributes->get('app');
+        /** @var \App\Models\AppUser|\App\Models\User|null $user */
         $user = $request->user() ?? auth('sanctum')->user();
 
         PushDevice::updateOrCreate(
@@ -31,10 +32,11 @@ class DeviceController extends Controller
                 'fcm_token' => (string) $request->fcm_token,
             ],
             [
-                'app_user_id' => $user?->id,
+                'app_user_id' => $user?->getKey(),
                 'platform' => (string) ($request->platform ?? 'android'),
             ]
         );
+
 
         return response()->json([
             'message' => 'Push notification device registered successfully.',

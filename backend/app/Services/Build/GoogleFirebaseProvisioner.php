@@ -12,7 +12,7 @@ class GoogleFirebaseProvisioner implements FirebaseProvisionerInterface
     public function __construct(
         protected ?FakeFirebaseProvisioner $fallback = null,
     ) {
-        $this->fallback = $fallback ?? new FakeFirebaseProvisioner();
+        $this->fallback = $fallback ?? new FakeFirebaseProvisioner;
     }
 
     /**

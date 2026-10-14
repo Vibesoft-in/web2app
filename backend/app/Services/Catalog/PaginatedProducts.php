@@ -5,6 +5,13 @@ namespace App\Services\Catalog;
 class PaginatedProducts
 {
     /**
+     * @var list<CommonProduct>
+     */
+    public array $items;
+
+    public int $totalProducts;
+
+    /**
      * @param  list<CommonProduct>  $products
      */
     public function __construct(
@@ -12,7 +19,11 @@ class PaginatedProducts
         public int $total,
         public int $totalPages,
         public int $currentPage,
-    ) {}
+    ) {
+        $this->items = $products;
+        $this->totalProducts = $total;
+    }
+
 
     /**
      * @return array<string, mixed>

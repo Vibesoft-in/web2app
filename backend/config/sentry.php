@@ -1,5 +1,10 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -48,10 +53,10 @@ return [
     |
     */
     'ignore_exceptions' => [
-        \Illuminate\Validation\ValidationException::class,
-        \Illuminate\Auth\AuthenticationException::class,
-        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class,
-        \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException::class,
+        ValidationException::class,
+        AuthenticationException::class,
+        NotFoundHttpException::class,
+        MethodNotAllowedHttpException::class,
     ],
 
     /*

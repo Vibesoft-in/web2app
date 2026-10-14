@@ -11,12 +11,7 @@ interface WhatsAppServiceInterface
     /**
      * Send a template-only message through WhatsApp Cloud API after debiting the wallet.
      *
-     * @param  Tenant  $tenant
-     * @param  string  $phone
-     * @param  string  $templateName
      * @param  array<string, mixed>  $parameters
-     * @param  App|null  $app
-     * @return WhatsappMessage
      */
     public function sendTemplateMessage(
         Tenant $tenant,

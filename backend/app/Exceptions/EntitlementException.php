@@ -31,4 +31,3 @@ class EntitlementException extends Exception
         ], $this->getCode() ?: 403);
     }
 }
-

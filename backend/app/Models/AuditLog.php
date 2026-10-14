@@ -6,6 +6,7 @@ use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\AuditLogFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -52,10 +53,10 @@ class AuditLog extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\User, $this>
+     * @return BelongsTo<User, $this>
      */
-    public function actor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function actor(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\User::class, 'actor_id');
+        return $this->belongsTo(User::class, 'actor_id');
     }
 }

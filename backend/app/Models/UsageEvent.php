@@ -6,6 +6,7 @@ use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\UsageEventFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -49,10 +50,10 @@ class UsageEvent extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\App, $this>
+     * @return BelongsTo<App, $this>
      */
-    public function app(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function app(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\App::class);
+        return $this->belongsTo(App::class);
     }
 }

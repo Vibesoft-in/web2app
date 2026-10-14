@@ -164,6 +164,7 @@ class KeystoreService
         foreach ($candidates as $cand) {
             if (file_exists($cand)) {
                 putenv("OPENSSL_CONF={$cand}");
+
                 return $cand;
             }
         }
@@ -176,6 +177,7 @@ class KeystoreService
         }
 
         putenv("OPENSSL_CONF={$tempPath}");
+
         return $tempPath;
     }
 }

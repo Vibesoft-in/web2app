@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->calculator = new PricingCalculator();
+    $this->calculator = new PricingCalculator;
 });
 
 test('pricing calculator calculates server-side base monthly price with 18% GST', function () {

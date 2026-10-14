@@ -42,9 +42,9 @@ class MockFlutterRunner implements FlutterRunnerInterface
         // Mock standard zip / bundle binary header
         file_put_contents($aabPath, "PK\x03\x04MockAndroidAppBundleForBuild#{$buildNumber}Name={$buildName}");
 
-        $output = "[Flutter Mock] Building Android App Bundle...".PHP_EOL.
+        $output = '[Flutter Mock] Building Android App Bundle...'.PHP_EOL.
             "Running Gradle task 'bundleRelease'...".PHP_EOL.
-            "Built build/app/outputs/bundle/release/app-release.aab (18.4MB).";
+            'Built build/app/outputs/bundle/release/app-release.aab (18.4MB).';
 
         return [
             'success' => true,

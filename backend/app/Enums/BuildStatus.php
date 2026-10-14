@@ -32,12 +32,8 @@ enum BuildStatus: string
      */
     public function canTransitionTo(BuildStatus $next): bool
     {
-        if ($this === self::FAILED || $this === self::READY) {
-            return false;
-        }
-
         if ($next === self::FAILED) {
-            return true;
+            return ! $this->isTerminal();
         }
 
         return match ($this) {
@@ -45,7 +41,8 @@ enum BuildStatus: string
             self::PREPARING => $next === self::BUILDING,
             self::BUILDING => $next === self::SIGNING,
             self::SIGNING => $next === self::READY,
-            default => false,
+            self::READY, self::FAILED => false,
         };
+
     }
 }

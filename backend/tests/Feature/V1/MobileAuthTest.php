@@ -3,7 +3,6 @@
 use App\Models\App;
 use App\Models\AppUser;
 use App\Models\Tenant;
-use App\Services\Auth\OtpService;
 use Illuminate\Support\Facades\Cache;
 
 beforeEach(function () {

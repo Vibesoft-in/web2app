@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->entitlements = new EntitlementService();
+    $this->entitlements = new EntitlementService;
 });
 
 test('suspended tenant has zero entitlements', function () {

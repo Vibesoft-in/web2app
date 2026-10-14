@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Models\App;
 use App\Models\AppUser;
+use App\Models\PushDevice;
 use App\Services\Auth\GoogleTokenVerifier;
 use App\Services\Auth\OtpService;
 use App\Services\Connectors\ConnectorFactory;
@@ -175,12 +176,12 @@ class AuthController extends Controller
 
         if ($user instanceof AppUser) {
             if ($request->filled('fcm_token')) {
-                \App\Models\PushDevice::where('tenant_id', $app->tenant_id)
+                PushDevice::where('tenant_id', $app->tenant_id)
                     ->where('app_id', $app->id)
                     ->where('fcm_token', (string) $request->fcm_token)
                     ->delete();
             } else {
-                \App\Models\PushDevice::where('tenant_id', $app->tenant_id)
+                PushDevice::where('tenant_id', $app->tenant_id)
                     ->where('app_id', $app->id)
                     ->where('app_user_id', $user->id)
                     ->update(['app_user_id' => null]);

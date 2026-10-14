@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Block direct web access to sensitive directories and dotfiles
+    RewriteRule ^backend/(app|bootstrap|config|database|resources|routes|storage|tests) - [F,L]
+    RewriteRule ^(dashboard|mobile|docs|infra|\.git|\.github) - [F,L]
+    RewriteRule ^(\.env|\.gitignore|\.editorconfig) - [F,L]
+
+    # Rewrite all web requests to Laravel public directory
+    RewriteCond %{REQUEST_URI} !^/backend/public/
+    RewriteRule ^(.*)$ backend/public/$1 [L,QSA]
+</IfModule>
+
+# Fallback: Deny directory listing
+Options -Indexes

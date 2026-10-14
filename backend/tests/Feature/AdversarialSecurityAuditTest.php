@@ -2,28 +2,24 @@
 
 use App\Enums\BuildStatus;
 use App\Enums\SetupStep;
+use App\Exceptions\UrlGuardException;
 use App\Models\App;
 use App\Models\AppConfig;
 use App\Models\AppUser;
 use App\Models\Build;
 use App\Models\Connection;
-use App\Models\NotificationCampaign;
 use App\Models\Plan;
-use App\Models\PushDevice;
 use App\Models\Subscription;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Models\WebhookEvent;
-use App\Models\WhatsappWallet;
 use App\Services\Build\BuildOrchestrator;
 use App\Services\Build\ImageSanitizer;
 use App\Services\Catalog\WooProductMapper;
-use App\Services\Notifications\WhatsAppServiceInterface;
 use App\Services\Security\UrlGuard;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Validation\ValidationException;
 
 beforeEach(function () {
     // Tenant A (Target)
@@ -172,19 +168,19 @@ test('item 5: ssrf attacks to cloud metadata, loopback, and private ips are bloc
 
     // Cloud metadata
     expect(fn () => $guard->validateUrl('http://169.254.169.254/latest/meta-data/'))
-        ->toThrow(\App\Exceptions\UrlGuardException::class);
+        ->toThrow(UrlGuardException::class);
 
     // Localhost / Loopback
     expect(fn () => $guard->validateUrl('http://127.0.0.1:8000/wp-json'))
-        ->toThrow(\App\Exceptions\UrlGuardException::class);
+        ->toThrow(UrlGuardException::class);
 
     // Plain HTTP
     expect(fn () => $guard->validateUrl('http://example.com/wp-json'))
-        ->toThrow(\App\Exceptions\UrlGuardException::class);
+        ->toThrow(UrlGuardException::class);
 
     // Private subnet
     expect(fn () => $guard->validateUrl('https://192.168.1.1/wp-json'))
-        ->toThrow(\App\Exceptions\UrlGuardException::class);
+        ->toThrow(UrlGuardException::class);
 });
 
 /*

@@ -19,7 +19,7 @@ test('keystore service generates valid PKCS12 keystore with SHA-1 and SHA-256 fi
         'name' => 'Acme Shop',
     ]);
 
-    $service = new KeystoreService();
+    $service = new KeystoreService;
     $keystore = $service->generate($app);
 
     expect($keystore)->toBeInstanceOf(Keystore::class)
@@ -47,7 +47,7 @@ test('getOrCreate reuses existing keystore instead of re-generating', function (
     $tenant = Tenant::factory()->create();
     $app = App::factory()->create(['tenant_id' => $tenant->id]);
 
-    $service = new KeystoreService();
+    $service = new KeystoreService;
     $first = $service->getOrCreate($app);
     $second = $service->getOrCreate($app);
 

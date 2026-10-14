@@ -27,7 +27,6 @@ class PricingCalculator
     /**
      * Calculate strict server-side pricing for a plan.
      *
-     * @param  Plan  $plan
      * @param  string  $billingCycle  'monthly' | 'yearly'
      * @param  array<string, int>  $addons  Keyed by addon code => quantity
      * @return array{

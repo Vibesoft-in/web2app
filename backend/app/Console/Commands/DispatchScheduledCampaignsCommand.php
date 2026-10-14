@@ -50,6 +50,7 @@ class DispatchScheduledCampaignsCommand extends Command
             $app = $campaign->app;
             if (! $app || ! $app->tenant) {
                 $campaign->update(['status' => 'failed']);
+
                 continue;
             }
 
@@ -57,6 +58,7 @@ class DispatchScheduledCampaignsCommand extends Command
             if (! $entitlements->can($app->tenant, 'push_notifications', $app)) {
                 $campaign->update(['status' => 'failed']);
                 Log::warning("Scheduled campaign #{$campaign->id} failed: Tenant lacks push notification entitlement at dispatch time.");
+
                 continue;
             }
 

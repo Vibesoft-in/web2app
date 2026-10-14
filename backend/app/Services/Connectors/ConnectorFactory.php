@@ -2,6 +2,7 @@
 
 namespace App\Services\Connectors;
 
+use App\Models\App;
 use InvalidArgumentException;
 
 class ConnectorFactory
@@ -26,7 +27,7 @@ class ConnectorFactory
     /**
      * Create connector instance for given App model.
      */
-    public function forApp(\App\Models\App $app): ConnectorInterface
+    public function forApp(App $app): ConnectorInterface
     {
         $connection = $app->connection;
         if (! $connection || empty($connection->site_url)) {

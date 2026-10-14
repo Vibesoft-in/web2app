@@ -88,7 +88,7 @@ test('whatsapp service rejects non-approved templates', function () {
         phone: '919876543210',
         templateName: 'unapproved_promotional_spam',
         app: $this->appA
-    ))->toThrow(\InvalidArgumentException::class, 'pre-approved templates');
+    ))->toThrow(InvalidArgumentException::class, 'pre-approved templates');
 });
 
 test('whatsapp service debits wallet before send and records usage', function () {
@@ -151,7 +151,7 @@ test('wallet is refunded if cloud api dispatch fails', function () {
             app: $this->appA
         );
         $this->fail('Expected RuntimeException was not thrown.');
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         expect($e->getMessage())->toContain('transmission failure');
     }
 
@@ -382,4 +382,3 @@ test('whatsapp delivery webhook handles multi-entry batch receipts', function ()
     expect($msg1->fresh()->status)->toBe('delivered')
         ->and($msg2->fresh()->status)->toBe('read');
 });
-

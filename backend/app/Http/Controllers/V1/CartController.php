@@ -34,8 +34,12 @@ class CartController extends Controller
         /** @var list<array{product_id: string|int, quantity: int, variant_id?: string|int|null}> $items */
         $items = $request->input('items');
 
+        /** @var \App\Models\AppUser|null $user */
+        $user = $request->user();
+
         try {
-            $checkoutUrl = $connector->createCheckoutUrl($items, $request->user());
+            $checkoutUrl = $connector->createCheckoutUrl($items, $user);
+
         } catch (\Exception $e) {
             return response()->json([
                 'error' => [

@@ -23,4 +23,3 @@ class InsufficientWalletBalanceException extends Exception
         ], 402);
     }
 }
-

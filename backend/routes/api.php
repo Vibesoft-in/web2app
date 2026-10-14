@@ -3,11 +3,15 @@
 use App\Http\Controllers\Api\AppController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\BuildController;
+use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\ConfigController;
 use App\Http\Controllers\Api\ConnectionController;
+use App\Http\Controllers\Api\NotificationCampaignController;
 use App\Http\Controllers\Api\PreviewController;
 use App\Http\Controllers\Api\SetupStateController;
 use App\Http\Controllers\Api\ThemeController;
+use App\Http\Controllers\Api\WhatsAppController;
+use App\Http\Controllers\HealthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/health', [\App\Http\Controllers\HealthController::class, 'check']);
+Route::get('/health', [HealthController::class, 'check']);
 
 Route::prefix('auth')->group(function (): void {
     Route::post('/register', [AuthController::class, 'register']);
@@ -68,15 +72,15 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function (): void {
     Route::get('/apps/{app}/builds/{build}/download-url', [BuildController::class, 'downloadUrl']);
 
     // Billing & checkout
-    Route::post('/apps/{app}/checkout', [\App\Http\Controllers\Api\CheckoutController::class, 'checkout']);
+    Route::post('/apps/{app}/checkout', [CheckoutController::class, 'checkout']);
 
     // Notification campaigns
-    Route::get('/apps/{app}/notifications/campaigns', [\App\Http\Controllers\Api\NotificationCampaignController::class, 'index']);
-    Route::post('/apps/{app}/notifications/campaigns', [\App\Http\Controllers\Api\NotificationCampaignController::class, 'store']);
+    Route::get('/apps/{app}/notifications/campaigns', [NotificationCampaignController::class, 'index']);
+    Route::post('/apps/{app}/notifications/campaigns', [NotificationCampaignController::class, 'store']);
 
     // WhatsApp Cloud API integrations
-    Route::post('/apps/{app}/integrations/whatsapp/test', [\App\Http\Controllers\Api\WhatsAppController::class, 'test']);
-    Route::get('/apps/{app}/integrations/whatsapp/wallet', [\App\Http\Controllers\Api\WhatsAppController::class, 'wallet']);
+    Route::post('/apps/{app}/integrations/whatsapp/test', [WhatsAppController::class, 'test']);
+    Route::get('/apps/{app}/integrations/whatsapp/wallet', [WhatsAppController::class, 'wallet']);
 });
 
 // Expiring signed artifact download route (verified by 'signed' middleware)

@@ -14,6 +14,8 @@ use App\Models\Tenant;
 use App\Models\User;
 use App\Services\Connectors\ConnectorFactory;
 use App\Services\Connectors\ConnectorInterface;
+use App\Support\AppContext;
+use App\Support\TenantContext;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
@@ -27,15 +29,17 @@ class LifecycleEdgeCasesTest extends TestCase
     use RefreshDatabase;
 
     protected Tenant $tenant;
+
     protected User $user;
+
     protected App $clientApp;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        \App\Support\TenantContext::forget();
-        \App\Support\AppContext::forget();
+        TenantContext::forget();
+        AppContext::forget();
 
         Storage::fake('local');
 
@@ -66,8 +70,8 @@ class LifecycleEdgeCasesTest extends TestCase
 
     protected function tearDown(): void
     {
-        \App\Support\TenantContext::forget();
-        \App\Support\AppContext::forget();
+        TenantContext::forget();
+        AppContext::forget();
 
         parent::tearDown();
     }

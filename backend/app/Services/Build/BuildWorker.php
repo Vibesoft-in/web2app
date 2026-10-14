@@ -6,6 +6,7 @@ use App\Enums\BuildStatus;
 use App\Models\App;
 use App\Models\AppConfig;
 use App\Models\Build;
+use App\Services\Billing\UsageEventService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use InvalidArgumentException;
@@ -53,13 +54,13 @@ class BuildWorker
             $config = $configRecord?->config ?? [];
 
             // 1.2 Keystore setup & SHA fingerprints
-            $logs[] = "[1/5] Resolving Android release keystore...";
+            $logs[] = '[1/5] Resolving Android release keystore...';
             $keystore = $this->keystoreService->getOrCreate($app);
             $fingerprints = $this->keystoreService->getFingerprints($app);
             $logs[] = "[1/5] Keystore SHA-1: {$fingerprints['sha1']}";
 
             // 1.3 Firebase Provisioning
-            $logs[] = "[1/5] Provisioning Firebase application...";
+            $logs[] = '[1/5] Provisioning Firebase application...';
             $firebaseData = $this->firebaseProvisioner->provisionAndroidApp(
                 $app,
                 $fingerprints['sha1'],
@@ -76,7 +77,7 @@ class BuildWorker
             // 1.5 Copy trusted Flutter template
             $templatePath = $this->resolveTemplatePath();
             $this->copyTrustedTemplate($templatePath, $workspaceDir);
-            $logs[] = "[1/5] Trusted Flutter engine copied to isolated workspace.";
+            $logs[] = '[1/5] Trusted Flutter engine copied to isolated workspace.';
 
             // 1.6 Inject ONLY validated values (Never client code)
             $this->injectValues(
@@ -92,7 +93,7 @@ class BuildWorker
             // STAGE 2: BUILDING
             // ==========================================
             $build->transitionTo(BuildStatus::BUILDING);
-            $logs[] = "[2/5] Compiling Android App Bundle (AAB) with R8 obfuscation and optimization...";
+            $logs[] = '[2/5] Compiling Android App Bundle (AAB) with R8 obfuscation and optimization...';
             $logs[] = "[2/5] Build parameters: APP_KEY={$app->app_key}, PACKAGE_NAME={$app->package_name}";
 
             $apiBaseUrl = config('app.url') ?? 'http://127.0.0.1:8000';
@@ -121,7 +122,7 @@ class BuildWorker
             // STAGE 3: SIGNING
             // ==========================================
             $build->transitionTo(BuildStatus::SIGNING);
-            $logs[] = "[3/5] Verifying bundle integrity and signature alignment...";
+            $logs[] = '[3/5] Verifying bundle integrity and signature alignment...';
 
             // ==========================================
             // STAGE 4: READY & ARTIFACT UPLOAD
@@ -146,7 +147,7 @@ class BuildWorker
             $app->save();
 
             // Record usage event for cost tracking
-            app(\App\Services\Billing\UsageEventService::class)->record(
+            app(UsageEventService::class)->record(
                 tenant: $build->tenant_id,
                 type: 'build',
                 qty: 1,
@@ -156,7 +157,7 @@ class BuildWorker
 
             return $build;
         } catch (Throwable $e) {
-            $logs[] = "[ERROR] Build failed: ".$e->getMessage();
+            $logs[] = '[ERROR] Build failed: '.$e->getMessage();
             $sanitizedLogs = $this->sanitizeLogs(implode(PHP_EOL, $logs), $app);
 
             $logStoragePath = "tenants/{$tenantId}/builds/{$build->ulid}/build.log";
@@ -202,6 +203,7 @@ class BuildWorker
             File::makeDirectory($dest.DIRECTORY_SEPARATOR.'android'.DIRECTORY_SEPARATOR.'app', 0755, true);
             File::put($dest.DIRECTORY_SEPARATOR.'pubspec.yaml', "name: webintoapp_engine\n");
             File::put($dest.DIRECTORY_SEPARATOR.'android'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'build.gradle', "applicationId 'com.example.placeholder'\n");
+
             return;
         }
 

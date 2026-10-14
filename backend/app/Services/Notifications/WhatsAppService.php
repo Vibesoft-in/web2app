@@ -80,7 +80,7 @@ class WhatsAppService implements WhatsAppServiceInterface
 
             if ((float) $wallet->balance < self::COST_PER_MESSAGE) {
                 throw new InsufficientWalletBalanceException(
-                    "Insufficient WhatsApp wallet balance (required: ₹".number_format(self::COST_PER_MESSAGE, 2).', available: ₹'.number_format((float) $wallet->balance, 2).'). Please recharge your wallet.'
+                    'Insufficient WhatsApp wallet balance (required: ₹'.number_format(self::COST_PER_MESSAGE, 2).', available: ₹'.number_format((float) $wallet->balance, 2).'). Please recharge your wallet.'
                 );
             }
 

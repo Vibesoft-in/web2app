@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\UsageEventResource\Pages;
 
 use App\Filament\Resources\UsageEventResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUsageEvent extends CreateRecord

@@ -9,6 +9,7 @@ use App\Models\PushDevice;
 use App\Models\Subscription;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\Billing\UsageEventService;
 use App\Services\Notifications\FcmServiceInterface;
 use Illuminate\Support\Facades\Queue;
 
@@ -225,7 +226,7 @@ test('fcm service cleans up invalid tokens automatically', function () {
         campaignId: $campaign->id
     );
 
-    $job->handle(app(FcmServiceInterface::class), app(\App\Services\Billing\UsageEventService::class));
+    $job->handle(app(FcmServiceInterface::class), app(UsageEventService::class));
 
     // Valid device remains, invalid device was cleaned up!
     expect(PushDevice::where('fcm_token', $validDevice->fcm_token)->exists())->toBeTrue()
@@ -353,4 +354,3 @@ test('duplicate device registration is idempotent and updates existing record', 
 
     expect(PushDevice::where('app_id', $this->appA->id)->where('fcm_token', $token)->count())->toBe(1);
 });
-

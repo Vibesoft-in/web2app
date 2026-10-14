@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Webhooks;
 
 use App\Http\Controllers\Controller;
 use App\Models\App;
+use App\Models\AppUser;
 use App\Models\Integration;
+use App\Models\PushDevice;
 use App\Models\WebhookEvent;
+use App\Services\Billing\EntitlementService;
+use App\Services\Notifications\FcmServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -117,7 +121,7 @@ class WooWebhookController extends Controller
         }
 
         // Check push entitlement
-        if (! app(\App\Services\Billing\EntitlementService::class)->can($app->tenant, 'push_notifications', $app)) {
+        if (! app(EntitlementService::class)->can($app->tenant, 'push_notifications', $app)) {
             return;
         }
 
@@ -130,7 +134,7 @@ class WooWebhookController extends Controller
             return;
         }
 
-        $appUser = \App\Models\AppUser::withoutGlobalScopes()
+        $appUser = AppUser::withoutGlobalScopes()
             ->where('app_id', $app->id)
             ->where(function ($q) use ($hasCustomerId, $customerId, $hasPhone, $phone) {
                 if ($hasCustomerId) {
@@ -150,7 +154,7 @@ class WooWebhookController extends Controller
             return;
         }
 
-        $tokens = \App\Models\PushDevice::withoutGlobalScopes()
+        $tokens = PushDevice::withoutGlobalScopes()
             ->where('app_id', $app->id)
             ->where('app_user_id', $appUser->id)
             ->pluck('fcm_token')
@@ -164,7 +168,7 @@ class WooWebhookController extends Controller
         $statusBody = "Your order #{$orderId} is now ".ucfirst((string) $orderStatus).'.';
         $deepLink = "order:{$orderId}";
 
-        app(\App\Services\Notifications\FcmServiceInterface::class)->dispatchBatch(
+        app(FcmServiceInterface::class)->dispatchBatch(
             app: $app,
             tokens: $tokens,
             title: $statusTitle,

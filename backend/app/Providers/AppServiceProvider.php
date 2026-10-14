@@ -8,6 +8,10 @@ use App\Services\Build\FlutterRunnerInterface;
 use App\Services\Build\GoogleFirebaseProvisioner;
 use App\Services\Build\MockFlutterRunner;
 use App\Services\Build\SystemFlutterRunner;
+use App\Services\Notifications\FcmService;
+use App\Services\Notifications\FcmServiceInterface;
+use App\Services\Notifications\WhatsAppService;
+use App\Services\Notifications\WhatsAppServiceInterface;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -22,22 +26,22 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(FirebaseProvisionerInterface::class, function ($app) {
             if ($this->app->environment(['local', 'testing']) || empty(config('services.firebase.access_token'))) {
-                return new FakeFirebaseProvisioner();
+                return new FakeFirebaseProvisioner;
             }
 
-            return new GoogleFirebaseProvisioner();
+            return new GoogleFirebaseProvisioner;
         });
 
         $this->app->singleton(FlutterRunnerInterface::class, function ($app) {
             if ($this->app->environment('testing') || empty(env('FLUTTER_BIN'))) {
-                return new MockFlutterRunner();
+                return new MockFlutterRunner;
             }
 
-            return new SystemFlutterRunner();
+            return new SystemFlutterRunner;
         });
 
-        $this->app->singleton(\App\Services\Notifications\FcmServiceInterface::class, \App\Services\Notifications\FcmService::class);
-        $this->app->singleton(\App\Services\Notifications\WhatsAppServiceInterface::class, \App\Services\Notifications\WhatsAppService::class);
+        $this->app->singleton(FcmServiceInterface::class, FcmService::class);
+        $this->app->singleton(WhatsAppServiceInterface::class, WhatsAppService::class);
     }
 
     public function boot(): void
