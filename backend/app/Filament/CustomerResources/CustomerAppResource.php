@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class CustomerAppResource extends Resource
 {
@@ -33,12 +34,29 @@ class CustomerAppResource extends Resource
                                 ->label('Mobile App Name')
                                 ->placeholder('e.g. My Fashion Store')
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(function (Forms\Set $set, ?string $state, ?string $old): void {
+                                    if (! empty($state)) {
+                                        $slug = Str::slug($state, '');
+                                        if (! empty($slug)) {
+                                            $set('package_name', 'com.'.$slug.'.app');
+                                        }
+                                    }
+                                }),
                             Forms\Components\TextInput::make('package_name')
                                 ->label('Android Package Name / Bundle ID')
                                 ->placeholder('e.g. com.myfashionstore.app')
+                                ->helperText('Unique reverse domain format, e.g. com.yourstore.app (letters, numbers, and dots only).')
                                 ->required()
-                                ->maxLength(255),
+                                ->maxLength(255)
+                                ->regex('/^[a-z][a-z0-9_]*(\.[a-z0-9_]+)+$/i')
+                                ->unique(App::class, 'package_name', ignoreRecord: true)
+                                ->dehydrateStateUsing(fn (?string $state): ?string => $state ? strtolower(trim($state)) : null)
+                                ->validationMessages([
+                                    'regex' => 'The package name must be in reverse domain format like com.yourstore.app (no @ or email symbols).',
+                                    'unique' => 'This package name is already registered by another app. Please enter a unique package name.',
+                                ]),
                             Forms\Components\Select::make('platform')
                                 ->label('Store Platform')
                                 ->options([

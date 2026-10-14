@@ -27,7 +27,9 @@ class AppResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('package_name')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->regex('/^[a-z][a-z0-9_]*(\.[a-z0-9_]+)+$/i')
+                    ->unique(ignoreRecord: true),
                 Forms\Components\Select::make('platform')
                     ->options([
                         'woo' => 'WooCommerce',

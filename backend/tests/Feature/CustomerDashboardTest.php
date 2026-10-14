@@ -1,9 +1,11 @@
 <?php
 
+use App\Filament\CustomerResources\CustomerAppResource\Pages\CreateCustomerApp;
 use App\Models\App;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Support\TenantContext;
+use Livewire\Livewire;
 
 beforeEach(function () {
     TenantContext::forget();
@@ -79,4 +81,41 @@ test('admin owner can access admin panel and its resource pages without redirect
     $this->actingAs($admin)->get('/admin/apps')->assertSuccessful();
     $this->actingAs($admin)->get('/admin/tenants')->assertSuccessful();
     $this->actingAs($admin)->get('/admin/subscriptions')->assertSuccessful();
+});
+
+test('app creation validates package name format and uniqueness', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'role' => 'owner',
+    ]);
+
+    App::create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Existing App',
+        'platform' => 'woo',
+        'package_name' => 'com.existing.app',
+        'app_key' => 'wia_test_exist',
+    ]);
+
+    $this->actingAs($user);
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+
+    Livewire::test(CreateCustomerApp::class)
+        ->fillForm([
+            'name' => 'Test App',
+            'package_name' => 'RISHABHTYAGI162@GMAIL.COM',
+            'platform' => 'woo',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['package_name' => 'regex']);
+
+    Livewire::test(CreateCustomerApp::class)
+        ->fillForm([
+            'name' => 'Test App 2',
+            'package_name' => 'com.existing.app',
+            'platform' => 'woo',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['package_name' => 'unique']);
 });
