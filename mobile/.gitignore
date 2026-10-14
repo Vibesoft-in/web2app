@@ -1,0 +1,19 @@
+# Flutter gitignore
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+android/app/build/
+android/.gradle/
+ios/.symlinks/
+ios/Pods/
+ios/Podfile.lock
+*.aab
+*.apk
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist

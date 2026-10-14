@@ -1,0 +1,86 @@
+# ==============================================================================
+# Multi-stage Sandboxed Android / Flutter Build Worker Container
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Stage 1: Build Environment Setup
+# ------------------------------------------------------------------------------
+FROM ubuntu:22.04 AS build-worker
+
+LABEL maintainer="WebIntoApp Engineering <ops@webintoapp.com>"
+LABEL description="Isolated, sandboxed container for Flutter Android release compilation"
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+
+# Install foundational build tools, git, curl, unzip, and OpenJDK 17
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    ca-certificates \
+    curl \
+    git \
+    unzip \
+    xz-utils \
+    zip \
+    libglu1-mesa \
+    openjdk-17-jdk-headless \
+    python3 \
+    locales \
+    && locale-gen en_US.UTF-8 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Environment variables for Android SDK & Flutter SDK
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV ANDROID_SDK_ROOT=/opt/android-sdk
+ENV ANDROID_HOME=/opt/android-sdk
+ENV FLUTTER_HOME=/opt/flutter
+ENV PATH="${PATH}:${JAVA_HOME}/bin:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools:${FLUTTER_HOME}/bin"
+
+# Create unprivileged 'builder' user (UID 1001)
+RUN groupadd -g 1001 builder && \
+    useradd -u 1001 -g builder -m -s /bin/bash builder
+
+# Install Android SDK Command-line Tools
+ARG ANDROID_CMDLINE_TOOLS_VERSION=11076708_latest
+RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    curl -fsSL https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_CMDLINE_TOOLS_VERSION}.zip -o /tmp/cmdline-tools.zip && \
+    unzip -q /tmp/cmdline-tools.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    mv ${ANDROID_SDK_ROOT}/cmdline-tools/cmdline-tools ${ANDROID_SDK_ROOT}/cmdline-tools/latest && \
+    rm /tmp/cmdline-tools.zip
+
+# Accept licenses and install Android SDK platform 34 and build-tools
+RUN yes | sdkmanager --licenses > /dev/null || true && \
+    sdkmanager \
+        "platforms;android-34" \
+        "build-tools;34.0.0" \
+        "platform-tools"
+
+# Install Flutter SDK (Stable 3.24.x)
+ARG FLUTTER_VERSION=3.24.3
+RUN git clone -b ${FLUTTER_VERSION} --depth 1 https://github.com/flutter/flutter.git ${FLUTTER_HOME} && \
+    git config --global --add safe.directory ${FLUTTER_HOME}
+
+# Pre-cache Flutter artifacts and run flutter doctor
+RUN flutter config --no-analytics && \
+    flutter precache --android && \
+    yes | flutter doctor --android-licenses || true && \
+    flutter doctor -v
+
+# Setup isolated workspace directories with builder permissions
+RUN mkdir -p /builds/workspace /builds/artifacts /builds/templates /builds/keystores && \
+    chown -R builder:builder /builds ${ANDROID_SDK_ROOT} ${FLUTTER_HOME}
+
+# Copy the build orchestrator execution script
+COPY --chown=builder:builder infra/scripts/run-build.sh /builds/run-build.sh
+RUN chmod +x /builds/run-build.sh 2>/dev/null || true
+
+
+USER builder
+WORKDIR /builds
+
+HEALTHCHECK --interval=60s --timeout=10s --retries=3 \
+    CMD flutter --version || exit 1
+
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "echo 'Isolated build worker ready for tasks' && tail -f /dev/null"]

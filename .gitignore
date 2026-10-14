@@ -1,0 +1,60 @@
+# Root .gitignore for WebIntoApp
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.production.example
+dashboard/.env*.local
+
+# Node.js & Next.js
+node_modules/
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+test-results/
+playwright-report/
+
+# PHP & Laravel
+backend/vendor/
+backend/storage/*.key
+backend/storage/framework/cache/data/*
+!backend/storage/framework/cache/data/.gitignore
+backend/storage/framework/sessions/*
+!backend/storage/framework/sessions/.gitignore
+backend/storage/framework/views/*
+!backend/storage/framework/views/.gitignore
+backend/storage/logs/*
+!backend/storage/logs/.gitignore
+backend/.phpunit.result.cache
+backend/database/*.sqlite
+backend/database/*.sqlite-journal
+
+# Flutter / Dart
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/.pub/
+mobile/build/
+mobile/.idea/
+
+# Keystores, Certificates & Secrets
+*.jks
+*.keystore
+*.pem
+*.key
+google-services.json
+GoogleService-Info.plist
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

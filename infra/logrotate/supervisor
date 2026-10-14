@@ -1,0 +1,16 @@
+/var/log/supervisor/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    copytruncate
+    create 0640 root root
+    sharedscripts
+    postrotate
+        if [ -f /var/run/supervisord.pid ]; then
+            kill -USR2 $(cat /var/run/supervisord.pid)
+        fi
+    endscript
+}

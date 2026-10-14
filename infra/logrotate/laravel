@@ -1,0 +1,12 @@
+/var/www/backend/storage/logs/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    copytruncate
+    create 0660 www www
+    dateext
+    dateformat -%Y%m%d
+}
