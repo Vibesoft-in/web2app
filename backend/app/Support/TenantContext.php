@@ -10,6 +10,8 @@ class TenantContext
 
     protected static ?int $currentTenantId = null;
 
+    protected static bool $resolving = false;
+
     public static function set(Tenant $tenant): void
     {
         static::$currentTenant = $tenant;
@@ -28,11 +30,18 @@ class TenantContext
             static::$currentTenant = Tenant::find(static::$currentTenantId);
         }
 
-        if (static::$currentTenant === null && auth()->check()) {
-            $user = auth()->user();
-            if ($user && isset($user->tenant_id)) {
-                static::$currentTenantId = (int) $user->tenant_id;
-                static::$currentTenant = Tenant::find(static::$currentTenantId);
+        if (static::$currentTenant === null && ! static::$resolving) {
+            static::$resolving = true;
+            try {
+                if (auth()->check()) {
+                    $user = auth()->user();
+                    if ($user && isset($user->tenant_id)) {
+                        static::$currentTenantId = (int) $user->tenant_id;
+                        static::$currentTenant = Tenant::find(static::$currentTenantId);
+                    }
+                }
+            } finally {
+                static::$resolving = false;
             }
         }
 
@@ -45,11 +54,22 @@ class TenantContext
             return static::$currentTenantId;
         }
 
-        if (auth()->check()) {
-            $user = auth()->user();
-            if ($user && isset($user->tenant_id)) {
-                return (int) $user->tenant_id;
+        if (static::$resolving) {
+            return null;
+        }
+
+        static::$resolving = true;
+        try {
+            if (auth()->check()) {
+                $user = auth()->user();
+                if ($user && isset($user->tenant_id)) {
+                    static::$currentTenantId = (int) $user->tenant_id;
+
+                    return static::$currentTenantId;
+                }
             }
+        } finally {
+            static::$resolving = false;
         }
 
         return null;
@@ -59,5 +79,6 @@ class TenantContext
     {
         static::$currentTenant = null;
         static::$currentTenantId = null;
+        static::$resolving = false;
     }
 }

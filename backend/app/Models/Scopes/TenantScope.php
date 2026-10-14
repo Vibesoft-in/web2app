@@ -2,6 +2,7 @@
 
 namespace App\Models\Scopes;
 
+use App\Models\User;
 use App\Support\TenantContext;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,10 @@ class TenantScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
+        if ($model instanceof User) {
+            return;
+        }
+
         $tenantId = TenantContext::getId();
 
         if ($tenantId !== null) {
