@@ -5,9 +5,9 @@
  */
 
 declare(strict_types=1);
+use App\Http\Controllers\HealthController;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
 $secret = 'Vibesoft123';
@@ -89,32 +89,74 @@ try {
 
     <p class="success">Migration process finished!</p>
 
-    <h3>3. Diagnostic /healthz Test:</h3>
+    <h3>3. Environment & Storage Diagnostics:</h3>
     <pre><?php
-    try {
-        $subRequest = Request::create('/healthz', 'GET');
-        $response = $app->handleRequest($subRequest);
-        echo 'Status Code: '.$response->getStatusCode()."\n";
-        echo 'Content: '.htmlspecialchars($response->getContent());
-    } catch (Throwable $e) {
-        echo '<span class="error">Exception: '.htmlspecialchars($e->getMessage())."\n".htmlspecialchars($e->getTraceAsString()).'</span>';
-    }
-?></pre>
+    $envPath = base_path('.env');
+$rootEnvPath = dirname(base_path()).'/.env';
+echo 'Base Path: '.base_path()."\n";
+echo 'backend/.env exists: '.(file_exists($envPath) ? 'YES' : 'NO')."\n";
+echo 'root/.env exists: '.(file_exists($rootEnvPath) ? 'YES' : 'NO')."\n";
 
-    <h3>4. Recent Laravel Logs:</h3>
-    <pre><?php
-$logFiles = glob(__DIR__.'/../storage/logs/*.log');
-if ($logFiles) {
-    rsort($logFiles);
-    $latestLog = $logFiles[0];
-    echo 'Log File: '.basename($latestLog)."\n\n";
-    $lines = file($latestLog);
-    $lastLines = array_slice($lines, -50);
-    echo htmlspecialchars(implode('', $lastLines));
-} else {
-    echo 'No log files found in storage/logs/';
+// Auto self-heal: if backend/.env is missing but root/.env exists, copy it!
+if (! file_exists($envPath) && file_exists($rootEnvPath)) {
+    copy($rootEnvPath, $envPath);
+    echo "--> AUTO-FIX: Copied root/.env to backend/.env!\n";
+}
+
+echo 'APP_KEY: '.(config('app.key') ? substr(config('app.key'), 0, 15).'...' : 'MISSING / EMPTY!')."\n";
+echo 'APP_ENV: '.config('app.env')."\n";
+echo 'APP_DEBUG: '.(config('app.debug') ? 'true' : 'false')."\n";
+echo 'DB Connection: '.config('database.default')."\n";
+echo 'Session Driver: '.config('session.driver')."\n";
+echo 'Cache Store: '.config('cache.default')."\n\n";
+
+// Check storage writable permissions and auto-fix
+$dirs = [
+    storage_path(),
+    storage_path('app'),
+    storage_path('app/public'),
+    storage_path('framework'),
+    storage_path('framework/cache'),
+    storage_path('framework/cache/data'),
+    storage_path('framework/sessions'),
+    storage_path('framework/views'),
+    storage_path('logs'),
+    base_path('bootstrap/cache'),
+];
+
+echo "Directory Writable Checks:\n";
+foreach ($dirs as $dir) {
+    if (! is_dir($dir)) {
+        @mkdir($dir, 0775, true);
+    }
+    @chmod($dir, 0775);
+    $writable = is_writable($dir);
+    echo '- '.str_replace(base_path(), '', $dir).': '.($writable ? 'OK (writable)' : 'ERROR (NOT writable!)')."\n";
 }
 ?></pre>
+
+    <h3>4. Direct Health Check Execution:</h3>
+    <pre><?php
+try {
+    $controller = new HealthController;
+    $healthResponse = $controller->check();
+    echo 'Status: '.$healthResponse->getStatusCode()."\n";
+    echo json_encode(json_decode($healthResponse->getContent()), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+} catch (Throwable $e) {
+    echo '<span class="error">HealthController Exception: '.htmlspecialchars($e->getMessage())."\n".htmlspecialchars($e->getTraceAsString()).'</span>';
+}
+?></pre>
+
+    <h3>5. Direct View Test:</h3>
+    <pre><?php
+try {
+    $rendered = view('welcome')->render();
+    echo 'welcome.blade.php rendered successfully! ('.strlen($rendered)." bytes)\n";
+} catch (Throwable $e) {
+    echo '<span class="error">View Error: '.htmlspecialchars($e->getMessage())."\n".htmlspecialchars($e->getTraceAsString()).'</span>';
+}
+?></pre>
+
 
     <a href="/healthz" class="btn">View System Health Status &rarr;</a>
     <a href="/" class="btn" style="background:#334155; margin-left: 10px;">Go to App Home &rarr;</a>
