@@ -7,6 +7,7 @@
 declare(strict_types=1);
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
 $secret = 'Vibesoft123';
@@ -87,8 +88,37 @@ try {
 ?></pre>
 
     <p class="success">Migration process finished!</p>
+
+    <h3>3. Diagnostic /healthz Test:</h3>
+    <pre><?php
+    try {
+        $subRequest = Request::create('/healthz', 'GET');
+        $response = $app->handleRequest($subRequest);
+        echo 'Status Code: '.$response->getStatusCode()."\n";
+        echo 'Content: '.htmlspecialchars($response->getContent());
+    } catch (Throwable $e) {
+        echo '<span class="error">Exception: '.htmlspecialchars($e->getMessage())."\n".htmlspecialchars($e->getTraceAsString()).'</span>';
+    }
+?></pre>
+
+    <h3>4. Recent Laravel Logs:</h3>
+    <pre><?php
+$logFiles = glob(__DIR__.'/../storage/logs/*.log');
+if ($logFiles) {
+    rsort($logFiles);
+    $latestLog = $logFiles[0];
+    echo 'Log File: '.basename($latestLog)."\n\n";
+    $lines = file($latestLog);
+    $lastLines = array_slice($lines, -50);
+    echo htmlspecialchars(implode('', $lastLines));
+} else {
+    echo 'No log files found in storage/logs/';
+}
+?></pre>
+
     <a href="/healthz" class="btn">View System Health Status &rarr;</a>
     <a href="/" class="btn" style="background:#334155; margin-left: 10px;">Go to App Home &rarr;</a>
 </div>
 </body>
 </html>
+
