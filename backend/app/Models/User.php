@@ -37,6 +37,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
      */
     public function canAccessPanel(Panel $panel): bool
     {
+        if ($panel->getId() === 'dashboard') {
+            return true;
+        }
+
         return in_array($this->role, ['super_admin', 'admin'], true)
             || ($this->role === 'owner' && $this->email === config('app.owner_email', 'owner@webintoapp.com'));
     }
