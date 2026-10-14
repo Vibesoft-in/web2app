@@ -6,9 +6,13 @@
 
 declare(strict_types=1);
 use App\Http\Controllers\HealthController;
+use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 $secret = 'Vibesoft123';
 $providedKey = $_GET['key'] ?? '';
@@ -227,10 +231,51 @@ try {
 }
 ?></pre>
 
+    <h3>6. Admin User Provisioning:</h3>
+    <pre><?php
+    try {
+        $ownerEmail = config('app.owner_email', 'owner@webintoapp.com');
+        $user = User::where('email', $ownerEmail)->first();
+        if (! $user) {
+            $tenant = Tenant::firstOrCreate(
+                ['name' => 'WebIntoApp Platform'],
+                [
+                    'ulid' => (string) Str::ulid(),
+                    'status' => 'active',
+                ]
+            );
 
+            $user = User::create([
+                'tenant_id' => $tenant->id,
+                'name' => 'Platform Owner',
+                'email' => $ownerEmail,
+                'password' => Hash::make('Vibesoft123'),
+                'role' => 'owner',
+                'email_verified_at' => now(),
+            ]);
+
+            $tenant->update(['owner_user_id' => $user->id]);
+
+            echo "Created Admin User successfully!\n";
+            echo 'Email: '.$ownerEmail."\n";
+            echo "Password: Vibesoft123\n";
+            echo "Panel URL: https://ask.aktuhub.in/admin\n";
+        } else {
+            echo "Admin user already exists:\n";
+            echo 'Email: '.$user->email."\n";
+            echo 'Role: '.$user->role."\n";
+            echo "Panel URL: https://ask.aktuhub.in/admin\n";
+        }
+    } catch (Throwable $e) {
+        echo '<span class="error">User Error: '.htmlspecialchars($e->getMessage())."</span>\n";
+    }
+?></pre>
+
+    <a href="/admin" class="btn" style="background:#10b981;">Go to Admin Panel &rarr;</a>
     <a href="/healthz" class="btn">View System Health Status &rarr;</a>
     <a href="/" class="btn" style="background:#334155; margin-left: 10px;">Go to App Home &rarr;</a>
 </div>
+
 </body>
 </html>
 
