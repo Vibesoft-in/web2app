@@ -279,7 +279,9 @@ try {
         if ($owner) {
             auth()->login($owner);
             echo 'Logged in as: '.auth()->user()->email."\n";
-            echo 'Can access panel: '.($owner->canAccessPanel(filament()->getCurrentOrDefaultPanel()) ? 'YES' : 'NO')."\n";
+            $panel = filament()->getDefaultPanel();
+            echo 'Default panel ID: '.($panel ? $panel->getId() : 'NONE')."\n";
+            echo 'Can access panel: '.($panel && $owner->canAccessPanel($panel) ? 'YES' : 'NO')."\n";
 
             $subReq = Request::create('/admin', 'GET');
             $adminResp = $app->handleRequest($subReq);
@@ -289,6 +291,7 @@ try {
             } else {
                 echo 'Error Response: '.htmlspecialchars(substr($adminResp->getContent(), 0, 500))."\n";
             }
+
         }
     } catch (Throwable $e) {
         echo '<span class="error">Filament Render Exception: '.htmlspecialchars($e->getMessage())."\n".htmlspecialchars($e->getTraceAsString()).'</span>';
