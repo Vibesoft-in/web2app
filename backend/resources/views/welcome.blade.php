@@ -446,8 +446,8 @@
             </ul>
 
             <div class="nav-actions">
-                <a href="/dashboard/login" class="btn btn-outline">User Login</a>
-                <a href="/dashboard/register" class="btn btn-primary">Create App &rarr;</a>
+                <a href="/app/login" class="btn btn-outline">User Login</a>
+                <a href="/app/register" class="btn btn-primary">Create App &rarr;</a>
             </div>
         </div>
     </nav>
@@ -469,10 +469,10 @@
             </p>
 
             <div class="hero-ctas">
-                <a href="/dashboard/register" class="btn btn-primary" style="padding: 14px 28px; font-size: 16px;">
+                <a href="/app/register" class="btn btn-primary" style="padding: 14px 28px; font-size: 16px;">
                     🚀 Build Your App (Free Trial) &rarr;
                 </a>
-                <a href="/dashboard/login" class="btn btn-outline" style="padding: 14px 24px; font-size: 16px;">
+                <a href="/app/login" class="btn btn-outline" style="padding: 14px 24px; font-size: 16px;">
                     Customer Dashboard
                 </a>
                 <a href="/admin" class="btn btn-outline" style="padding: 14px 20px; font-size: 14px; opacity: 0.85;">
@@ -608,10 +608,10 @@
                 <p>Register your workspace, connect your WooCommerce store, configure your mobile theme, and trigger automated Android APK/AAB builds in real-time.</p>
             </div>
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="/dashboard/register" class="btn btn-primary" style="padding: 14px 24px; font-size: 15px;">
+                <a href="/app/register" class="btn btn-primary" style="padding: 14px 24px; font-size: 15px;">
                     Start Free Now &rarr;
                 </a>
-                <a href="/dashboard/login" class="btn btn-outline" style="padding: 14px 20px; font-size: 15px;">
+                <a href="/app/login" class="btn btn-outline" style="padding: 14px 20px; font-size: 15px;">
                     User Login
                 </a>
                 <a href="/admin" class="btn btn-outline" style="padding: 14px 18px; font-size: 14px; opacity: 0.85;">
@@ -632,8 +632,8 @@
                 <span>Powered by Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</span>
             </div>
             <div>
-                <a href="/dashboard/login" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">User Login</a>
-                <a href="/dashboard/register" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">Create App</a>
+                <a href="/app/login" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">User Login</a>
+                <a href="/app/register" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">Create App</a>
                 <a href="/admin" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">Admin Portal</a>
                 <a href="/healthz" style="color:var(--text-muted); text-decoration: none;">Health Check</a>
             </div>

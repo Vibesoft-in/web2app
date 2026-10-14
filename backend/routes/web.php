@@ -13,6 +13,11 @@ Route::get('/', function () {
 // Production & container health probe endpoint
 Route::get('/healthz', [HealthController::class, 'check'])->name('healthz');
 
+// Customer Dashboard aliases
+Route::redirect('/dashboard', '/app');
+Route::redirect('/dashboard/login', '/app/login');
+Route::redirect('/dashboard/register', '/app/register');
+
 Route::middleware('web')->group(function () {
     Route::get('/admin/impersonate/leave', [ImpersonationController::class, 'leave'])
         ->name('impersonate.leave');

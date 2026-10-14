@@ -287,9 +287,16 @@ try {
             $adminResp = $app->handleRequest($subReq);
             echo 'Admin Dashboard Status: '.$adminResp->getStatusCode()."\n";
             if ($adminResp->getStatusCode() === 200 || $adminResp->getStatusCode() === 302) {
-                echo "SUCCESS: Filament Dashboard renders or redirects cleanly!\n";
+                echo "SUCCESS: Filament Admin Dashboard renders or redirects cleanly!\n";
             } else {
                 echo 'Error Response: '.htmlspecialchars(substr($adminResp->getContent(), 0, 500))."\n";
+            }
+
+            $appReq = Request::create('/app', 'GET');
+            $appResp = $app->handleRequest($appReq);
+            echo 'Customer App Panel Status: '.$appResp->getStatusCode()."\n";
+            if ($appResp->getStatusCode() === 200 || $appResp->getStatusCode() === 302) {
+                echo "SUCCESS: Customer App Panel renders or redirects cleanly!\n";
             }
 
         }
@@ -298,9 +305,10 @@ try {
     }
 ?></pre>
 
-    <a href="/admin" class="btn" style="background:#10b981;">Go to Admin Panel &rarr;</a>
-    <a href="/healthz" class="btn">View System Health Status &rarr;</a>
-    <a href="/" class="btn" style="background:#334155; margin-left: 10px;">Go to App Home &rarr;</a>
+    <a href="/app" class="btn" style="background:#6366f1;">Go to Customer App Panel &rarr;</a>
+    <a href="/admin" class="btn" style="background:#10b981; margin-left: 8px;">Go to Admin Panel &rarr;</a>
+    <a href="/healthz" class="btn" style="margin-left: 8px;">View Health Status &rarr;</a>
+    <a href="/" class="btn" style="background:#334155; margin-left: 8px;">Go to App Home &rarr;</a>
 </div>
 
 </body>

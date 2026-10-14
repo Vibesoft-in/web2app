@@ -5,9 +5,14 @@
 
     RewriteEngine On
 
+    # Redirect /dashboard requests to /app
+    RewriteRule ^dashboard/?$ /app [R=301,L]
+    RewriteRule ^dashboard/(.*)$ /app/$1 [R=301,L]
+
     # Block direct web access to sensitive directories and dotfiles
     RewriteRule ^backend/(app|bootstrap|config|database|resources|routes|storage|tests) - [F,L]
-    RewriteRule ^(dashboard|mobile|docs|infra|\.git|\.github) - [F,L]
+    RewriteRule ^dashboard/(src|node_modules|public|package\.json|tsconfig\.json) - [F,L]
+    RewriteRule ^(mobile|docs|infra|\.git|\.github) - [F,L]
     RewriteRule ^(\.env|\.gitignore|\.editorconfig) - [F,L]
 
     # Rewrite all web requests to Laravel public directory
