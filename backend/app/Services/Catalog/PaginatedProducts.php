@@ -24,7 +24,6 @@ class PaginatedProducts
         $this->totalProducts = $total;
     }
 
-
     /**
      * @return array<string, mixed>
      */

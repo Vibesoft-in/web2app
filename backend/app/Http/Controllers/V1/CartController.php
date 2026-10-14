@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Models\App;
 use App\Models\AppConfig;
+use App\Models\AppUser;
 use App\Services\Connectors\ConnectorFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class CartController extends Controller
         /** @var list<array{product_id: string|int, quantity: int, variant_id?: string|int|null}> $items */
         $items = $request->input('items');
 
-        /** @var \App\Models\AppUser|null $user */
+        /** @var AppUser|null $user */
         $user = $request->user();
 
         try {

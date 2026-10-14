@@ -53,7 +53,6 @@ class AppConfigController extends Controller
         $appData['maintenance'] = $appData['maintenance'] ?? false;
         $configData['app'] = $appData;
 
-
         return response()->json([
             'data' => $configData,
         ]);

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\App;
+use App\Models\AppUser;
 use App\Models\PushDevice;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,7 +24,7 @@ class DeviceController extends Controller
 
         /** @var App $app */
         $app = $request->attributes->get('app');
-        /** @var \App\Models\AppUser|\App\Models\User|null $user */
+        /** @var AppUser|User|null $user */
         $user = $request->user() ?? auth('sanctum')->user();
 
         PushDevice::updateOrCreate(
@@ -36,7 +38,6 @@ class DeviceController extends Controller
                 'platform' => (string) ($request->platform ?? 'android'),
             ]
         );
-
 
         return response()->json([
             'message' => 'Push notification device registered successfully.',
