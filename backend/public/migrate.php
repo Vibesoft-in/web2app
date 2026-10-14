@@ -271,6 +271,30 @@ try {
     }
 ?></pre>
 
+    <h3>7. Filament Admin Panel Render Test:</h3>
+    <pre><?php
+
+    try {
+        $owner = User::where('email', 'owner@webintoapp.com')->first();
+        if ($owner) {
+            auth()->login($owner);
+            echo 'Logged in as: '.auth()->user()->email."\n";
+            echo 'Can access panel: '.($owner->canAccessPanel(filament()->getCurrentOrDefaultPanel()) ? 'YES' : 'NO')."\n";
+
+            $subReq = Request::create('/admin', 'GET');
+            $adminResp = $app->handleRequest($subReq);
+            echo 'Admin Dashboard Status: '.$adminResp->getStatusCode()."\n";
+            if ($adminResp->getStatusCode() === 200 || $adminResp->getStatusCode() === 302) {
+                echo "SUCCESS: Filament Dashboard renders or redirects cleanly!\n";
+            } else {
+                echo 'Error Response: '.htmlspecialchars(substr($adminResp->getContent(), 0, 500))."\n";
+            }
+        }
+    } catch (Throwable $e) {
+        echo '<span class="error">Filament Render Exception: '.htmlspecialchars($e->getMessage())."\n".htmlspecialchars($e->getTraceAsString()).'</span>';
+    }
+?></pre>
+
     <a href="/admin" class="btn" style="background:#10b981;">Go to Admin Panel &rarr;</a>
     <a href="/healthz" class="btn">View System Health Status &rarr;</a>
     <a href="/" class="btn" style="background:#334155; margin-left: 10px;">Go to App Home &rarr;</a>
