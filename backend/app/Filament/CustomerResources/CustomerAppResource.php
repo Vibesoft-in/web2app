@@ -24,28 +24,93 @@ class CustomerAppResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('App Identity')
-                    ->description('Set up your white-label mobile app.')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('App Name')
-                            ->placeholder('e.g. My Fashion Store')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('package_name')
-                            ->label('Android Package Name / Bundle ID')
-                            ->placeholder('e.g. com.mystore.app')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\Select::make('platform')
-                            ->label('E-Commerce Platform')
-                            ->options([
-                                'woo' => 'WooCommerce',
-                                'shopify' => 'Shopify',
-                            ])
-                            ->default('woo')
-                            ->required(),
-                    ])->columns(2),
+                Forms\Components\Wizard::make([
+                    Forms\Components\Wizard\Step::make('App Identity')
+                        ->description('Basic app name and platform')
+                        ->icon('heroicon-o-device-phone-mobile')
+                        ->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->label('Mobile App Name')
+                                ->placeholder('e.g. My Fashion Store')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('package_name')
+                                ->label('Android Package Name / Bundle ID')
+                                ->placeholder('e.g. com.myfashionstore.app')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\Select::make('platform')
+                                ->label('Store Platform')
+                                ->options([
+                                    'woo' => 'WooCommerce (WordPress)',
+                                    'shopify' => 'Shopify Store',
+                                ])
+                                ->default('woo')
+                                ->required(),
+                        ])->columns(2),
+
+                    Forms\Components\Wizard\Step::make('Store Connection')
+                        ->description('Link your e-commerce catalog')
+                        ->icon('heroicon-o-shopping-bag')
+                        ->schema([
+                            Forms\Components\TextInput::make('store_url')
+                                ->label('Store Website URL')
+                                ->placeholder('https://yourstore.com')
+                                ->url()
+                                ->dehydrated(false)
+                                ->helperText('Enter your live WooCommerce store URL with HTTPS.'),
+                            Forms\Components\TextInput::make('consumer_key')
+                                ->label('WooCommerce Consumer Key')
+                                ->placeholder('ck_xxxxxxxxxxxxxxxxxxxxxxxx')
+                                ->dehydrated(false)
+                                ->helperText('Generated in WooCommerce -> Settings -> Advanced -> REST API.'),
+                            Forms\Components\TextInput::make('consumer_secret')
+                                ->label('WooCommerce Consumer Secret')
+                                ->placeholder('cs_xxxxxxxxxxxxxxxxxxxxxxxx')
+                                ->password()
+                                ->dehydrated(false)
+                                ->revealable(),
+                        ])->columns(1),
+
+                    Forms\Components\Wizard\Step::make('Theme & Branding')
+                        ->description('Mobile visual design & theme preset')
+                        ->icon('heroicon-o-paint-brush')
+                        ->schema([
+                            Forms\Components\Radio::make('theme_preset')
+                                ->label('Select Theme Preset')
+                                ->options([
+                                    'minimalist' => 'Theme A: Modern Minimalist (Clean card layouts, subtle shadows, Inter font)',
+                                    'boutique' => 'Theme B: Boutique Glamour (Vibrant accents, rounded cards, Poppins font)',
+                                    'apex' => 'Theme C: Apex Dark Luxury (Sleek dark mode luxury palette with Outfit typography)',
+                                ])
+                                ->default('minimalist')
+                                ->dehydrated(false),
+                            Forms\Components\ColorPicker::make('primary_color')
+                                ->label('Primary Brand Color')
+                                ->default('#6366f1')
+                                ->dehydrated(false),
+                        ])->columns(1),
+
+                    Forms\Components\Wizard\Step::make('Build Options')
+                        ->description('Distribution & notification settings')
+                        ->icon('heroicon-o-cpu-chip')
+                        ->schema([
+                            Forms\Components\Select::make('target_platform')
+                                ->label('Target Compilation Package')
+                                ->options([
+                                    'android_apk' => 'Android Standalone APK (Immediate Install)',
+                                    'android_aab' => 'Android App Bundle AAB (Google Play Store)',
+                                    'both' => 'Both Android APK & Google Play AAB',
+                                ])
+                                ->default('android_apk')
+                                ->dehydrated(false),
+                            Forms\Components\Toggle::make('push_notifications')
+                                ->label('Enable Automated Firebase Push Notifications')
+                                ->default(true)
+                                ->dehydrated(false)
+                                ->helperText('Sends abandoned cart alerts and new product notifications to customer phones.'),
+                        ])->columns(1),
+                ])->columnSpanFull(),
             ]);
     }
 

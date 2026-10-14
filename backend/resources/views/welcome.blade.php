@@ -391,6 +391,127 @@
             font-size: 15px;
         }
 
+        /* How It Works Steps */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 100px;
+        }
+
+        .step-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-3px);
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            margin-bottom: 18px;
+        }
+
+        .step-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+            margin-bottom: 100px;
+        }
+
+        .pricing-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 36px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: #6366f1;
+            box-shadow: 0 0 35px rgba(99, 102, 241, 0.2);
+            background: rgba(17, 24, 39, 0.9);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .price-val {
+            font-size: 40px;
+            font-weight: 800;
+            margin: 16px 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .price-val span {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 20px 0 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         /* Footer */
         footer {
             border-top: 1px solid var(--border);
@@ -440,14 +561,15 @@
 
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
                 <li><a href="#themes">Theme Engine</a></li>
-                <li><a href="#plans">Architecture</a></li>
-                <li><a href="/healthz" target="_blank">System Health</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="/healthz" target="_blank">Health</a></li>
             </ul>
 
             <div class="nav-actions">
-                <a href="/app/login" class="btn btn-outline">User Login</a>
-                <a href="/app/register" class="btn btn-primary">Create App &rarr;</a>
+                <a href="/app/login" class="btn btn-outline">Sign In</a>
+                <a href="/app/customer-apps/create" class="btn btn-primary">Start App Wizard &rarr;</a>
             </div>
         </div>
     </nav>
@@ -469,14 +591,14 @@
             </p>
 
             <div class="hero-ctas">
-                <a href="/app/register" class="btn btn-primary" style="padding: 14px 28px; font-size: 16px;">
-                    🚀 Build Your App (Free Trial) &rarr;
+                <a href="/app/customer-apps/create" class="btn btn-primary" style="padding: 14px 28px; font-size: 16px;">
+                    🚀 Start App Wizard (Free Trial) &rarr;
                 </a>
-                <a href="/app/login" class="btn btn-outline" style="padding: 14px 24px; font-size: 16px;">
-                    Customer Dashboard
+                <a href="/app/customer-apps" class="btn btn-outline" style="padding: 14px 24px; font-size: 16px;">
+                    My Mobile Apps
                 </a>
                 <a href="/admin" class="btn btn-outline" style="padding: 14px 20px; font-size: 14px; opacity: 0.85;">
-                    Admin Panel
+                    Admin Console
                 </a>
             </div>
 
@@ -555,6 +677,46 @@
         </div>
     </section>
 
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="container" style="margin-bottom: 90px;">
+        <div class="section-header">
+            <h2>From Store to App in 4 Simple Steps</h2>
+            <p>Our guided creation wizard turns your existing catalog into a native mobile app with zero coding.</p>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>App Identity</h3>
+                <p>Pick your brand name, select WooCommerce or Shopify, and assign your unique Google Play package identifier.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Store Connection</h3>
+                <p>Enter your store URL and REST API keys for automated catalog sync, product inventory, and customer cart integration.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Theme & Branding</h3>
+                <p>Customize primary brand colors, typography, and select from Minimalist, Boutique Glamour, or Apex Luxury presets.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Automated Compilation</h3>
+                <p>Trigger 1-click cloud build to compile your standalone Android APK, Google Play AAB, and native push notifications.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/app/customer-apps/create" class="btn btn-primary" style="padding: 14px 32px; font-size: 16px;">
+                🚀 Open App Creation Wizard &rarr;
+            </a>
+        </div>
+    </section>
+
     <!-- Themes Showcase -->
     <section id="themes" class="themes-section">
         <div class="container">
@@ -600,6 +762,70 @@
         </div>
     </section>
 
+    <!-- Pricing Section -->
+    <section id="pricing" class="container" style="margin-bottom: 90px;">
+        <div class="section-header">
+            <h2>Predictable, Transparent Pricing</h2>
+            <p>Everything you need to launch and scale your mobile shopping app with zero hidden fees.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div>
+                    <h3 style="font-size: 20px; font-weight: 700;">Starter</h3>
+                    <p style="color: var(--text-muted); font-size: 13px;">Perfect for new e-commerce stores launching mobile.</p>
+                    <div class="price-val">$29 <span>/ month</span></div>
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✓</span> 1 Mobile App (Android APK)</li>
+                        <li><span class="check-icon">✓</span> Real-Time Store Catalog Sync</li>
+                        <li><span class="check-icon">✓</span> Push Notifications (Firebase)</li>
+                        <li><span class="check-icon">✓</span> Standard Build Queue</li>
+                    </ul>
+                </div>
+                <a href="/app/customer-apps/create" class="btn btn-outline" style="width: 100%;">
+                    Launch App Wizard &rarr;
+                </a>
+            </div>
+
+            <div class="pricing-card featured">
+                <span class="price-badge">Most Popular</span>
+                <div>
+                    <h3 style="font-size: 20px; font-weight: 700;">Professional</h3>
+                    <p style="color: var(--text-muted); font-size: 13px;">For established merchants scaling mobile revenue.</p>
+                    <div class="price-val">$79 <span>/ month</span></div>
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✓</span> Up to 3 Mobile Apps</li>
+                        <li><span class="check-icon">✓</span> Android APK & Google Play AAB</li>
+                        <li><span class="check-icon">✓</span> Priority Cloud Build Queue</li>
+                        <li><span class="check-icon">✓</span> Automated Abandoned Cart Alerts</li>
+                        <li><span class="check-icon">✓</span> WhatsApp Marketing Integration</li>
+                    </ul>
+                </div>
+                <a href="/app/customer-apps/create" class="btn btn-primary" style="width: 100%;">
+                    Start Free Trial &rarr;
+                </a>
+            </div>
+
+            <div class="pricing-card">
+                <div>
+                    <h3 style="font-size: 20px; font-weight: 700;">Enterprise</h3>
+                    <p style="color: var(--text-muted); font-size: 13px;">For multi-brand agencies and high-volume stores.</p>
+                    <div class="price-val">$199 <span>/ month</span></div>
+                    <ul class="pricing-features">
+                        <li><span class="check-icon">✓</span> Unlimited Mobile Apps</li>
+                        <li><span class="check-icon">✓</span> Android + iOS Compilation</li>
+                        <li><span class="check-icon">✓</span> Custom Theme Code Injector</li>
+                        <li><span class="check-icon">✓</span> Dedicated Keystore Vaults</li>
+                        <li><span class="check-icon">✓</span> 24/7 Priority Support SLA</li>
+                    </ul>
+                </div>
+                <a href="/app/customer-apps/create" class="btn btn-outline" style="width: 100%;">
+                    Launch App Wizard &rarr;
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Portal Access Callout -->
     <div class="container" id="plans">
         <div class="portal-banner">
@@ -608,14 +834,14 @@
                 <p>Register your workspace, connect your WooCommerce store, configure your mobile theme, and trigger automated Android APK/AAB builds in real-time.</p>
             </div>
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="/app/register" class="btn btn-primary" style="padding: 14px 24px; font-size: 15px;">
-                    Start Free Now &rarr;
+                <a href="/app/customer-apps/create" class="btn btn-primary" style="padding: 14px 24px; font-size: 15px;">
+                    Start App Wizard &rarr;
+                </a>
+                <a href="/app/customer-apps" class="btn btn-outline" style="padding: 14px 20px; font-size: 15px;">
+                    My Mobile Apps
                 </a>
                 <a href="/app/login" class="btn btn-outline" style="padding: 14px 20px; font-size: 15px;">
-                    User Login
-                </a>
-                <a href="/admin" class="btn btn-outline" style="padding: 14px 18px; font-size: 14px; opacity: 0.85;">
-                    Admin Console
+                    Sign In
                 </a>
             </div>
         </div>
@@ -632,9 +858,10 @@
                 <span>Powered by Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</span>
             </div>
             <div>
-                <a href="/app/login" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">User Login</a>
-                <a href="/app/register" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">Create App</a>
-                <a href="/admin" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">Admin Portal</a>
+                <a href="/app/customer-apps/create" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">App Wizard</a>
+                <a href="/app/customer-apps" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">My Mobile Apps</a>
+                <a href="/app/login" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">Sign In</a>
+                <a href="/admin" style="color:var(--text-muted); margin-right: 16px; text-decoration: none;">Admin Console</a>
                 <a href="/healthz" style="color:var(--text-muted); text-decoration: none;">Health Check</a>
             </div>
         </div>

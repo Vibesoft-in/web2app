@@ -36,6 +36,17 @@ test('authenticated customer can access app panel', function () {
     $response->assertSuccessful();
 });
 
+test('customer can access app creation wizard', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'role' => 'owner',
+    ]);
+
+    $response = $this->actingAs($user)->get('/app/customer-apps/create');
+    $response->assertSuccessful();
+});
+
 test('customer can access customer apps listing', function () {
     $tenant = Tenant::factory()->create();
     $user = User::factory()->create([
@@ -54,4 +65,18 @@ test('customer can access customer apps listing', function () {
     $response = $this->actingAs($user)->get('/app/customer-apps');
     $response->assertSuccessful();
     $response->assertSee('My Mobile App');
+});
+
+test('admin owner can access admin panel and its resource pages without redirecting to dashboard', function () {
+    $tenant = Tenant::factory()->create();
+    $admin = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'email' => 'owner@webintoapp.com',
+        'role' => 'owner',
+    ]);
+
+    $this->actingAs($admin)->get('/admin')->assertSuccessful();
+    $this->actingAs($admin)->get('/admin/apps')->assertSuccessful();
+    $this->actingAs($admin)->get('/admin/tenants')->assertSuccessful();
+    $this->actingAs($admin)->get('/admin/subscriptions')->assertSuccessful();
 });
