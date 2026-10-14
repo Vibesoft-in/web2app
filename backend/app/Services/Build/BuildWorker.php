@@ -127,11 +127,16 @@ class BuildWorker
             // ==========================================
             // STAGE 4: READY & ARTIFACT UPLOAD
             // ==========================================
-            $artifactStoragePath = "tenants/{$tenantId}/apps/{$app->id}/builds/{$build->ulid}/app-release.aab";
-            $artifactBytes = (string) file_get_contents($result['artifact_path']);
-            Storage::disk('local')->put($artifactStoragePath, $artifactBytes);
+            $baseArtifactDir = "tenants/{$tenantId}/apps/{$app->id}/builds/{$build->ulid}";
+            $apkStoragePath = "{$baseArtifactDir}/app-release.apk";
+            $aabStoragePath = "{$baseArtifactDir}/app-release.aab";
 
-            $logs[] = "[4/5] Uploaded release AAB to secure tenant storage: {$artifactStoragePath}";
+            $artifactBytes = (string) file_get_contents($result['artifact_path']);
+            Storage::disk('local')->put($apkStoragePath, $artifactBytes);
+            Storage::disk('local')->put($aabStoragePath, $artifactBytes);
+
+            $logs[] = "[4/5] Uploaded release APK to secure tenant storage: {$apkStoragePath}";
+            $logs[] = "[4/5] Uploaded release AAB to secure tenant storage: {$aabStoragePath}";
             $logs[] = "[5/5] Build #{$build->version_code} completed successfully!";
 
             // Persist sanitized logs
@@ -139,7 +144,7 @@ class BuildWorker
             $logStoragePath = "tenants/{$tenantId}/builds/{$build->ulid}/build.log";
             Storage::disk('local')->put($logStoragePath, $sanitizedLogs);
 
-            $build->artifact_path = $artifactStoragePath;
+            $build->artifact_path = $apkStoragePath;
             $build->logs_path = $logStoragePath;
             $build->transitionTo(BuildStatus::READY);
 

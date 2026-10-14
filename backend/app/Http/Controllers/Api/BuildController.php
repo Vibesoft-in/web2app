@@ -138,9 +138,12 @@ class BuildController extends Controller
             ], 404);
         }
 
-        $filename = "{$build->app?->package_name}-v{$build->version_name}-b{$build->version_code}.aab";
+        $ext = pathinfo($build->artifact_path, PATHINFO_EXTENSION) ?: 'apk';
+        $filename = "{$build->app?->package_name}-v{$build->version_name}-b{$build->version_code}.{$ext}";
 
-        return Storage::disk('local')->download($build->artifact_path, $filename);
+        return Storage::disk('local')->download($build->artifact_path, $filename, [
+            'Content-Type' => $ext === 'apk' ? 'application/vnd.android.package-archive' : 'application/octet-stream',
+        ]);
     }
 
     /**

@@ -1,10 +1,15 @@
 <?php
 
+use App\Enums\BuildStatus;
 use App\Filament\CustomerResources\CustomerAppResource\Pages\CreateCustomerApp;
+use App\Filament\CustomerResources\CustomerAppResource\Pages\ListCustomerApps;
+use App\Filament\CustomerResources\CustomerBuildResource\Pages\ListCustomerBuilds;
 use App\Models\App;
+use App\Models\Build;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Support\TenantContext;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -118,4 +123,162 @@ test('app creation validates package name format and uniqueness', function () {
         ])
         ->call('create')
         ->assertHasFormErrors(['package_name' => 'unique']);
+});
+
+test('app creation wizard automatically provisions verified connection, published config, and trial subscription', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'role' => 'owner',
+    ]);
+
+    $this->actingAs($user);
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+
+    Livewire::test(CreateCustomerApp::class)
+        ->fillForm([
+            'name' => 'Boutique Apparel',
+            'package_name' => 'com.boutique.apparel',
+            'platform' => 'woo',
+            'store_url' => 'https://boutique.example.com',
+            'theme_preset' => 'boutique',
+            'primary_color' => '#f43f5e',
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    $app = App::where('package_name', 'com.boutique.apparel')->first();
+    expect($app)->not->toBeNull()
+        ->and($app->connection)->not->toBeNull()
+        ->and($app->connection->status)->toBe('verified')
+        ->and($app->configs()->where('state', 'published')->count())->toBe(1)
+        ->and($tenant->fresh()->hasActiveSubscription($app->id))->toBeTrue();
+});
+
+test('customer can preview app with interactive phone frame simulator', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'role' => 'owner',
+    ]);
+
+    $app = App::create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Apex Luxury Wear',
+        'platform' => 'woo',
+        'package_name' => 'com.apex.luxury',
+        'app_key' => 'wia_apex_preview_key',
+    ]);
+
+    $this->actingAs($user);
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+
+    $view = view('filament.customer.phone-preview', [
+        'app' => $app,
+        'config' => [
+            'theme' => [
+                'preset' => 'apex',
+                'primary_color' => '#10b981',
+            ],
+        ],
+    ])->render();
+
+    expect($view)->toContain('Apex Luxury Wear')
+        ->toContain('com.apex.luxury')
+        ->toContain('Live App Simulator')
+        ->toContain('Minimalist')
+        ->toContain('Boutique')
+        ->toContain('Apex Dark')
+        ->toContain('Featured Products');
+});
+
+test('customer can compile and download APK directly from dashboard', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'role' => 'owner',
+    ]);
+
+    $app = App::create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Quick Commerce App',
+        'platform' => 'woo',
+        'package_name' => 'com.quick.commerce',
+        'app_key' => 'wia_quick_apk_key',
+    ]);
+
+    $this->actingAs($user);
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+
+    // Test build_apk action via ListCustomerApps
+    Livewire::test(ListCustomerApps::class)
+        ->callTableAction('build_apk', $app);
+
+    $latestBuild = $app->fresh()->builds()->latest()->first();
+    expect($latestBuild)->not->toBeNull()
+        ->and($latestBuild->status)->toBe(BuildStatus::READY)
+        ->and($latestBuild->artifact_path)->not->toBeNull()
+        ->and(Storage::disk('local')->exists($latestBuild->artifact_path))->toBeTrue();
+
+    // Verify artifact is an installable APK
+    expect($latestBuild->artifact_path)->toContain('app-release.apk');
+
+    // Test download_apk action
+    $downloadResponse = Livewire::test(ListCustomerApps::class)
+        ->callTableAction('download_apk', $app);
+
+    $downloadResponse->assertFileDownloaded('com.quick.commerce-v1.0.0-b1.apk');
+});
+
+test('customer can view builds list and download APK and AAB from builds page', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'role' => 'owner',
+    ]);
+
+    $app = App::create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Mega Mart App',
+        'platform' => 'woo',
+        'package_name' => 'com.megamart.app',
+        'app_key' => 'wia_megamart_key',
+    ]);
+
+    $ulid = '01HZXTESTBUILDULID00000000';
+    $apkPath = "tenants/{$tenant->id}/apps/{$app->id}/builds/{$ulid}/app-release.apk";
+    $aabPath = "tenants/{$tenant->id}/apps/{$app->id}/builds/{$ulid}/app-release.aab";
+    Storage::disk('local')->put($apkPath, 'MOCK_APK_BINARY');
+    Storage::disk('local')->put($aabPath, 'MOCK_AAB_BINARY');
+
+    $build = Build::create([
+        'ulid' => $ulid,
+        'tenant_id' => $tenant->id,
+        'app_id' => $app->id,
+        'status' => BuildStatus::READY,
+        'version_code' => 5,
+        'version_name' => '2.1.0',
+        'artifact_path' => $apkPath,
+    ]);
+
+    $this->actingAs($user);
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+
+    // Test access to builds resource
+    $response = $this->get('/app/customer-builds');
+    $response->assertSuccessful();
+    $response->assertSee('Mega Mart App');
+    $response->assertSee('2.1.0');
+
+    // Test download_apk on ListCustomerBuilds
+    $downloadApk = Livewire::test(ListCustomerBuilds::class)
+        ->callTableAction('download_apk', $build);
+
+    $downloadApk->assertFileDownloaded('com.megamart.app-v2.1.0-b5.apk');
+
+    // Test download_aab on ListCustomerBuilds
+    $downloadAab = Livewire::test(ListCustomerBuilds::class)
+        ->callTableAction('download_aab', $build);
+
+    $downloadAab->assertFileDownloaded('com.megamart.app-v2.1.0-b5.aab');
 });

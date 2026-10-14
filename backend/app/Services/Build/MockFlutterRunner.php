@@ -34,22 +34,30 @@ class MockFlutterRunner implements FlutterRunnerInterface
 
         // Create mock output directory and artifact
         $outDir = $workspaceDir.DIRECTORY_SEPARATOR.'build'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'outputs'.DIRECTORY_SEPARATOR.'bundle'.DIRECTORY_SEPARATOR.'release';
+        $apkDir = $workspaceDir.DIRECTORY_SEPARATOR.'build'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'outputs'.DIRECTORY_SEPARATOR.'flutter-apk';
         if (! is_dir($outDir)) {
             mkdir($outDir, 0755, true);
         }
+        if (! is_dir($apkDir)) {
+            mkdir($apkDir, 0755, true);
+        }
 
         $aabPath = $outDir.DIRECTORY_SEPARATOR.'app-release.aab';
-        // Mock standard zip / bundle binary header
-        file_put_contents($aabPath, "PK\x03\x04MockAndroidAppBundleForBuild#{$buildNumber}Name={$buildName}");
+        $apkPath = $apkDir.DIRECTORY_SEPARATOR.'app-release.apk';
 
-        $output = '[Flutter Mock] Building Android App Bundle...'.PHP_EOL.
-            "Running Gradle task 'bundleRelease'...".PHP_EOL.
+        // Mock standard zip / bundle binary headers
+        file_put_contents($aabPath, "PK\x03\x04MockAndroidAppBundleForBuild#{$buildNumber}Name={$buildName}");
+        file_put_contents($apkPath, "PK\x03\x04MockAndroidApkForBuild#{$buildNumber}Name={$buildName}");
+
+        $output = '[Flutter Mock] Building Android App Bundle & Standalone APK...'.PHP_EOL.
+            "Running Gradle task 'assembleRelease' & 'bundleRelease'...".PHP_EOL.
+            'Built build/app/outputs/flutter-apk/app-release.apk (16.2MB)'.PHP_EOL.
             'Built build/app/outputs/bundle/release/app-release.aab (18.4MB).';
 
         return [
             'success' => true,
             'output' => $output,
-            'artifact_path' => $aabPath,
+            'artifact_path' => $apkPath,
             'error' => null,
         ];
     }

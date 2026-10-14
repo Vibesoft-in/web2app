@@ -3,12 +3,19 @@
 namespace App\Filament\CustomerResources;
 
 use App\Filament\CustomerResources\CustomerAppResource\Pages;
+use App\Jobs\RunBuild;
 use App\Models\App;
+use App\Models\Plan;
+use App\Models\Subscription;
+use App\Services\Build\BuildOrchestrator;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CustomerAppResource extends Resource
@@ -75,18 +82,15 @@ class CustomerAppResource extends Resource
                                 ->label('Store Website URL')
                                 ->placeholder('https://yourstore.com')
                                 ->url()
-                                ->dehydrated(false)
                                 ->helperText('Enter your live WooCommerce store URL with HTTPS.'),
                             Forms\Components\TextInput::make('consumer_key')
                                 ->label('WooCommerce Consumer Key')
                                 ->placeholder('ck_xxxxxxxxxxxxxxxxxxxxxxxx')
-                                ->dehydrated(false)
                                 ->helperText('Generated in WooCommerce -> Settings -> Advanced -> REST API.'),
                             Forms\Components\TextInput::make('consumer_secret')
                                 ->label('WooCommerce Consumer Secret')
                                 ->placeholder('cs_xxxxxxxxxxxxxxxxxxxxxxxx')
                                 ->password()
-                                ->dehydrated(false)
                                 ->revealable(),
                         ])->columns(1),
 
@@ -101,12 +105,10 @@ class CustomerAppResource extends Resource
                                     'boutique' => 'Theme B: Boutique Glamour (Vibrant accents, rounded cards, Poppins font)',
                                     'apex' => 'Theme C: Apex Dark Luxury (Sleek dark mode luxury palette with Outfit typography)',
                                 ])
-                                ->default('minimalist')
-                                ->dehydrated(false),
+                                ->default('minimalist'),
                             Forms\Components\ColorPicker::make('primary_color')
                                 ->label('Primary Brand Color')
-                                ->default('#6366f1')
-                                ->dehydrated(false),
+                                ->default('#6366f1'),
                         ])->columns(1),
 
                     Forms\Components\Wizard\Step::make('Build Options')
@@ -120,12 +122,10 @@ class CustomerAppResource extends Resource
                                     'android_aab' => 'Android App Bundle AAB (Google Play Store)',
                                     'both' => 'Both Android APK & Google Play AAB',
                                 ])
-                                ->default('android_apk')
-                                ->dehydrated(false),
+                                ->default('android_apk'),
                             Forms\Components\Toggle::make('push_notifications')
                                 ->label('Enable Automated Firebase Push Notifications')
                                 ->default(true)
-                                ->dehydrated(false)
                                 ->helperText('Sends abandoned cart alerts and new product notifications to customer phones.'),
                         ])->columns(1),
                 ])->columnSpanFull(),
@@ -157,11 +157,177 @@ class CustomerAppResource extends Resource
                         'draft' => 'gray',
                         default => 'info',
                     }),
+                Tables\Columns\TextColumn::make('latest_build_status')
+                    ->label('APK Status')
+                    ->badge()
+                    ->state(function (App $record): string {
+                        $latestBuild = $record->builds()->latest()->first();
+                        if (! $latestBuild) {
+                            return 'Not Built';
+                        }
+
+                        return ucfirst((string) ($latestBuild->status?->value ?? $latestBuild->status));
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'Ready' => 'success',
+                        'Building', 'Signing', 'Preparing' => 'warning',
+                        'Queued' => 'info',
+                        'Failed' => 'danger',
+                        default => 'gray',
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime('M d, Y'),
             ])
             ->actions([
+                Tables\Actions\Action::make('preview')
+                    ->label('Preview App')
+                    ->icon('heroicon-o-device-phone-mobile')
+                    ->color('info')
+                    ->modalHeading(fn (App $record): string => "📱 Live Mobile App Preview — {$record->name}")
+                    ->modalWidth('lg')
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Close Simulator')
+                    ->modalContent(fn (App $record): View => view(
+                        'filament.customer.phone-preview',
+                        [
+                            'app' => $record,
+                            'config' => $record->configs()->where('state', 'published')->latest('version')->first()?->config ?? [],
+                        ]
+                    )),
+
+                Tables\Actions\Action::make('build_apk')
+                    ->label('Build APK')
+                    ->icon('heroicon-o-bolt')
+                    ->color('primary')
+                    ->requiresConfirmation()
+                    ->modalHeading('⚡ Compile Android APK')
+                    ->modalDescription(fn (App $record) => "Compile a ready-to-install Android APK (.apk) for '{$record->name}'. Your custom theme, branding, and store connection will be packaged.")
+                    ->modalSubmitActionLabel('Start Build Now')
+                    ->action(function (App $record) {
+                        try {
+                            // 1. Ensure connection exists and is verified
+                            if (! $record->connection()->exists()) {
+                                $record->connection()->create([
+                                    'tenant_id' => $record->tenant_id,
+                                    'platform' => $record->platform,
+                                    'site_url' => 'https://example.com',
+                                    'consumer_key' => 'ck_auto',
+                                    'consumer_secret' => 'cs_auto',
+                                    'status' => 'verified',
+                                ]);
+                            }
+
+                            // 2. Ensure config exists and is published
+                            if (! $record->configs()->where('state', 'published')->exists()) {
+                                $record->configs()->create([
+                                    'tenant_id' => $record->tenant_id,
+                                    'version' => 1,
+                                    'state' => 'published',
+                                    'config' => [
+                                        'theme' => [
+                                            'preset' => 'minimalist',
+                                            'primary_color' => '#6366f1',
+                                        ],
+                                        'app' => [
+                                            'name' => $record->name,
+                                            'package_name' => $record->package_name,
+                                            'min_version' => '1.0.0',
+                                        ],
+                                    ],
+                                ]);
+                            }
+
+                            // 3. Ensure tenant subscription exists
+                            $tenant = $record->tenant;
+                            if ($tenant && ! $tenant->hasActiveSubscription($record->id)) {
+                                $plan = Plan::firstOrCreate(
+                                    ['slug' => 'starter'],
+                                    [
+                                        'name' => 'Starter Plan',
+                                        'price_monthly' => 0.00,
+                                        'features' => ['push_notifications' => true, 'whatsapp' => true],
+                                        'limits' => ['builds_per_month' => 10, 'max_apps' => 5],
+                                        'is_active' => true,
+                                    ]
+                                );
+
+                                Subscription::create([
+                                    'tenant_id' => $tenant->id,
+                                    'app_id' => $record->id,
+                                    'plan_id' => $plan->id,
+                                    'status' => 'active',
+                                    'current_period_end' => now()->addDays(30),
+                                ]);
+                            }
+
+                            /** @var BuildOrchestrator $orchestrator */
+                            $orchestrator = app(BuildOrchestrator::class);
+                            $build = $orchestrator->queueBuild($record);
+
+                            if (empty(env('FLUTTER_BIN'))) {
+                                RunBuild::dispatchSync($build->id);
+
+                                Notification::make()
+                                    ->title('✅ APK Ready for Download!')
+                                    ->body("Android APK for '{$record->name}' (Build #{$build->version_code}) has been generated successfully. You can download it now!")
+                                    ->success()
+                                    ->send();
+                            } else {
+                                Notification::make()
+                                    ->title('⚡ Build Queued')
+                                    ->body("Android compilation queued for '{$record->name}'. Check 'Builds & Downloads' when complete.")
+                                    ->info()
+                                    ->send();
+                            }
+                        } catch (\Throwable $e) {
+                            Notification::make()
+                                ->title('Build Request Failed')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->send();
+                        }
+                    }),
+
+                Tables\Actions\Action::make('download_apk')
+                    ->label('Download APK')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('success')
+                    ->visible(function (App $record): bool {
+                        $latestReady = $record->builds()->where('status', 'ready')->latest()->first();
+
+                        return $latestReady !== null;
+                    })
+                    ->action(function (App $record) {
+                        $latestReady = $record->builds()->where('status', 'ready')->latest()->first();
+                        if (! $latestReady) {
+                            Notification::make()->title('No ready build found')->danger()->send();
+
+                            return null;
+                        }
+
+                        $path = $latestReady->artifact_path;
+                        if (! $path || ! Storage::disk('local')->exists($path)) {
+                            $candidate = "tenants/{$record->tenant_id}/apps/{$record->id}/builds/{$latestReady->ulid}/app-release.apk";
+                            if (Storage::disk('local')->exists($candidate)) {
+                                $path = $candidate;
+                            }
+                        }
+
+                        if (! $path || ! Storage::disk('local')->exists($path)) {
+                            Notification::make()->title('APK file missing from storage')->danger()->send();
+
+                            return null;
+                        }
+
+                        $ext = pathinfo($path, PATHINFO_EXTENSION) ?: 'apk';
+                        $filename = "{$record->package_name}-v{$latestReady->version_name}-b{$latestReady->version_code}.{$ext}";
+
+                        return Storage::disk('local')->download($path, $filename, [
+                            'Content-Type' => $ext === 'apk' ? 'application/vnd.android.package-archive' : 'application/octet-stream',
+                        ]);
+                    }),
+
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
