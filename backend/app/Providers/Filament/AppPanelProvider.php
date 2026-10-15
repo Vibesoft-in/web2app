@@ -52,42 +52,42 @@ class AppPanelProvider extends PanelProvider
    ========================================================================== */
 
 :root, html.dark {
-    --bg-canvas: #080b11;
-    --bg-surface: #0e121d;
-    --bg-surface-subtle: #121726;
-    --border-main: #1c2233;
-    --border-subtle: #182030;
-    --accent-indigo: #4f46e5;
-    --accent-indigo-hover: #4338ca;
+    --bg-canvas: #090B12;
+    --bg-surface: #111620;
+    --bg-surface-subtle: #151A27;
+    --border-main: #252C3A;
+    --border-subtle: #1D2433;
+    --accent-indigo: #635BFF;
+    --accent-indigo-hover: #544BEE;
 }
 
 /* Background canvas & layouts */
 html.dark, html.dark body, html.dark .fi-layout, html.dark .fi-main, html.dark .fi-main-ctn {
-    background-color: #080b11 !important;
-    color: #f1f5f9 !important;
+    background-color: #090B12 !important;
+    color: #F8FAFC !important;
 }
 
 /* Navigation Sidebar */
 html.dark aside.fi-sidebar,
 html.dark .fi-sidebar-header,
 html.dark .fi-sidebar-footer {
-    background-color: #090d16 !important;
-    border-color: #1c2233 !important;
+    background-color: #0C1019 !important;
+    border-color: #252C3A !important;
 }
 
 /* Header Topbar */
 html.dark header.fi-topbar {
-    background-color: #090d16 !important;
-    border-color: #1c2233 !important;
+    background-color: #090B12 !important;
+    border-color: #252C3A !important;
 }
 
 /* Active navigation items: subtle purple/indigo pill */
 html.dark .fi-sidebar-item-active > a,
 html.dark .fi-sidebar-item-active > button,
 html.dark .fi-sidebar-item-active .fi-sidebar-item-btn {
-    background-color: #4f46e5 !important;
+    background: linear-gradient(135deg, #4F46E5 0%, #635BFF 100%) !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.28) !important;
+    box-shadow: 0 4px 14px 0 rgba(99, 91, 255, 0.28) !important;
 }
 
 html.dark .fi-sidebar-item-active svg {
@@ -96,8 +96,8 @@ html.dark .fi-sidebar-item-active svg {
 
 /* Inactive navigation hover */
 html.dark .fi-sidebar-item > a:not(.fi-sidebar-item-active > a):hover {
-    background-color: #121726 !important;
-    color: #ffffff !important;
+    background-color: #151A27 !important;
+    color: #F8FAFC !important;
 }
 
 /* Cards, Sections, and Containers */
@@ -107,55 +107,55 @@ html.dark .fi-ta,
 html.dark .fi-ta-ctn,
 html.dark .fi-card,
 html.dark .fi-wizard-step {
-    background-color: #0e121d !important;
-    border-color: #1c2233 !important;
+    background-color: #111620 !important;
+    border-color: #252C3A !important;
 }
 
 /* Table styling */
 html.dark .fi-ta-header,
 html.dark .fi-ta-header-cell {
-    background-color: #0e121d !important;
-    border-color: #1c2233 !important;
-    color: #94a3b8 !important;
+    background-color: #111620 !important;
+    border-color: #252C3A !important;
+    color: #A5B4CF !important;
 }
 
 html.dark .fi-ta-row {
-    background-color: #0e121d !important;
-    border-color: #182030 !important;
+    background-color: #111620 !important;
+    border-color: #1D2433 !important;
 }
 
 html.dark .fi-ta-row:hover {
-    background-color: #121726 !important;
+    background-color: #151A27 !important;
 }
 
 /* Form inputs & controls */
 html.dark .fi-input-wrp {
-    background-color: #121726 !important;
-    border-color: #1c2233 !important;
-    color: #ffffff !important;
+    background-color: #151A27 !important;
+    border-color: #252C3A !important;
+    color: #F8FAFC !important;
 }
 
 html.dark .fi-input-wrp:focus-within {
-    border-color: #6366f1 !important;
-    box-shadow: 0 0 0 1px #6366f1 !important;
+    border-color: #635BFF !important;
+    box-shadow: 0 0 0 1px #635BFF !important;
 }
 
 /* Primary buttons */
 html.dark .fi-btn-primary {
-    background-color: #4f46e5 !important;
+    background: linear-gradient(135deg, #635BFF 0%, #7C3AED 100%) !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 12px 0 rgba(79, 70, 229, 0.25) !important;
+    box-shadow: 0 4px 14px 0 rgba(99, 91, 255, 0.25) !important;
 }
 
 html.dark .fi-btn-primary:hover {
-    background-color: #4338ca !important;
+    background: linear-gradient(135deg, #544BEE 0%, #6D2ED8 100%) !important;
 }
 
 /* Modals & Dialogs */
 html.dark .fi-modal-window,
 html.dark .fi-modal-content {
-    background-color: #0e121d !important;
-    border-color: #1c2233 !important;
+    background-color: #111620 !important;
+    border-color: #252C3A !important;
 }
 
 /* Hardened fallback: ensure dark canvas regardless of html state */

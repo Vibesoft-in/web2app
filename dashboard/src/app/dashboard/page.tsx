@@ -211,27 +211,27 @@ export default function DashboardPage() {
   const userInitial = (currentUser?.name || "Q").charAt(0).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#080b11] text-slate-100 flex flex-col font-sans selection:bg-[#4f46e5]/30 selection:text-white">
+    <div className="min-h-screen bg-[#090B12] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#635BFF]/30 selection:text-white">
       {/* ============================================================== */}
-      {/* TOP HEADER BAR */}
+      {/* TOP HEADER BAR (Approx 76px)                                  */}
       {/* ============================================================== */}
-      <header className="h-16 border-b border-[#1c2233] bg-[#090d16]/95 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <header className="h-[76px] border-b border-[#252C3A] bg-[#090B12] sticky top-0 z-40 px-6 sm:px-8 flex items-center justify-between">
         {/* Left: Brand Logo */}
         <div className="flex items-center space-x-3">
           <Link href="/dashboard" className="flex items-center space-x-2 group">
-            <span className="text-xl font-extrabold tracking-tight text-white group-hover:opacity-90 transition-opacity">
-              Web<span className="text-[#6366f1]">IntoApp</span>
+            <span className="text-2xl font-extrabold tracking-tight text-[#F8FAFC] group-hover:opacity-90 transition-opacity">
+              Web<span className="text-[#635BFF]">IntoApp</span>
             </span>
           </Link>
         </div>
 
         {/* Right: Search, Notifications & User Avatar */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3.5">
           {/* Search Button */}
           <button
             onClick={() => setShowSearchModal(true)}
             title="Search apps or builds"
-            className="h-10 w-10 rounded-full bg-[#121726] border border-[#1c2233] flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shadow-2xs"
+            className="h-10 w-10 rounded-full bg-[#151A27] border border-[#252C3A] flex items-center justify-center text-[#A5B4CF] hover:text-[#F8FAFC] hover:border-[#333C4E] hover:bg-[#1A2234] transition-all shadow-sm"
           >
             <Search className="h-4 w-4" />
           </button>
@@ -241,37 +241,37 @@ export default function DashboardPage() {
             <button
               onClick={() => setShowNotifications(!showNotifications)}
               title="Notifications"
-              className="h-10 w-10 rounded-full bg-[#121726] border border-[#1c2233] flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors relative shadow-2xs"
+              className="h-10 w-10 rounded-full bg-[#151A27] border border-[#252C3A] flex items-center justify-center text-[#A5B4CF] hover:text-[#F8FAFC] hover:border-[#333C4E] hover:bg-[#1A2234] transition-all relative shadow-sm"
             >
               <Bell className="h-4 w-4" />
-              {/* Subtle Red Notification Dot */}
-              <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-[#121726]" />
+              {/* Reference Red Notification Dot */}
+              <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-[#EF4444] ring-2 ring-[#0C1019]" />
             </button>
 
             {/* Notifications Dropdown */}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#0e121d] border border-[#1c2233] shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="flex items-center justify-between pb-3 border-b border-[#1c2233]">
-                  <span className="text-sm font-semibold text-white">Notifications</span>
-                  <span className="text-[10px] font-medium bg-[#4f46e5]/15 border border-[#4f46e5]/30 text-[#a5b4fc] px-2 py-0.5 rounded-full">
+              <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#111620] border border-[#252C3A] shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="flex items-center justify-between pb-3 border-b border-[#252C3A]">
+                  <span className="text-sm font-semibold text-[#F8FAFC]">Notifications</span>
+                  <span className="text-[10px] font-medium bg-[#635BFF]/15 border border-[#635BFF]/30 text-[#A5B4CF] px-2 py-0.5 rounded-full">
                     2 New
                   </span>
                 </div>
                 <div className="space-y-3 pt-3">
-                  <div className="p-2.5 rounded-xl bg-[#121726] border border-[#1c2233] flex items-start gap-3">
-                    <div className="h-2 w-2 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
+                  <div className="p-2.5 rounded-xl bg-[#151A27] border border-[#252C3A] flex items-start gap-3">
+                    <div className="h-2 w-2 rounded-full bg-[#22C55E] mt-1.5 shrink-0" />
                     <div>
-                      <p className="text-xs font-medium text-white">Build #12 ready for download</p>
-                      <p className="text-[11px] text-slate-400 mt-0.5">QWRT Store Android release APK compiled successfully.</p>
-                      <span className="text-[10px] text-slate-500 mt-1 block">2 hours ago</span>
+                      <p className="text-xs font-medium text-[#F8FAFC]">Build #12 ready for download</p>
+                      <p className="text-[11px] text-[#A5B4CF] mt-0.5">QWRT Store Android release APK compiled successfully.</p>
+                      <span className="text-[10px] text-[#6B7A99] mt-1 block">2 hours ago</span>
                     </div>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-[#121726] border border-[#1c2233] flex items-start gap-3">
-                    <div className="h-2 w-2 rounded-full bg-indigo-400 mt-1.5 shrink-0 animate-pulse" />
+                  <div className="p-2.5 rounded-xl bg-[#151A27] border border-[#252C3A] flex items-start gap-3">
+                    <div className="h-2 w-2 rounded-full bg-[#3B82F6] mt-1.5 shrink-0 animate-pulse" />
                     <div>
-                      <p className="text-xs font-medium text-white">Build in progress</p>
-                      <p className="text-[11px] text-slate-400 mt-0.5">Fashion Hub build worker is generating assets.</p>
-                      <span className="text-[10px] text-slate-500 mt-1 block">5 hours ago</span>
+                      <p className="text-xs font-medium text-[#F8FAFC]">Build in progress</p>
+                      <p className="text-[11px] text-[#A5B4CF] mt-0.5">Fashion Hub build worker is generating assets.</p>
+                      <span className="text-[10px] text-[#6B7A99] mt-1 block">5 hours ago</span>
                     </div>
                   </div>
                 </div>
@@ -283,17 +283,17 @@ export default function DashboardPage() {
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="h-10 w-10 rounded-full bg-[#4f46e5] text-white font-bold text-sm flex items-center justify-center shadow-md shadow-indigo-600/30 ring-2 ring-indigo-400/20 hover:scale-105 active:scale-95 transition-all"
+              className="h-10 w-10 rounded-full bg-[#635BFF] text-[#F8FAFC] font-bold text-sm flex items-center justify-center shadow-md shadow-[#635BFF]/30 hover:scale-105 active:scale-95 transition-all"
             >
               {userInitial}
             </button>
 
             {/* Profile Dropdown */}
             {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#0e121d] border border-[#1c2233] shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="px-3 py-2 border-b border-[#1c2233]">
-                  <p className="text-sm font-semibold text-white">{currentUser.name}</p>
-                  <p className="text-xs text-slate-400 truncate">{currentUser.email}</p>
+              <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#111620] border border-[#252C3A] shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="px-3 py-2 border-b border-[#252C3A]">
+                  <p className="text-sm font-semibold text-[#F8FAFC]">{currentUser.name}</p>
+                  <p className="text-xs text-[#A5B4CF] truncate">{currentUser.email}</p>
                 </div>
                 <div className="py-2 space-y-1">
                   <button
@@ -301,9 +301,9 @@ export default function DashboardPage() {
                       setActiveTab("settings");
                       setShowProfileMenu(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-[#121726] flex items-center gap-2 transition-colors"
+                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27] flex items-center gap-2 transition-colors"
                   >
-                    <Settings className="h-3.5 w-3.5 text-indigo-400" />
+                    <Settings className="h-3.5 w-3.5 text-[#8B5CF6]" />
                     Account Settings
                   </button>
                   <button
@@ -311,13 +311,13 @@ export default function DashboardPage() {
                       setActiveTab("builds");
                       setShowProfileMenu(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-[#121726] flex items-center gap-2 transition-colors"
+                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27] flex items-center gap-2 transition-colors"
                   >
-                    <Download className="h-3.5 w-3.5 text-indigo-400" />
+                    <Download className="h-3.5 w-3.5 text-[#8B5CF6]" />
                     Builds & Downloads
                   </button>
                 </div>
-                <div className="pt-2 border-t border-[#1c2233]">
+                <div className="pt-2 border-t border-[#252C3A]">
                   <button
                     onClick={() => logout()}
                     className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 flex items-center gap-2 transition-colors"
@@ -336,16 +336,16 @@ export default function DashboardPage() {
       {/* BODY CONTAINER (SIDEBAR + MAIN CONTENT) */}
       {/* ============================================================== */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar Navigation */}
-        <aside className="w-64 border-r border-[#1c2233] bg-[#090d16] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
-          <div className="space-y-1.5">
-            {/* Dashboard Nav Item */}
+        {/* Left Sidebar Navigation (Approx 282px width) */}
+        <aside className="w-[282px] border-r border-[#252C3A] bg-[#0C1019] p-5 flex flex-col justify-between shrink-0 hidden md:flex">
+          <div className="space-y-2">
+            {/* Dashboard Nav Item (Active with Purple Gradient) */}
             <button
               onClick={() => setActiveTab("dashboard")}
-              className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
+              className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all ${
                 activeTab === "dashboard"
-                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
-                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
+                  ? "bg-gradient-to-r from-[#4F46E5] to-[#635BFF] text-white shadow-lg shadow-[#635BFF]/25"
+                  : "text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27]"
               }`}
             >
               <Home className="h-5 w-5" />
@@ -355,10 +355,10 @@ export default function DashboardPage() {
             {/* My Mobile Apps Nav Item */}
             <button
               onClick={() => setActiveTab("apps")}
-              className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
+              className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl font-medium text-sm transition-all ${
                 activeTab === "apps"
-                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
-                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
+                  ? "bg-gradient-to-r from-[#4F46E5] to-[#635BFF] text-white shadow-lg shadow-[#635BFF]/25"
+                  : "text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27]"
               }`}
             >
               <Smartphone className="h-5 w-5" />
@@ -368,10 +368,10 @@ export default function DashboardPage() {
             {/* Builds & Downloads Nav Item */}
             <button
               onClick={() => setActiveTab("builds")}
-              className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
+              className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl font-medium text-sm transition-all ${
                 activeTab === "builds"
-                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
-                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
+                  ? "bg-gradient-to-r from-[#4F46E5] to-[#635BFF] text-white shadow-lg shadow-[#635BFF]/25"
+                  : "text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27]"
               }`}
             >
               <Download className="h-5 w-5" />
@@ -380,13 +380,13 @@ export default function DashboardPage() {
           </div>
 
           {/* Bottom Settings Nav Item */}
-          <div className="pt-4 border-t border-[#1c2233]">
+          <div className="pt-4 border-t border-[#252C3A]">
             <button
               onClick={() => setActiveTab("settings")}
-              className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
+              className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl font-medium text-sm transition-all ${
                 activeTab === "settings"
-                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
-                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
+                  ? "bg-gradient-to-r from-[#4F46E5] to-[#635BFF] text-white shadow-lg shadow-[#635BFF]/25"
+                  : "text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27]"
               }`}
             >
               <Settings className="h-5 w-5" />
@@ -396,35 +396,36 @@ export default function DashboardPage() {
         </aside>
 
         {/* Main Content Viewport */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8 bg-[#080b11]">
+        <main className="flex-1 overflow-y-auto px-6 sm:px-8 py-8 bg-[#090B12]">
           <div className="max-w-7xl mx-auto space-y-6">
             {/* TAB 1: MAIN DASHBOARD VIEW (MATCHING THE SCREENSHOT) */}
             {activeTab === "dashboard" && (
               <>
                 {/* Title and Subtitle */}
                 <div>
-                  <h1 className="text-3xl font-extrabold text-white tracking-tight">Dashboard</h1>
-                  <p className="text-sm text-slate-400 mt-1">Manage your apps and builds in one place.</p>
+                  <h1 className="text-3xl font-extrabold text-[#F8FAFC] tracking-tight">Dashboard</h1>
+                  <p className="text-sm text-[#A5B4CF] mt-1">Manage your apps and builds in one place.</p>
                 </div>
 
                 {/* Main 2-Column Grid */}
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-                  {/* Left Column (Main Stage) */}
+                  {/* Left Column (Main Stage - approx 65-70%) */}
                   <div className="xl:col-span-8 space-y-6">
                     {/* Welcome Banner Card */}
-                    <div className="relative overflow-hidden rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 sm:p-7 shadow-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
-                      {/* Subtle ambient accent glow */}
-                      <div className="absolute -right-12 -top-12 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#14182E] via-[#161B36] to-[#12162B] border border-[#2D3352] p-6 sm:p-7 shadow-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+                      {/* Decorative ambient gradient glows */}
+                      <div className="absolute -right-8 -top-8 w-56 h-56 bg-[#635BFF]/15 rounded-full blur-3xl pointer-events-none" />
+                      <div className="absolute right-36 -bottom-10 w-44 h-44 bg-[#8B5CF6]/10 rounded-full blur-2xl pointer-events-none" />
 
                       <div className="flex items-center gap-4 relative z-10">
-                        <div className="h-14 w-14 rounded-2xl bg-[#4f46e5] flex items-center justify-center text-white text-2xl font-bold shadow-md shadow-indigo-600/25 ring-4 ring-indigo-500/15 shrink-0">
+                        <div className="h-16 w-16 rounded-full bg-[#635BFF] flex items-center justify-center text-[#F8FAFC] text-2xl font-bold shadow-lg shadow-[#635BFF]/30 ring-4 ring-[#635BFF]/20 shrink-0">
                           {userInitial}
                         </div>
                         <div>
-                          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                          <h2 className="text-xl sm:text-2xl font-bold text-[#F8FAFC] tracking-tight">
                             Welcome back, {currentUser.name}
                           </h2>
-                          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+                          <p className="text-xs sm:text-sm text-[#A5B4CF] mt-1">
                             Manage your mobile apps, track builds, and grow your business.
                           </p>
                         </div>
@@ -433,9 +434,9 @@ export default function DashboardPage() {
                       {/* Sign Out Button */}
                       <button
                         onClick={() => logout()}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 bg-[#121726] border border-[#1c2233] hover:bg-slate-800 hover:text-white transition-all shadow-sm shrink-0 self-start sm:self-auto relative z-10"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-[#F8FAFC] bg-[#151A27] border border-[#252C3A] hover:bg-[#1C2333] hover:border-[#333C4E] transition-all shadow-sm shrink-0 self-start sm:self-auto relative z-10"
                       >
-                        <LogOut className="h-4 w-4 text-slate-400" />
+                        <LogOut className="h-4 w-4 text-[#A5B4CF]" />
                         <span>Sign out</span>
                       </button>
                     </div>
@@ -443,52 +444,52 @@ export default function DashboardPage() {
                     {/* 3 Stat Cards Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                       {/* Stat 1: Mobile Apps */}
-                      <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-5 shadow-sm flex items-center gap-4 hover:border-slate-700 transition-all">
-                        <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+                      <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-5 shadow-lg flex items-center gap-4 hover:border-[#333C4E] transition-all">
+                        <div className="h-12 w-12 rounded-xl bg-[#0E1C38] border border-[#19325D] text-[#3B82F6] flex items-center justify-center shrink-0">
                           <Smartphone className="h-6 w-6" />
                         </div>
                         <div>
-                          <p className="text-xs font-medium text-slate-400">Mobile Apps</p>
-                          <h3 className="text-2xl font-extrabold text-white mt-0.5 leading-none">{displayApps.length}</h3>
-                          <p className="text-[11px] text-slate-500 mt-1">Total apps created</p>
+                          <p className="text-xs font-medium text-[#A5B4CF]">Mobile Apps</p>
+                          <h3 className="text-2xl font-black text-[#F8FAFC] mt-0.5 leading-none">{displayApps.length}</h3>
+                          <p className="text-[11px] text-[#6B7A99] mt-1">Total apps created</p>
                         </div>
                       </div>
 
                       {/* Stat 2: Successful Builds */}
-                      <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-5 shadow-sm flex items-center gap-4 hover:border-slate-700 transition-all">
-                        <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                      <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-5 shadow-lg flex items-center gap-4 hover:border-[#333C4E] transition-all">
+                        <div className="h-12 w-12 rounded-xl bg-[#0C261A] border border-[#154730] text-[#22C55E] flex items-center justify-center shrink-0">
                           <Download className="h-6 w-6" />
                         </div>
                         <div>
-                          <p className="text-xs font-medium text-slate-400">Successful Builds</p>
-                          <h3 className="text-2xl font-extrabold text-white mt-0.5 leading-none">12</h3>
-                          <p className="text-[11px] text-slate-500 mt-1">Completed builds</p>
+                          <p className="text-xs font-medium text-[#A5B4CF]">Successful Builds</p>
+                          <h3 className="text-2xl font-black text-[#F8FAFC] mt-0.5 leading-none">12</h3>
+                          <p className="text-[11px] text-[#6B7A99] mt-1">Completed builds</p>
                         </div>
                       </div>
 
                       {/* Stat 3: Pending Builds */}
-                      <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-5 shadow-sm flex items-center gap-4 hover:border-slate-700 transition-all">
-                        <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+                      <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-5 shadow-lg flex items-center gap-4 hover:border-[#333C4E] transition-all">
+                        <div className="h-12 w-12 rounded-xl bg-[#281C0F] border border-[#4D3519] text-[#F59E0B] flex items-center justify-center shrink-0">
                           <Clock className="h-6 w-6" />
                         </div>
                         <div>
-                          <p className="text-xs font-medium text-slate-400">Pending Builds</p>
-                          <h3 className="text-2xl font-extrabold text-white mt-0.5 leading-none">1</h3>
-                          <p className="text-[11px] text-slate-500 mt-1">Builds in queue</p>
+                          <p className="text-xs font-medium text-[#A5B4CF]">Pending Builds</p>
+                          <h3 className="text-2xl font-black text-[#F8FAFC] mt-0.5 leading-none">1</h3>
+                          <p className="text-[11px] text-[#6B7A99] mt-1">Builds in queue</p>
                         </div>
                       </div>
                     </div>
 
                     {/* Recent Activity Table Card */}
-                    <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm">
-                      <div className="flex items-center justify-between pb-4 border-b border-[#1c2233]">
+                    <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-6 shadow-xl">
+                      <div className="flex items-center justify-between pb-4 border-b border-[#252C3A]">
                         <div>
-                          <h3 className="text-base font-bold text-white tracking-wide">Recent Activity</h3>
-                          <p className="text-xs text-slate-400 mt-0.5">Your latest apps and build activity</p>
+                          <h3 className="text-base font-bold text-[#F8FAFC] tracking-wide">Recent Activity</h3>
+                          <p className="text-xs text-[#A5B4CF] mt-0.5">Your latest apps and build activity</p>
                         </div>
                         <button
                           onClick={() => setActiveTab("apps")}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 hover:text-indigo-300 hover:bg-indigo-500/15 transition-all"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#A5B4CF] bg-[#151A27] border border-[#252C3A] hover:text-[#F8FAFC] hover:border-[#333C4E] transition-all"
                         >
                           <span>View All</span>
                           <ArrowRight className="h-3.5 w-3.5" />
@@ -499,7 +500,7 @@ export default function DashboardPage() {
                       <div className="mt-4 overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                           <thead>
-                            <tr className="border-b border-[#1c2233] text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                            <tr className="border-b border-[#252C3A] text-[11px] font-semibold text-[#7E8B9B] uppercase tracking-wider">
                               <th className="pb-3 pr-4 font-semibold">App Name</th>
                               <th className="pb-3 px-4 font-semibold">Platform</th>
                               <th className="pb-3 px-4 font-semibold">Status</th>
@@ -507,27 +508,34 @@ export default function DashboardPage() {
                               <th className="pb-3 pl-4 font-semibold text-right">Actions</th>
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-[#182030] text-sm">
-                            {displayApps.slice(0, 3).map((app) => (
-                              <tr key={app.id} className="hover:bg-[#121726]/60 transition-colors group">
+                          <tbody className="divide-y divide-[#1D2433] text-sm">
+                            {displayApps.slice(0, 3).map((app, index) => (
+                              <tr key={app.id} className="hover:bg-[#151A27]/60 transition-colors group">
                                 {/* App Name Column */}
                                 <td className="py-3.5 pr-4">
                                   <div className="flex items-center gap-3">
                                     <div
-                                      className={`h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${app.iconBg}`}
+                                      className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 shadow-md ${
+                                        index === 0
+                                          ? "bg-[#635BFF] text-white"
+                                          : index === 1
+                                          ? "bg-[#EC4899] text-white"
+                                          : "bg-[#2563EB] text-white"
+                                      }`}
                                     >
-                                      {app.iconType === "bag" && <ShoppingBag className="h-5 w-5" />}
-                                      {app.iconType === "shirt" && <Shirt className="h-5 w-5" />}
-                                      {app.iconType === "cart" && <ShoppingCart className="h-5 w-5" />}
+                                      {index === 0 && <ShoppingBag className="h-5 w-5" />}
+                                      {index === 1 && <Shirt className="h-5 w-5" />}
+                                      {index === 2 && <ShoppingCart className="h-5 w-5" />}
+                                      {index > 2 && <ShoppingBag className="h-5 w-5" />}
                                     </div>
                                     <div>
                                       <Link
                                         href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}
-                                        className="font-semibold text-white hover:text-indigo-400 transition-colors block text-sm"
+                                        className="font-bold text-[#F8FAFC] hover:text-[#8B5CF6] transition-colors block text-sm"
                                       >
                                         {app.name}
                                       </Link>
-                                      <span className="text-xs font-mono text-slate-400 block mt-0.5">
+                                      <span className="text-xs font-mono text-[#7E8B9B] block mt-0.5">
                                         {app.package_name}
                                       </span>
                                     </div>
@@ -538,15 +546,15 @@ export default function DashboardPage() {
                                 <td className="py-3.5 px-4 whitespace-nowrap">
                                   <div className="flex items-center gap-2">
                                     {app.platforms.includes("android") && (
-                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
-                                        <span className="text-emerald-400">
+                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#151A27] border border-[#252C3A] text-xs font-medium text-[#A5B4CF]">
+                                        <span className="text-[#22C55E]">
                                           <AndroidIcon className="h-3.5 w-3.5" />
                                         </span>
                                         <span>Android</span>
                                       </span>
                                     )}
                                     {app.platforms.includes("ios") && (
-                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
+                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#151A27] border border-[#252C3A] text-xs font-medium text-[#A5B4CF]">
                                         <AppleIcon className="h-3.5 w-3.5 text-white" />
                                         <span>iOS</span>
                                       </span>
@@ -557,20 +565,20 @@ export default function DashboardPage() {
                                 {/* Status Column */}
                                 <td className="py-3.5 px-4 whitespace-nowrap">
                                   {app.status === "Ready" ? (
-                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#0C261A] border border-[#164730] text-[#22C55E]">
+                                      <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                                       Ready
                                     </span>
                                   ) : (
-                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
-                                      <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#0E1C38] border border-[#1A3360] text-[#3B82F6]">
+                                      <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
                                       Building
                                     </span>
                                   )}
                                 </td>
 
                                 {/* Updated Column */}
-                                <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-400">{app.updated}</td>
+                                <td className="py-3.5 px-4 whitespace-nowrap text-xs text-[#A5B4CF]">{app.updated}</td>
 
                                 {/* Actions Column */}
                                 <td className="py-3.5 pl-4 text-right relative">
@@ -579,17 +587,17 @@ export default function DashboardPage() {
                                       setActiveMenuAppId(activeMenuAppId === app.id ? null : app.id)
                                     }
                                     title="More options"
-                                    className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#121726] transition-colors inline-block"
+                                    className="p-1.5 rounded-lg text-[#7E8B9B] hover:text-[#F8FAFC] hover:bg-[#151A27] transition-colors inline-block"
                                   >
                                     <MoreVertical className="h-4 w-4" />
                                   </button>
 
                                   {/* Three Dots Context Menu */}
                                   {activeMenuAppId === app.id && (
-                                    <div className="absolute right-2 top-12 w-48 rounded-xl bg-[#0e121d] border border-[#1c2233] shadow-xl py-1.5 z-30 text-left animate-in fade-in zoom-in-95 duration-100">
+                                    <div className="absolute right-2 top-12 w-48 rounded-xl bg-[#111620] border border-[#252C3A] shadow-xl py-1.5 z-30 text-left animate-in fade-in zoom-in-95 duration-100">
                                       <Link
                                         href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}
-                                        className="block px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-[#121726]"
+                                        className="block px-3 py-2 text-xs text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27]"
                                       >
                                         Open Setup Wizard
                                       </Link>
@@ -598,13 +606,13 @@ export default function DashboardPage() {
                                           setActiveTab("builds");
                                           setActiveMenuAppId(null);
                                         }}
-                                        className="w-full text-left px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-[#121726]"
+                                        className="w-full text-left px-3 py-2 text-xs text-[#A5B4CF] hover:text-[#F8FAFC] hover:bg-[#151A27]"
                                       >
                                         View Build Logs
                                       </button>
                                       <Link
                                         href={`/dashboard/apps/${app.ulid}/setup/build`}
-                                        className="block px-3 py-2 text-xs text-indigo-400 hover:bg-[#121726]"
+                                        className="block px-3 py-2 text-xs text-[#8B5CF6] hover:bg-[#151A27]"
                                       >
                                         Queue New Release
                                       </Link>
@@ -619,23 +627,23 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Right Column (Side Panels) */}
+                  {/* Right Column (Utility Side Panels - approx 30-35%) */}
                   <div className="xl:col-span-4 space-y-6">
                     {/* Quick Actions Card */}
-                    <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
+                    <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-6 shadow-xl space-y-5">
                       <div className="flex items-start gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+                        <div className="h-10 w-10 rounded-xl bg-[#201838] border border-[#3B2A63] flex items-center justify-center text-[#8B5CF6] shrink-0">
                           <Zap className="h-5 w-5" />
                         </div>
                         <div>
-                          <h3 className="text-base font-bold text-white tracking-wide">Quick Actions</h3>
-                          <p className="text-xs text-slate-400 mt-0.5">Get started with common tasks.</p>
+                          <h3 className="text-base font-bold text-[#F8FAFC] tracking-wide">Quick Actions</h3>
+                          <p className="text-xs text-[#A5B4CF] mt-0.5">Get started with common tasks.</p>
                         </div>
                       </div>
 
                       <div className="space-y-3 pt-1">
                         <Link href="/dashboard/apps/new" className="block">
-                          <button className="w-full bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold py-3 px-4 rounded-xl shadow-md shadow-indigo-600/25 flex items-center justify-center gap-2 transition-all active:scale-[0.99] text-xs">
+                          <button className="w-full bg-gradient-to-r from-[#635BFF] to-[#7C3AED] hover:from-[#544BEE] hover:to-[#6D2ED8] active:scale-[0.98] text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-[#635BFF]/30 flex items-center justify-center gap-2 transition-all text-sm">
                             <Plus className="h-4 w-4" />
                             <span>Create New App</span>
                           </button>
@@ -643,60 +651,57 @@ export default function DashboardPage() {
 
                         <button
                           onClick={() => setActiveTab("builds")}
-                          className="w-full bg-[#121726] hover:bg-slate-800 text-slate-200 border border-[#1c2233] hover:border-slate-700 font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.99] text-xs"
+                          className="w-full bg-[#151A27] hover:bg-[#1A2234] text-[#F8FAFC] border border-[#252C3A] hover:border-[#333C4E] font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] text-sm shadow-sm"
                         >
-                          <Download className="h-4 w-4 text-slate-400" />
+                          <Download className="h-4 w-4 text-[#A5B4CF]" />
                           <span>View Builds</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Getting Started Card */}
-                    <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
+                    <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-6 shadow-xl space-y-5">
                       <div className="flex items-start gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
+                        <div className="h-10 w-10 rounded-xl bg-[#201838] border border-[#3B2A63] flex items-center justify-center text-[#8B5CF6] shrink-0">
                           <BookOpen className="h-5 w-5" />
                         </div>
                         <div>
-                          <h3 className="text-base font-bold text-white tracking-wide">Getting Started</h3>
-                          <p className="text-xs text-slate-400 mt-0.5">2 of 3 tasks complete</p>
+                          <h3 className="text-base font-bold text-[#F8FAFC] tracking-wide">Getting Started</h3>
+                          <p className="text-xs text-[#A5B4CF] mt-0.5">2 of 3 tasks complete</p>
                         </div>
                       </div>
 
-                      {/* Progress Bar */}
-                      <div className="space-y-1.5 pt-1">
-                        <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
-                          <span>Progress</span>
-                          <span className="text-white font-mono">67%</span>
+                      {/* Progress Bar & Percentage */}
+                      <div className="flex items-center gap-3 pt-1">
+                        <div className="flex-1 h-2 rounded-full bg-[#151A27] border border-[#252C3A] overflow-hidden">
+                          <div className="h-full rounded-full bg-gradient-to-r from-[#635BFF] to-[#8B5CF6] w-[67%]" />
                         </div>
-                        <div className="w-full h-2 rounded-full bg-[#121726] border border-[#1c2233] overflow-hidden">
-                          <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 w-[67%]" />
-                        </div>
+                        <span className="text-xs font-bold text-[#F8FAFC]">67%</span>
                       </div>
 
                       {/* Tasks Checklist */}
-                      <div className="space-y-3 pt-2">
-                        <div className="flex items-center gap-3 text-slate-300">
-                          <div className="h-5 w-5 rounded-full bg-[#4f46e5] flex items-center justify-center text-white shrink-0 shadow-xs">
+                      <div className="space-y-3.5 pt-2">
+                        <div className="flex items-center gap-3 text-[#7E8B9B]">
+                          <div className="h-5 w-5 rounded-full bg-[#635BFF] flex items-center justify-center text-white shrink-0 shadow-sm">
                             <Check className="h-3 w-3 stroke-[3]" />
                           </div>
-                          <span className="text-xs font-medium text-slate-400 line-through">
+                          <span className="text-xs font-medium line-through">
                             Create your first app
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-3 text-slate-300">
-                          <div className="h-5 w-5 rounded-full bg-[#4f46e5] flex items-center justify-center text-white shrink-0 shadow-xs">
+                        <div className="flex items-center gap-3 text-[#7E8B9B]">
+                          <div className="h-5 w-5 rounded-full bg-[#635BFF] flex items-center justify-center text-white shrink-0 shadow-sm">
                             <Check className="h-3 w-3 stroke-[3]" />
                           </div>
-                          <span className="text-xs font-medium text-slate-400 line-through">
+                          <span className="text-xs font-medium line-through">
                             Build your app
                           </span>
                         </div>
 
-                        <div className="flex items-center gap-3 text-slate-400">
-                          <div className="h-5 w-5 rounded-full border-2 border-slate-600 flex items-center justify-center shrink-0" />
-                          <span className="text-xs font-medium text-slate-300">Download and publish</span>
+                        <div className="flex items-center gap-3 text-[#F8FAFC]">
+                          <div className="h-5 w-5 rounded-full border-2 border-[#3A455A] flex items-center justify-center shrink-0" />
+                          <span className="text-xs font-medium">Download and publish</span>
                         </div>
                       </div>
                     </div>
@@ -710,13 +715,13 @@ export default function DashboardPage() {
               <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
-                    <h1 className="text-3xl font-extrabold text-white tracking-tight">My Mobile Apps</h1>
-                    <p className="text-sm text-slate-400 mt-1">
+                    <h1 className="text-3xl font-extrabold text-[#F8FAFC] tracking-tight">My Mobile Apps</h1>
+                    <p className="text-sm text-[#A5B4CF] mt-1">
                       Configure, brand, preview, and build your white-label native store apps.
                     </p>
                   </div>
                   <Link href="/dashboard/apps/new">
-                    <button className="bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold py-2.5 px-4.5 rounded-xl shadow-md shadow-indigo-600/25 flex items-center gap-2 text-xs transition-all active:scale-95">
+                    <button className="bg-gradient-to-r from-[#635BFF] to-[#7C3AED] hover:from-[#544BEE] hover:to-[#6D2ED8] text-white font-semibold py-2.5 px-4.5 rounded-xl shadow-lg shadow-[#635BFF]/25 flex items-center gap-2 text-xs transition-all active:scale-95">
                       <Plus className="h-4 w-4" />
                       <span>Create New App</span>
                     </button>
@@ -727,7 +732,7 @@ export default function DashboardPage() {
                   {displayApps.map((app) => (
                     <div
                       key={app.id}
-                      className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 flex flex-col justify-between hover:border-indigo-500/40 transition-all hover:shadow-lg hover:shadow-indigo-950/20"
+                      className="rounded-2xl bg-[#111620] border border-[#252C3A] p-6 flex flex-col justify-between hover:border-[#635BFF]/40 transition-all hover:shadow-lg hover:shadow-[#635BFF]/10"
                     >
                       <div className="space-y-4">
                         <div className="flex items-start justify-between">
@@ -738,33 +743,33 @@ export default function DashboardPage() {
                               {app.iconType === "cart" && <ShoppingCart className="h-5 w-5" />}
                             </div>
                             <div>
-                              <h3 className="font-bold text-white text-base">{app.name}</h3>
-                              <p className="text-xs font-mono text-slate-400 mt-0.5">{app.package_name}</p>
+                              <h3 className="font-bold text-[#F8FAFC] text-base">{app.name}</h3>
+                              <p className="text-xs font-mono text-[#A5B4CF] mt-0.5">{app.package_name}</p>
                             </div>
                           </div>
                         </div>
 
                         <div className="flex items-center gap-2 pt-2">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
-                            <AndroidIcon className="h-3.5 w-3.5 text-emerald-400" />
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#151A27] border border-[#252C3A] text-xs font-medium text-[#A5B4CF]">
+                            <AndroidIcon className="h-3.5 w-3.5 text-[#22C55E]" />
                             <span>Android</span>
                           </span>
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#151A27] border border-[#252C3A] text-xs font-medium text-[#A5B4CF]">
                             <AppleIcon className="h-3.5 w-3.5 text-white" />
                             <span>iOS</span>
                           </span>
                         </div>
                       </div>
 
-                      <div className="pt-5 border-t border-[#1c2233] mt-5 space-y-3">
-                        <div className="flex items-center justify-between text-xs text-slate-400">
+                      <div className="pt-5 border-t border-[#252C3A] mt-5 space-y-3">
+                        <div className="flex items-center justify-between text-xs text-[#A5B4CF]">
                           <span>Setup Step</span>
-                          <span className="font-semibold text-slate-300 uppercase tracking-wider text-[11px]">
+                          <span className="font-semibold text-[#F8FAFC] uppercase tracking-wider text-[11px]">
                             {app.setup_step || "Platform"}
                           </span>
                         </div>
                         <Link href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}>
-                          <button className="w-full bg-[#121726] hover:bg-[#182030] text-slate-200 hover:text-white border border-[#1c2233] hover:border-slate-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between transition-colors text-xs">
+                          <button className="w-full bg-[#151A27] hover:bg-[#1A2234] text-[#F8FAFC] border border-[#252C3A] hover:border-[#333C4E] font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between transition-colors text-xs">
                             <span>Continue Setup</span>
                             <ArrowRight className="h-3.5 w-3.5" />
                           </button>
@@ -781,24 +786,24 @@ export default function DashboardPage() {
               <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
-                    <h1 className="text-3xl font-extrabold text-white tracking-tight">Builds & Downloads</h1>
-                    <p className="text-sm text-slate-400 mt-1">
+                    <h1 className="text-3xl font-extrabold text-[#F8FAFC] tracking-tight">Builds & Downloads</h1>
+                    <p className="text-sm text-[#A5B4CF] mt-1">
                       Monitor ongoing compilation jobs and download generated APK / AAB bundles.
                     </p>
                   </div>
                   <button
                     onClick={() => setActiveTab("dashboard")}
-                    className="bg-[#121726] hover:bg-slate-800 text-slate-300 font-semibold py-2 px-4 rounded-xl border border-[#1c2233] flex items-center gap-2 text-xs transition-colors"
+                    className="bg-[#151A27] hover:bg-[#1A2234] text-[#A5B4CF] hover:text-[#F8FAFC] font-semibold py-2 px-4 rounded-xl border border-[#252C3A] flex items-center gap-2 text-xs transition-colors"
                   >
                     <ArrowRight className="h-3.5 w-3.5 rotate-180" />
                     <span>Back to Dashboard</span>
                   </button>
                 </div>
 
-                <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm overflow-x-auto">
+                <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-6 shadow-xl overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-[#1c2233] text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                      <tr className="border-b border-[#252C3A] text-[11px] font-semibold text-[#7E8B9B] uppercase tracking-wider">
                         <th className="pb-3 pr-4 font-semibold">Build ID & App</th>
                         <th className="pb-3 px-4 font-semibold">Version</th>
                         <th className="pb-3 px-4 font-semibold">Target</th>
@@ -807,40 +812,40 @@ export default function DashboardPage() {
                         <th className="pb-3 pl-4 font-semibold text-right">Artifact</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#182030] text-sm">
+                    <tbody className="divide-y divide-[#1D2433] text-sm">
                       {buildsList.map((b) => (
-                        <tr key={b.id} className="hover:bg-[#121726]/60 transition-colors">
+                        <tr key={b.id} className="hover:bg-[#151A27]/60 transition-colors">
                           <td className="py-3.5 pr-4">
-                            <div className="font-semibold text-white">{b.appName}</div>
-                            <span className="text-xs text-slate-500 font-mono">{b.id}</span>
+                            <div className="font-semibold text-[#F8FAFC]">{b.appName}</div>
+                            <span className="text-xs text-[#7E8B9B] font-mono">{b.id}</span>
                           </td>
-                          <td className="py-3.5 px-4 text-xs font-mono text-slate-300">{b.version}</td>
-                          <td className="py-3.5 px-4 text-xs text-slate-300">{b.platform}</td>
+                          <td className="py-3.5 px-4 text-xs font-mono text-[#A5B4CF]">{b.version}</td>
+                          <td className="py-3.5 px-4 text-xs text-[#A5B4CF]">{b.platform}</td>
                           <td className="py-3.5 px-4">
                             {b.status === "Successful" ? (
-                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#0C261A] border border-[#164730] text-[#22C55E]">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
                                 Successful
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
-                                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#0E1C38] border border-[#1A3360] text-[#3B82F6]">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
                                 In Progress
                               </span>
                             )}
                           </td>
-                          <td className="py-3.5 px-4 text-xs text-slate-400">{b.date}</td>
+                          <td className="py-3.5 px-4 text-xs text-[#A5B4CF]">{b.date}</td>
                           <td className="py-3.5 pl-4 text-right">
                             {b.downloadUrl ? (
                               <a
                                 href={b.downloadUrl}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#4f46e5] hover:bg-[#4338ca] text-white text-xs font-semibold transition-all shadow-md shadow-indigo-600/20"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#635BFF] to-[#7C3AED] hover:from-[#544BEE] hover:to-[#6D2ED8] text-white text-xs font-semibold transition-all shadow-md shadow-[#635BFF]/25"
                               >
                                 <Download className="h-3.5 w-3.5" />
                                 <span>Download ({b.size})</span>
                               </a>
                             ) : (
-                              <span className="text-xs text-slate-500 italic">Compiling...</span>
+                              <span className="text-xs text-[#7E8B9B] italic">Compiling...</span>
                             )}
                           </td>
                         </tr>
@@ -855,47 +860,47 @@ export default function DashboardPage() {
             {activeTab === "settings" && (
               <div className="space-y-6">
                 <div>
-                  <h1 className="text-3xl font-extrabold text-white tracking-tight">Account & Tenant Settings</h1>
-                  <p className="text-sm text-slate-400 mt-1">
+                  <h1 className="text-3xl font-extrabold text-[#F8FAFC] tracking-tight">Account & Tenant Settings</h1>
+                  <p className="text-sm text-[#A5B4CF] mt-1">
                     Manage your credentials, API tokens, and subscription tiers.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
-                    <h3 className="font-bold text-white text-base flex items-center gap-2">
-                      <Shield className="h-5 w-5 text-indigo-400" />
+                  <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-6 shadow-xl space-y-4">
+                    <h3 className="font-bold text-[#F8FAFC] text-base flex items-center gap-2">
+                      <Shield className="h-5 w-5 text-[#8B5CF6]" />
                       <span>Tenant Profile</span>
                     </h3>
                     <div className="space-y-3 pt-2">
                       <div>
-                        <label className="text-xs font-medium text-slate-400">Account Name</label>
-                        <p className="text-sm font-semibold text-white mt-0.5">{currentUser.name}</p>
+                        <label className="text-xs font-medium text-[#A5B4CF]">Account Name</label>
+                        <p className="text-sm font-semibold text-[#F8FAFC] mt-0.5">{currentUser.name}</p>
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-slate-400">Email Address</label>
-                        <p className="text-sm font-semibold text-white mt-0.5">{currentUser.email}</p>
+                        <label className="text-xs font-medium text-[#A5B4CF]">Email Address</label>
+                        <p className="text-sm font-semibold text-[#F8FAFC] mt-0.5">{currentUser.email}</p>
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-slate-400">Tenant ID</label>
-                        <p className="text-xs font-mono text-indigo-400 mt-0.5">tenant_{currentUser.tenant_id || 1}</p>
+                        <label className="text-xs font-medium text-[#A5B4CF]">Tenant ID</label>
+                        <p className="text-xs font-mono text-[#8B5CF6] mt-0.5">tenant_{currentUser.tenant_id || 1}</p>
                       </div>
                     </div>
                   </div>
 
-                  <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
-                    <h3 className="font-bold text-white text-base flex items-center gap-2">
-                      <FileCode className="h-5 w-5 text-indigo-400" />
+                  <div className="rounded-2xl bg-[#111620] border border-[#252C3A] p-6 shadow-xl space-y-4">
+                    <h3 className="font-bold text-[#F8FAFC] text-base flex items-center gap-2">
+                      <FileCode className="h-5 w-5 text-[#8B5CF6]" />
                       <span>Build Runner Keys</span>
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-[#A5B4CF]">
                       Automate Flutter app compilation using our secure webhook integration API.
                     </p>
-                    <div className="p-3 rounded-xl bg-[#121726] border border-[#1c2233] flex items-center justify-between">
-                      <span className="text-xs font-mono text-slate-300">wia_live_key_998492048</span>
+                    <div className="p-3 rounded-xl bg-[#151A27] border border-[#252C3A] flex items-center justify-between">
+                      <span className="text-xs font-mono text-[#F8FAFC]">wia_live_key_998492048</span>
                       <button
                         onClick={() => alert("API Key copied to clipboard")}
-                        className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold"
+                        className="text-xs text-[#8B5CF6] hover:text-[#A78BFA] font-semibold"
                       >
                         Copy
                       </button>
@@ -912,36 +917,36 @@ export default function DashboardPage() {
       {/* QUICK SEARCH MODAL */}
       {/* ============================================================== */}
       {showSearchModal && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center pt-24 px-4 animate-in fade-in duration-150">
-          <div className="w-full max-w-xl rounded-2xl bg-[#0e121d] border border-[#1c2233] shadow-2xl overflow-hidden">
-            <div className="p-4 border-b border-[#1c2233] flex items-center gap-3">
-              <Search className="h-5 w-5 text-slate-400" />
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-start justify-center pt-24 px-4 animate-in fade-in duration-150">
+          <div className="w-full max-w-xl rounded-2xl bg-[#111620] border border-[#252C3A] shadow-2xl overflow-hidden">
+            <div className="p-4 border-b border-[#252C3A] flex items-center gap-3">
+              <Search className="h-5 w-5 text-[#A5B4CF]" />
               <input
                 type="text"
                 autoFocus
                 placeholder="Search apps by name or package..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent text-sm text-white focus:outline-none placeholder:text-slate-500"
+                className="w-full bg-transparent text-sm text-[#F8FAFC] focus:outline-none placeholder:text-[#6B7A99]"
               />
               <button
                 onClick={() => setShowSearchModal(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800"
+                className="text-[#A5B4CF] hover:text-[#F8FAFC] p-1 rounded-lg hover:bg-[#151A27]"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="max-h-72 overflow-y-auto p-2 divide-y divide-[#182030]">
+            <div className="max-h-72 overflow-y-auto p-2 divide-y divide-[#1D2433]">
               {filteredApps.length === 0 ? (
-                <div className="p-6 text-center text-xs text-slate-400">No matching apps found.</div>
+                <div className="p-6 text-center text-xs text-[#A5B4CF]">No matching apps found.</div>
               ) : (
                 filteredApps.map((app) => (
                   <Link
                     key={app.id}
                     href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}
                     onClick={() => setShowSearchModal(false)}
-                    className="flex items-center justify-between p-3 rounded-xl hover:bg-[#121726] transition-colors"
+                    className="flex items-center justify-between p-3 rounded-xl hover:bg-[#151A27] transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <div className={`h-8 w-8 rounded-lg border flex items-center justify-center ${app.iconBg}`}>
@@ -950,11 +955,11 @@ export default function DashboardPage() {
                         {app.iconType === "cart" && <ShoppingCart className="h-4 w-4" />}
                       </div>
                       <div>
-                        <p className="text-xs font-semibold text-white">{app.name}</p>
-                        <p className="text-[11px] font-mono text-slate-400">{app.package_name}</p>
+                        <p className="text-xs font-semibold text-[#F8FAFC]">{app.name}</p>
+                        <p className="text-[11px] font-mono text-[#A5B4CF]">{app.package_name}</p>
                       </div>
                     </div>
-                    <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+                    <ArrowRight className="h-3.5 w-3.5 text-[#A5B4CF]" />
                   </Link>
                 ))
               )}
