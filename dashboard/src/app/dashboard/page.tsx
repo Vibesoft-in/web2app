@@ -211,11 +211,11 @@ export default function DashboardPage() {
   const userInitial = (currentUser?.name || "Q").charAt(0).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#080c14] text-slate-100 flex flex-col font-sans selection:bg-[#4f46e5]/30 selection:text-white">
+    <div className="min-h-screen bg-[#080b11] text-slate-100 flex flex-col font-sans selection:bg-[#4f46e5]/30 selection:text-white">
       {/* ============================================================== */}
       {/* TOP HEADER BAR */}
       {/* ============================================================== */}
-      <header className="h-16 border-b border-slate-800/80 bg-[#090d16]/95 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <header className="h-16 border-b border-[#1c2233] bg-[#090d16]/95 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Left: Brand Logo */}
         <div className="flex items-center space-x-3">
           <Link href="/dashboard" className="flex items-center space-x-2 group">
@@ -231,7 +231,7 @@ export default function DashboardPage() {
           <button
             onClick={() => setShowSearchModal(true)}
             title="Search apps or builds"
-            className="h-10 w-10 rounded-full bg-[#131929] border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+            className="h-10 w-10 rounded-full bg-[#121726] border border-[#1c2233] flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shadow-2xs"
           >
             <Search className="h-4 w-4" />
           </button>
@@ -241,24 +241,24 @@ export default function DashboardPage() {
             <button
               onClick={() => setShowNotifications(!showNotifications)}
               title="Notifications"
-              className="h-10 w-10 rounded-full bg-[#131929] border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors relative"
+              className="h-10 w-10 rounded-full bg-[#121726] border border-[#1c2233] flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-800 transition-colors relative shadow-2xs"
             >
               <Bell className="h-4 w-4" />
-              {/* Red Notification Dot */}
-              <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-[#131929]" />
+              {/* Subtle Red Notification Dot */}
+              <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-[#121726]" />
             </button>
 
             {/* Notifications Dropdown */}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#0e121d] border border-[#1c2233] shadow-2xl p-4 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="flex items-center justify-between pb-3 border-b border-[#1c2233]">
                   <span className="text-sm font-semibold text-white">Notifications</span>
-                  <span className="text-[10px] font-medium bg-[#4f46e5]/20 text-[#818cf8] px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-medium bg-[#4f46e5]/15 border border-[#4f46e5]/30 text-[#a5b4fc] px-2 py-0.5 rounded-full">
                     2 New
                   </span>
                 </div>
                 <div className="space-y-3 pt-3">
-                  <div className="p-2.5 rounded-xl bg-[#131929] border border-slate-800 flex items-start gap-3">
+                  <div className="p-2.5 rounded-xl bg-[#121726] border border-[#1c2233] flex items-start gap-3">
                     <div className="h-2 w-2 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                     <div>
                       <p className="text-xs font-medium text-white">Build #12 ready for download</p>
@@ -266,8 +266,8 @@ export default function DashboardPage() {
                       <span className="text-[10px] text-slate-500 mt-1 block">2 hours ago</span>
                     </div>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-[#131929] border border-slate-800 flex items-start gap-3">
-                    <div className="h-2 w-2 rounded-full bg-blue-400 mt-1.5 shrink-0 animate-pulse" />
+                  <div className="p-2.5 rounded-xl bg-[#121726] border border-[#1c2233] flex items-start gap-3">
+                    <div className="h-2 w-2 rounded-full bg-indigo-400 mt-1.5 shrink-0 animate-pulse" />
                     <div>
                       <p className="text-xs font-medium text-white">Build in progress</p>
                       <p className="text-[11px] text-slate-400 mt-0.5">Fashion Hub build worker is generating assets.</p>
@@ -283,15 +283,15 @@ export default function DashboardPage() {
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="h-10 w-10 rounded-full bg-[#6366f1] text-white font-bold text-sm flex items-center justify-center shadow-md shadow-indigo-600/30 ring-2 ring-indigo-400/20 hover:scale-105 active:scale-95 transition-all"
+              className="h-10 w-10 rounded-full bg-[#4f46e5] text-white font-bold text-sm flex items-center justify-center shadow-md shadow-indigo-600/30 ring-2 ring-indigo-400/20 hover:scale-105 active:scale-95 transition-all"
             >
               {userInitial}
             </button>
 
             {/* Profile Dropdown */}
             {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#0f1422] border border-slate-800 shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
-                <div className="px-3 py-2 border-b border-slate-800">
+              <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-[#0e121d] border border-[#1c2233] shadow-2xl p-3 z-50 animate-in fade-in zoom-in-95 duration-150">
+                <div className="px-3 py-2 border-b border-[#1c2233]">
                   <p className="text-sm font-semibold text-white">{currentUser.name}</p>
                   <p className="text-xs text-slate-400 truncate">{currentUser.email}</p>
                 </div>
@@ -301,9 +301,9 @@ export default function DashboardPage() {
                       setActiveTab("settings");
                       setShowProfileMenu(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-[#121726] flex items-center gap-2 transition-colors"
                   >
-                    <Settings className="h-3.5 w-3.5" />
+                    <Settings className="h-3.5 w-3.5 text-indigo-400" />
                     Account Settings
                   </button>
                   <button
@@ -311,16 +311,16 @@ export default function DashboardPage() {
                       setActiveTab("builds");
                       setShowProfileMenu(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-slate-800/60 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-[#121726] flex items-center gap-2 transition-colors"
                   >
-                    <Download className="h-3.5 w-3.5" />
+                    <Download className="h-3.5 w-3.5 text-indigo-400" />
                     Builds & Downloads
                   </button>
                 </div>
-                <div className="pt-2 border-t border-slate-800">
+                <div className="pt-2 border-t border-[#1c2233]">
                   <button
                     onClick={() => logout()}
-                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 flex items-center gap-2"
+                    className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 flex items-center gap-2 transition-colors"
                   >
                     <LogOut className="h-3.5 w-3.5" />
                     Sign out
@@ -337,15 +337,15 @@ export default function DashboardPage() {
       {/* ============================================================== */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Sidebar Navigation */}
-        <aside className="w-64 border-r border-slate-800/80 bg-[#090d16] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
+        <aside className="w-64 border-r border-[#1c2233] bg-[#090d16] p-4 flex flex-col justify-between shrink-0 hidden md:flex">
           <div className="space-y-1.5">
             {/* Dashboard Nav Item */}
             <button
               onClick={() => setActiveTab("dashboard")}
               className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
                 activeTab === "dashboard"
-                  ? "bg-[#4f46e5] text-white shadow-lg shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-white hover:bg-[#131929]"
+                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
+                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
               }`}
             >
               <Home className="h-5 w-5" />
@@ -357,8 +357,8 @@ export default function DashboardPage() {
               onClick={() => setActiveTab("apps")}
               className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
                 activeTab === "apps"
-                  ? "bg-[#4f46e5] text-white shadow-lg shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-white hover:bg-[#131929]"
+                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
+                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
               }`}
             >
               <Smartphone className="h-5 w-5" />
@@ -370,8 +370,8 @@ export default function DashboardPage() {
               onClick={() => setActiveTab("builds")}
               className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
                 activeTab === "builds"
-                  ? "bg-[#4f46e5] text-white shadow-lg shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-white hover:bg-[#131929]"
+                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
+                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
               }`}
             >
               <Download className="h-5 w-5" />
@@ -380,13 +380,13 @@ export default function DashboardPage() {
           </div>
 
           {/* Bottom Settings Nav Item */}
-          <div className="pt-4 border-t border-slate-800/80">
+          <div className="pt-4 border-t border-[#1c2233]">
             <button
               onClick={() => setActiveTab("settings")}
               className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-medium text-sm transition-all ${
                 activeTab === "settings"
-                  ? "bg-[#4f46e5] text-white shadow-lg shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-white hover:bg-[#131929]"
+                  ? "bg-[#4f46e5] text-white shadow-md shadow-indigo-600/25"
+                  : "text-slate-400 hover:text-white hover:bg-[#121726]"
               }`}
             >
               <Settings className="h-5 w-5" />
@@ -396,7 +396,7 @@ export default function DashboardPage() {
         </aside>
 
         {/* Main Content Viewport */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8 bg-[#080c14]">
+        <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8 bg-[#080b11]">
           <div className="max-w-7xl mx-auto space-y-6">
             {/* TAB 1: MAIN DASHBOARD VIEW (MATCHING THE SCREENSHOT) */}
             {activeTab === "dashboard" && (
@@ -412,16 +412,19 @@ export default function DashboardPage() {
                   {/* Left Column (Main Stage) */}
                   <div className="xl:col-span-8 space-y-6">
                     {/* Welcome Banner Card */}
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#171b36] via-[#151932] to-[#12162b] border border-indigo-900/40 p-6 sm:p-7 shadow-xl shadow-indigo-950/20 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
-                      <div className="flex items-center gap-4.5">
-                        <div className="h-16 w-16 rounded-full bg-[#5b51d8] flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-indigo-700/30 ring-4 ring-indigo-500/15 shrink-0">
+                    <div className="relative overflow-hidden rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 sm:p-7 shadow-lg flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+                      {/* Subtle ambient accent glow */}
+                      <div className="absolute -right-12 -top-12 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+
+                      <div className="flex items-center gap-4 relative z-10">
+                        <div className="h-14 w-14 rounded-2xl bg-[#4f46e5] flex items-center justify-center text-white text-2xl font-bold shadow-md shadow-indigo-600/25 ring-4 ring-indigo-500/15 shrink-0">
                           {userInitial}
                         </div>
                         <div>
                           <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                             Welcome back, {currentUser.name}
                           </h2>
-                          <p className="text-xs sm:text-sm text-slate-300 mt-1">
+                          <p className="text-xs sm:text-sm text-slate-400 mt-1">
                             Manage your mobile apps, track builds, and grow your business.
                           </p>
                         </div>
@@ -430,62 +433,62 @@ export default function DashboardPage() {
                       {/* Sign Out Button */}
                       <button
                         onClick={() => logout()}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-200 bg-[#131929]/80 border border-slate-700/70 hover:bg-slate-800 hover:text-white transition-all shadow-sm shrink-0 self-start sm:self-auto"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-300 bg-[#121726] border border-[#1c2233] hover:bg-slate-800 hover:text-white transition-all shadow-sm shrink-0 self-start sm:self-auto relative z-10"
                       >
-                        <LogOut className="h-4 w-4" />
+                        <LogOut className="h-4 w-4 text-slate-400" />
                         <span>Sign out</span>
                       </button>
                     </div>
 
                     {/* 3 Stat Cards Row */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                       {/* Stat 1: Mobile Apps */}
-                      <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-5 shadow-md flex items-center gap-4 hover:border-slate-700/80 transition-all">
-                        <div className="h-12 w-12 rounded-xl bg-[#0c1a3a] border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+                      <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-5 shadow-sm flex items-center gap-4 hover:border-slate-700 transition-all">
+                        <div className="h-12 w-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
                           <Smartphone className="h-6 w-6" />
                         </div>
                         <div>
                           <p className="text-xs font-medium text-slate-400">Mobile Apps</p>
-                          <h3 className="text-2xl font-bold text-white mt-0.5">{displayApps.length}</h3>
-                          <p className="text-xs text-slate-500 mt-0.5">Total apps created</p>
+                          <h3 className="text-2xl font-extrabold text-white mt-0.5 leading-none">{displayApps.length}</h3>
+                          <p className="text-[11px] text-slate-500 mt-1">Total apps created</p>
                         </div>
                       </div>
 
                       {/* Stat 2: Successful Builds */}
-                      <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-5 shadow-md flex items-center gap-4 hover:border-slate-700/80 transition-all">
-                        <div className="h-12 w-12 rounded-xl bg-[#0a231b] border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                      <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-5 shadow-sm flex items-center gap-4 hover:border-slate-700 transition-all">
+                        <div className="h-12 w-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
                           <Download className="h-6 w-6" />
                         </div>
                         <div>
                           <p className="text-xs font-medium text-slate-400">Successful Builds</p>
-                          <h3 className="text-2xl font-bold text-white mt-0.5">12</h3>
-                          <p className="text-xs text-slate-500 mt-0.5">Completed builds</p>
+                          <h3 className="text-2xl font-extrabold text-white mt-0.5 leading-none">12</h3>
+                          <p className="text-[11px] text-slate-500 mt-1">Completed builds</p>
                         </div>
                       </div>
 
                       {/* Stat 3: Pending Builds */}
-                      <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-5 shadow-md flex items-center gap-4 hover:border-slate-700/80 transition-all">
-                        <div className="h-12 w-12 rounded-xl bg-[#281a0b] border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                      <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-5 shadow-sm flex items-center gap-4 hover:border-slate-700 transition-all">
+                        <div className="h-12 w-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
                           <Clock className="h-6 w-6" />
                         </div>
                         <div>
                           <p className="text-xs font-medium text-slate-400">Pending Builds</p>
-                          <h3 className="text-2xl font-bold text-white mt-0.5">1</h3>
-                          <p className="text-xs text-slate-500 mt-0.5">Builds in queue</p>
+                          <h3 className="text-2xl font-extrabold text-white mt-0.5 leading-none">1</h3>
+                          <p className="text-[11px] text-slate-500 mt-1">Builds in queue</p>
                         </div>
                       </div>
                     </div>
 
                     {/* Recent Activity Table Card */}
-                    <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-6 shadow-md">
-                      <div className="flex items-center justify-between">
+                    <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm">
+                      <div className="flex items-center justify-between pb-4 border-b border-[#1c2233]">
                         <div>
-                          <h3 className="text-lg font-bold text-white">Recent Activity</h3>
+                          <h3 className="text-base font-bold text-white tracking-wide">Recent Activity</h3>
                           <p className="text-xs text-slate-400 mt-0.5">Your latest apps and build activity</p>
                         </div>
                         <button
                           onClick={() => setActiveTab("apps")}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 bg-[#131929] border border-slate-700/60 hover:text-white hover:border-slate-600 transition-all"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 hover:text-indigo-300 hover:bg-indigo-500/15 transition-all"
                         >
                           <span>View All</span>
                           <ArrowRight className="h-3.5 w-3.5" />
@@ -493,22 +496,22 @@ export default function DashboardPage() {
                       </div>
 
                       {/* Activity Table */}
-                      <div className="mt-5 overflow-x-auto">
+                      <div className="mt-4 overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                           <thead>
-                            <tr className="border-b border-slate-800/80 text-xs font-medium text-slate-400">
-                              <th className="pb-3 pr-4 font-medium">App Name</th>
-                              <th className="pb-3 px-4 font-medium">Platform</th>
-                              <th className="pb-3 px-4 font-medium">Status</th>
-                              <th className="pb-3 px-4 font-medium">Updated</th>
-                              <th className="pb-3 pl-4 font-medium text-right">Actions</th>
+                            <tr className="border-b border-[#1c2233] text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                              <th className="pb-3 pr-4 font-semibold">App Name</th>
+                              <th className="pb-3 px-4 font-semibold">Platform</th>
+                              <th className="pb-3 px-4 font-semibold">Status</th>
+                              <th className="pb-3 px-4 font-semibold">Updated</th>
+                              <th className="pb-3 pl-4 font-semibold text-right">Actions</th>
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-slate-800/40 text-sm">
+                          <tbody className="divide-y divide-[#182030] text-sm">
                             {displayApps.slice(0, 3).map((app) => (
-                              <tr key={app.id} className="hover:bg-slate-800/20 transition-colors group">
+                              <tr key={app.id} className="hover:bg-[#121726]/60 transition-colors group">
                                 {/* App Name Column */}
-                                <td className="py-4 pr-4">
+                                <td className="py-3.5 pr-4">
                                   <div className="flex items-center gap-3">
                                     <div
                                       className={`h-10 w-10 rounded-xl border flex items-center justify-center shrink-0 ${app.iconBg}`}
@@ -520,7 +523,7 @@ export default function DashboardPage() {
                                     <div>
                                       <Link
                                         href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}
-                                        className="font-semibold text-white hover:text-indigo-400 transition-colors block"
+                                        className="font-semibold text-white hover:text-indigo-400 transition-colors block text-sm"
                                       >
                                         {app.name}
                                       </Link>
@@ -532,18 +535,18 @@ export default function DashboardPage() {
                                 </td>
 
                                 {/* Platform Badges Column */}
-                                <td className="py-4 px-4 whitespace-nowrap">
+                                <td className="py-3.5 px-4 whitespace-nowrap">
                                   <div className="flex items-center gap-2">
                                     {app.platforms.includes("android") && (
-                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#131929] border border-slate-700/60 text-xs font-medium text-slate-200">
-                                        <span className="text-[#22c55e]">
+                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
+                                        <span className="text-emerald-400">
                                           <AndroidIcon className="h-3.5 w-3.5" />
                                         </span>
                                         <span>Android</span>
                                       </span>
                                     )}
                                     {app.platforms.includes("ios") && (
-                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#131929] border border-slate-700/60 text-xs font-medium text-slate-200">
+                                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
                                         <AppleIcon className="h-3.5 w-3.5 text-white" />
                                         <span>iOS</span>
                                       </span>
@@ -552,41 +555,41 @@ export default function DashboardPage() {
                                 </td>
 
                                 {/* Status Column */}
-                                <td className="py-4 px-4 whitespace-nowrap">
+                                <td className="py-3.5 px-4 whitespace-nowrap">
                                   {app.status === "Ready" ? (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-[#0a231b] border border-emerald-500/30 text-emerald-400">
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
                                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                                       Ready
                                     </span>
                                   ) : (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-[#0c1a3a] border border-blue-500/30 text-blue-400">
-                                      <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
+                                      <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
                                       Building
                                     </span>
                                   )}
                                 </td>
 
                                 {/* Updated Column */}
-                                <td className="py-4 px-4 whitespace-nowrap text-xs text-slate-400">{app.updated}</td>
+                                <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-400">{app.updated}</td>
 
                                 {/* Actions Column */}
-                                <td className="py-4 pl-4 text-right relative">
+                                <td className="py-3.5 pl-4 text-right relative">
                                   <button
                                     onClick={() =>
                                       setActiveMenuAppId(activeMenuAppId === app.id ? null : app.id)
                                     }
                                     title="More options"
-                                    className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors inline-block"
+                                    className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#121726] transition-colors inline-block"
                                   >
                                     <MoreVertical className="h-4 w-4" />
                                   </button>
 
                                   {/* Three Dots Context Menu */}
                                   {activeMenuAppId === app.id && (
-                                    <div className="absolute right-2 top-12 w-48 rounded-xl bg-[#0b0f1a] border border-slate-800 shadow-xl py-1.5 z-30 text-left animate-in fade-in zoom-in-95 duration-100">
+                                    <div className="absolute right-2 top-12 w-48 rounded-xl bg-[#0e121d] border border-[#1c2233] shadow-xl py-1.5 z-30 text-left animate-in fade-in zoom-in-95 duration-100">
                                       <Link
                                         href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}
-                                        className="block px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-slate-800/60"
+                                        className="block px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-[#121726]"
                                       >
                                         Open Setup Wizard
                                       </Link>
@@ -595,13 +598,13 @@ export default function DashboardPage() {
                                           setActiveTab("builds");
                                           setActiveMenuAppId(null);
                                         }}
-                                        className="w-full text-left px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-slate-800/60"
+                                        className="w-full text-left px-3 py-2 text-xs text-slate-300 hover:text-white hover:bg-[#121726]"
                                       >
                                         View Build Logs
                                       </button>
                                       <Link
                                         href={`/dashboard/apps/${app.ulid}/setup/build`}
-                                        className="block px-3 py-2 text-xs text-indigo-400 hover:bg-slate-800/60"
+                                        className="block px-3 py-2 text-xs text-indigo-400 hover:bg-[#121726]"
                                       >
                                         Queue New Release
                                       </Link>
@@ -619,16 +622,20 @@ export default function DashboardPage() {
                   {/* Right Column (Side Panels) */}
                   <div className="xl:col-span-4 space-y-6">
                     {/* Quick Actions Card */}
-                    <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-6 shadow-md">
-                      <div className="h-11 w-11 rounded-xl bg-[#1a1c3d] border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                        <Zap className="h-5 w-5" />
+                    <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+                          <Zap className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h3 className="text-base font-bold text-white tracking-wide">Quick Actions</h3>
+                          <p className="text-xs text-slate-400 mt-0.5">Get started with common tasks.</p>
+                        </div>
                       </div>
-                      <h3 className="text-base font-bold text-white mt-3">Quick Actions</h3>
-                      <p className="text-xs text-slate-400 mt-1">Get started with common tasks.</p>
 
-                      <div className="mt-5 space-y-3">
+                      <div className="space-y-3 pt-1">
                         <Link href="/dashboard/apps/new" className="block">
-                          <button className="w-full bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all active:scale-[0.99] text-sm">
+                          <button className="w-full bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold py-3 px-4 rounded-xl shadow-md shadow-indigo-600/25 flex items-center justify-center gap-2 transition-all active:scale-[0.99] text-xs">
                             <Plus className="h-4 w-4" />
                             <span>Create New App</span>
                           </button>
@@ -636,57 +643,60 @@ export default function DashboardPage() {
 
                         <button
                           onClick={() => setActiveTab("builds")}
-                          className="w-full bg-[#131929] hover:bg-slate-800 text-slate-200 border border-slate-700/60 font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.99] text-sm"
+                          className="w-full bg-[#121726] hover:bg-slate-800 text-slate-200 border border-[#1c2233] hover:border-slate-700 font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.99] text-xs"
                         >
-                          <Download className="h-4 w-4" />
+                          <Download className="h-4 w-4 text-slate-400" />
                           <span>View Builds</span>
                         </button>
                       </div>
                     </div>
 
                     {/* Getting Started Card */}
-                    <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-6 shadow-md">
+                    <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
                       <div className="flex items-start gap-3">
-                        <div className="h-11 w-11 rounded-xl bg-[#1a1c3d] border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0">
+                        <div className="h-10 w-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
                           <BookOpen className="h-5 w-5" />
                         </div>
                         <div>
-                          <h3 className="text-base font-bold text-white">Getting Started</h3>
+                          <h3 className="text-base font-bold text-white tracking-wide">Getting Started</h3>
                           <p className="text-xs text-slate-400 mt-0.5">2 of 3 tasks complete</p>
                         </div>
                       </div>
 
                       {/* Progress Bar */}
-                      <div className="flex items-center gap-3 mt-5">
-                        <div className="flex-1 h-2 rounded-full bg-slate-800 overflow-hidden">
-                          <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-400 w-[67%]" />
+                      <div className="space-y-1.5 pt-1">
+                        <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+                          <span>Progress</span>
+                          <span className="text-white font-mono">67%</span>
                         </div>
-                        <span className="text-xs font-bold text-slate-300">67%</span>
+                        <div className="w-full h-2 rounded-full bg-[#121726] border border-[#1c2233] overflow-hidden">
+                          <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 w-[67%]" />
+                        </div>
                       </div>
 
                       {/* Tasks Checklist */}
-                      <div className="space-y-3.5 mt-5">
+                      <div className="space-y-3 pt-2">
                         <div className="flex items-center gap-3 text-slate-300">
-                          <div className="h-5 w-5 rounded-full bg-[#4f46e5] flex items-center justify-center text-white shrink-0">
+                          <div className="h-5 w-5 rounded-full bg-[#4f46e5] flex items-center justify-center text-white shrink-0 shadow-xs">
                             <Check className="h-3 w-3 stroke-[3]" />
                           </div>
-                          <span className="text-xs font-medium line-through decoration-slate-500/50">
+                          <span className="text-xs font-medium text-slate-400 line-through">
                             Create your first app
                           </span>
                         </div>
 
                         <div className="flex items-center gap-3 text-slate-300">
-                          <div className="h-5 w-5 rounded-full bg-[#4f46e5] flex items-center justify-center text-white shrink-0">
+                          <div className="h-5 w-5 rounded-full bg-[#4f46e5] flex items-center justify-center text-white shrink-0 shadow-xs">
                             <Check className="h-3 w-3 stroke-[3]" />
                           </div>
-                          <span className="text-xs font-medium line-through decoration-slate-500/50">
+                          <span className="text-xs font-medium text-slate-400 line-through">
                             Build your app
                           </span>
                         </div>
 
                         <div className="flex items-center gap-3 text-slate-400">
                           <div className="h-5 w-5 rounded-full border-2 border-slate-600 flex items-center justify-center shrink-0" />
-                          <span className="text-xs font-medium">Download and publish</span>
+                          <span className="text-xs font-medium text-slate-300">Download and publish</span>
                         </div>
                       </div>
                     </div>
@@ -706,7 +716,7 @@ export default function DashboardPage() {
                     </p>
                   </div>
                   <Link href="/dashboard/apps/new">
-                    <button className="bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-600/30 flex items-center gap-2 text-sm">
+                    <button className="bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold py-2.5 px-4.5 rounded-xl shadow-md shadow-indigo-600/25 flex items-center gap-2 text-xs transition-all active:scale-95">
                       <Plus className="h-4 w-4" />
                       <span>Create New App</span>
                     </button>
@@ -717,7 +727,7 @@ export default function DashboardPage() {
                   {displayApps.map((app) => (
                     <div
                       key={app.id}
-                      className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-6 flex flex-col justify-between hover:border-indigo-500/40 transition-all hover:shadow-xl hover:shadow-indigo-950/20"
+                      className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 flex flex-col justify-between hover:border-indigo-500/40 transition-all hover:shadow-lg hover:shadow-indigo-950/20"
                     >
                       <div className="space-y-4">
                         <div className="flex items-start justify-between">
@@ -735,26 +745,26 @@ export default function DashboardPage() {
                         </div>
 
                         <div className="flex items-center gap-2 pt-2">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#131929] border border-slate-700/60 text-xs font-medium text-slate-200">
-                            <AndroidIcon className="h-3.5 w-3.5 text-[#22c55e]" />
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
+                            <AndroidIcon className="h-3.5 w-3.5 text-emerald-400" />
                             <span>Android</span>
                           </span>
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#131929] border border-slate-700/60 text-xs font-medium text-slate-200">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#121726] border border-[#1c2233] text-xs font-medium text-slate-300">
                             <AppleIcon className="h-3.5 w-3.5 text-white" />
                             <span>iOS</span>
                           </span>
                         </div>
                       </div>
 
-                      <div className="pt-6 border-t border-slate-800/80 mt-6 space-y-3">
+                      <div className="pt-5 border-t border-[#1c2233] mt-5 space-y-3">
                         <div className="flex items-center justify-between text-xs text-slate-400">
                           <span>Setup Step</span>
-                          <span className="font-semibold text-slate-200 uppercase tracking-wider text-[11px]">
+                          <span className="font-semibold text-slate-300 uppercase tracking-wider text-[11px]">
                             {app.setup_step || "Platform"}
                           </span>
                         </div>
                         <Link href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}>
-                          <button className="w-full bg-[#131929] hover:bg-[#1a2238] text-white border border-slate-700/60 font-medium py-2 px-4 rounded-xl flex items-between justify-between transition-colors text-xs">
+                          <button className="w-full bg-[#121726] hover:bg-[#182030] text-slate-200 hover:text-white border border-[#1c2233] hover:border-slate-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between transition-colors text-xs">
                             <span>Continue Setup</span>
                             <ArrowRight className="h-3.5 w-3.5" />
                           </button>
@@ -778,53 +788,53 @@ export default function DashboardPage() {
                   </div>
                   <button
                     onClick={() => setActiveTab("dashboard")}
-                    className="bg-[#131929] hover:bg-slate-800 text-slate-300 font-semibold py-2 px-4 rounded-xl border border-slate-700/60 flex items-center gap-2 text-xs"
+                    className="bg-[#121726] hover:bg-slate-800 text-slate-300 font-semibold py-2 px-4 rounded-xl border border-[#1c2233] flex items-center gap-2 text-xs transition-colors"
                   >
                     <ArrowRight className="h-3.5 w-3.5 rotate-180" />
                     <span>Back to Dashboard</span>
                   </button>
                 </div>
 
-                <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-6 shadow-md overflow-x-auto">
+                <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-slate-800/80 text-xs font-medium text-slate-400">
-                        <th className="pb-3 pr-4 font-medium">Build ID & App</th>
-                        <th className="pb-3 px-4 font-medium">Version</th>
-                        <th className="pb-3 px-4 font-medium">Target</th>
-                        <th className="pb-3 px-4 font-medium">Status</th>
-                        <th className="pb-3 px-4 font-medium">Created</th>
-                        <th className="pb-3 pl-4 font-medium text-right">Artifact</th>
+                      <tr className="border-b border-[#1c2233] text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                        <th className="pb-3 pr-4 font-semibold">Build ID & App</th>
+                        <th className="pb-3 px-4 font-semibold">Version</th>
+                        <th className="pb-3 px-4 font-semibold">Target</th>
+                        <th className="pb-3 px-4 font-semibold">Status</th>
+                        <th className="pb-3 px-4 font-semibold">Created</th>
+                        <th className="pb-3 pl-4 font-semibold text-right">Artifact</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800/40 text-sm">
+                    <tbody className="divide-y divide-[#182030] text-sm">
                       {buildsList.map((b) => (
-                        <tr key={b.id} className="hover:bg-slate-800/20 transition-colors">
-                          <td className="py-4 pr-4">
+                        <tr key={b.id} className="hover:bg-[#121726]/60 transition-colors">
+                          <td className="py-3.5 pr-4">
                             <div className="font-semibold text-white">{b.appName}</div>
                             <span className="text-xs text-slate-500 font-mono">{b.id}</span>
                           </td>
-                          <td className="py-4 px-4 text-xs font-mono text-slate-300">{b.version}</td>
-                          <td className="py-4 px-4 text-xs text-slate-300">{b.platform}</td>
-                          <td className="py-4 px-4">
+                          <td className="py-3.5 px-4 text-xs font-mono text-slate-300">{b.version}</td>
+                          <td className="py-3.5 px-4 text-xs text-slate-300">{b.platform}</td>
+                          <td className="py-3.5 px-4">
                             {b.status === "Successful" ? (
-                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#0a231b] border border-emerald-500/30 text-emerald-400">
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
                                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                                 Successful
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#0c1a3a] border border-blue-500/30 text-blue-400">
-                                <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
+                                <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />
                                 In Progress
                               </span>
                             )}
                           </td>
-                          <td className="py-4 px-4 text-xs text-slate-400">{b.date}</td>
-                          <td className="py-4 pl-4 text-right">
+                          <td className="py-3.5 px-4 text-xs text-slate-400">{b.date}</td>
+                          <td className="py-3.5 pl-4 text-right">
                             {b.downloadUrl ? (
                               <a
                                 href={b.downloadUrl}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#4f46e5] hover:bg-[#4338ca] text-white text-xs font-medium transition-all shadow-md shadow-indigo-600/20"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#4f46e5] hover:bg-[#4338ca] text-white text-xs font-semibold transition-all shadow-md shadow-indigo-600/20"
                               >
                                 <Download className="h-3.5 w-3.5" />
                                 <span>Download ({b.size})</span>
@@ -852,7 +862,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-6 space-y-4">
+                  <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
                     <h3 className="font-bold text-white text-base flex items-center gap-2">
                       <Shield className="h-5 w-5 text-indigo-400" />
                       <span>Tenant Profile</span>
@@ -873,7 +883,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl bg-[#0f1422] border border-slate-800/80 p-6 space-y-4">
+                  <div className="rounded-2xl bg-[#0e121d] border border-[#1c2233] p-6 shadow-sm space-y-4">
                     <h3 className="font-bold text-white text-base flex items-center gap-2">
                       <FileCode className="h-5 w-5 text-indigo-400" />
                       <span>Build Runner Keys</span>
@@ -881,11 +891,11 @@ export default function DashboardPage() {
                     <p className="text-xs text-slate-400">
                       Automate Flutter app compilation using our secure webhook integration API.
                     </p>
-                    <div className="p-3 rounded-xl bg-[#131929] border border-slate-800 flex items-center justify-between">
+                    <div className="p-3 rounded-xl bg-[#121726] border border-[#1c2233] flex items-center justify-between">
                       <span className="text-xs font-mono text-slate-300">wia_live_key_998492048</span>
                       <button
                         onClick={() => alert("API Key copied to clipboard")}
-                        className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
+                        className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold"
                       >
                         Copy
                       </button>
@@ -903,8 +913,8 @@ export default function DashboardPage() {
       {/* ============================================================== */}
       {showSearchModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center pt-24 px-4 animate-in fade-in duration-150">
-          <div className="w-full max-w-xl rounded-2xl bg-[#0f1422] border border-slate-800 shadow-2xl overflow-hidden">
-            <div className="p-4 border-b border-slate-800 flex items-center gap-3">
+          <div className="w-full max-w-xl rounded-2xl bg-[#0e121d] border border-[#1c2233] shadow-2xl overflow-hidden">
+            <div className="p-4 border-b border-[#1c2233] flex items-center gap-3">
               <Search className="h-5 w-5 text-slate-400" />
               <input
                 type="text"
@@ -922,7 +932,7 @@ export default function DashboardPage() {
               </button>
             </div>
 
-            <div className="max-h-72 overflow-y-auto p-2 divide-y divide-slate-800/40">
+            <div className="max-h-72 overflow-y-auto p-2 divide-y divide-[#182030]">
               {filteredApps.length === 0 ? (
                 <div className="p-6 text-center text-xs text-slate-400">No matching apps found.</div>
               ) : (
@@ -931,7 +941,7 @@ export default function DashboardPage() {
                     key={app.id}
                     href={`/dashboard/apps/${app.ulid}/setup/${app.setup_step || "connect"}`}
                     onClick={() => setShowSearchModal(false)}
-                    className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-800/40 transition-colors"
+                    className="flex items-center justify-between p-3 rounded-xl hover:bg-[#121726] transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <div className={`h-8 w-8 rounded-lg border flex items-center justify-center ${app.iconBg}`}>
