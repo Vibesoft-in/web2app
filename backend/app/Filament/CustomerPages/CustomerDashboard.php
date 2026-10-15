@@ -214,15 +214,10 @@ class CustomerDashboard extends BaseDashboard
             return null;
         }
 
-        $path = $latestReady->artifact_path;
-        if (! $path || ! Storage::disk('local')->exists($path)) {
-            $candidate = "tenants/{$app->tenant_id}/apps/{$app->id}/builds/{$latestReady->ulid}/app-release.apk";
-            if (Storage::disk('local')->exists($candidate)) {
-                $path = $candidate;
-            }
-        }
+        $path = $latestReady->artifact_path ?: "tenants/{$app->tenant_id}/apps/{$app->id}/builds/{$latestReady->ulid}/app-release.apk";
+        $path = app(\App\Services\Build\ApkCustomizer::class)->ensureAppApk($app, $path);
 
-        if (! $path || ! Storage::disk('local')->exists($path)) {
+        if (! Storage::disk('local')->exists($path)) {
             Notification::make()
                 ->title('APK File Not Found')
                 ->body('The generated artifact file is not available on disk. Please trigger a new build.')

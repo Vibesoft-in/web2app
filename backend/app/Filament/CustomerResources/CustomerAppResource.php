@@ -304,31 +304,14 @@ class CustomerAppResource extends Resource
                             return null;
                         }
 
-                        $path = $latestReady->artifact_path;
-                        if (! $path || ! Storage::disk('local')->exists($path)) {
-                            $candidate = "tenants/{$record->tenant_id}/apps/{$record->id}/builds/{$latestReady->ulid}/app-release.apk";
-                            if (Storage::disk('local')->exists($candidate)) {
-                                $path = $candidate;
-                            }
+                        $path = $latestReady->artifact_path ?: "tenants/{$record->tenant_id}/apps/{$record->id}/builds/{$latestReady->ulid}/app-release.apk";
+                        $path = app(\App\Services\Build\ApkCustomizer::class)->ensureAppApk($record, $path);
+                        if ($latestReady->artifact_path !== $path) {
+                            $latestReady->artifact_path = $path;
+                            $latestReady->save();
                         }
 
-                        // Auto-upgrade legacy mock files to real signed APK
-                        if ($path && Storage::disk('local')->exists($path) && Storage::disk('local')->size($path) < 1000) {
-                            $templatePath = resource_path('templates/app-release.apk');
-                            if (file_exists($templatePath)) {
-                                Storage::disk('local')->put($path, (string) file_get_contents($templatePath));
-                            }
-                        } elseif (! $path || ! Storage::disk('local')->exists($path)) {
-                            $templatePath = resource_path('templates/app-release.apk');
-                            if (file_exists($templatePath)) {
-                                $path = "tenants/{$record->tenant_id}/apps/{$record->id}/builds/{$latestReady->ulid}/app-release.apk";
-                                Storage::disk('local')->put($path, (string) file_get_contents($templatePath));
-                                $latestReady->artifact_path = $path;
-                                $latestReady->save();
-                            }
-                        }
-
-                        if (! $path || ! Storage::disk('local')->exists($path)) {
+                        if (! Storage::disk('local')->exists($path)) {
                             Notification::make()->title('APK file missing from storage')->danger()->send();
 
                             return null;

@@ -135,6 +135,9 @@ class BuildWorker
             Storage::disk('local')->put($apkStoragePath, $artifactBytes);
             Storage::disk('local')->put($aabStoragePath, $artifactBytes);
 
+            // Tailor and sign APK specifically for the target app and website
+            app(ApkCustomizer::class)->ensureAppApk($app, $apkStoragePath);
+
             $logs[] = "[4/5] Uploaded release APK to secure tenant storage: {$apkStoragePath}";
             $logs[] = "[4/5] Uploaded release AAB to secure tenant storage: {$aabStoragePath}";
             $logs[] = "[5/5] Build #{$build->version_code} completed successfully!";

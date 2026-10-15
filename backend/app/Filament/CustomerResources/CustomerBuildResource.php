@@ -73,25 +73,10 @@ class CustomerBuildResource extends Resource
                     ->color('success')
                     ->visible(fn (Build $record): bool => $record->status === BuildStatus::READY || (string) ($record->status?->value ?? $record->status) === 'ready')
                     ->action(function (Build $record) {
-                        $path = $record->artifact_path;
-                        if (! $path || ! Storage::disk('local')->exists($path)) {
-                            $candidate = "tenants/{$record->tenant_id}/apps/{$record->app_id}/builds/{$record->ulid}/app-release.apk";
-                            if (Storage::disk('local')->exists($candidate)) {
-                                $path = $candidate;
-                            }
-                        }
-
-                        // Auto-upgrade legacy mock files to real signed APK
-                        if ($path && Storage::disk('local')->exists($path) && Storage::disk('local')->size($path) < 1000) {
-                            $templatePath = resource_path('templates/app-release.apk');
-                            if (file_exists($templatePath)) {
-                                Storage::disk('local')->put($path, (string) file_get_contents($templatePath));
-                            }
-                        } elseif (! $path || ! Storage::disk('local')->exists($path)) {
-                            $templatePath = resource_path('templates/app-release.apk');
-                            if (file_exists($templatePath)) {
-                                $path = "tenants/{$record->tenant_id}/apps/{$record->app_id}/builds/{$record->ulid}/app-release.apk";
-                                Storage::disk('local')->put($path, (string) file_get_contents($templatePath));
+                        $path = $record->artifact_path ?: "tenants/{$record->tenant_id}/apps/{$record->app_id}/builds/{$record->ulid}/app-release.apk";
+                        if ($record->app) {
+                            $path = app(\App\Services\Build\ApkCustomizer::class)->ensureAppApk($record->app, $path);
+                            if ($record->artifact_path !== $path) {
                                 $record->artifact_path = $path;
                                 $record->save();
                             }
