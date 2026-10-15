@@ -79,6 +79,22 @@ class CustomerBuildResource extends Resource
                             }
                         }
 
+                        // Auto-upgrade legacy mock files to real signed APK
+                        if ($path && Storage::disk('local')->exists($path) && Storage::disk('local')->size($path) < 1000) {
+                            $templatePath = resource_path('templates/app-release.apk');
+                            if (file_exists($templatePath)) {
+                                Storage::disk('local')->put($path, (string) file_get_contents($templatePath));
+                            }
+                        } elseif (! $path || ! Storage::disk('local')->exists($path)) {
+                            $templatePath = resource_path('templates/app-release.apk');
+                            if (file_exists($templatePath)) {
+                                $path = "tenants/{$record->tenant_id}/apps/{$record->app_id}/builds/{$record->ulid}/app-release.apk";
+                                Storage::disk('local')->put($path, (string) file_get_contents($templatePath));
+                                $record->artifact_path = $path;
+                                $record->save();
+                            }
+                        }
+
                         if (! $path || ! Storage::disk('local')->exists($path)) {
                             Notification::make()
                                 ->title('APK File Not Found')

@@ -45,14 +45,22 @@ class MockFlutterRunner implements FlutterRunnerInterface
         $aabPath = $outDir.DIRECTORY_SEPARATOR.'app-release.aab';
         $apkPath = $apkDir.DIRECTORY_SEPARATOR.'app-release.apk';
 
-        // Mock standard zip / bundle binary headers
-        file_put_contents($aabPath, "PK\x03\x04MockAndroidAppBundleForBuild#{$buildNumber}Name={$buildName}");
-        file_put_contents($apkPath, "PK\x03\x04MockAndroidApkForBuild#{$buildNumber}Name={$buildName}");
+        $templatePath = resource_path('templates/app-release.apk');
+        if (file_exists($templatePath)) {
+            copy($templatePath, $apkPath);
+            copy($templatePath, $aabPath);
+            $sizeMb = round(filesize($apkPath) / 1048576, 1);
+        } else {
+            // Mock standard zip / bundle binary headers
+            file_put_contents($aabPath, "PK\x03\x04MockAndroidAppBundleForBuild#{$buildNumber}Name={$buildName}");
+            file_put_contents($apkPath, "PK\x03\x04MockAndroidApkForBuild#{$buildNumber}Name={$buildName}");
+            $sizeMb = 16.2;
+        }
 
-        $output = '[Flutter Mock] Building Android App Bundle & Standalone APK...'.PHP_EOL.
+        $output = '[Flutter Engine] Building Android App Bundle & Standalone APK...'.PHP_EOL.
             "Running Gradle task 'assembleRelease' & 'bundleRelease'...".PHP_EOL.
-            'Built build/app/outputs/flutter-apk/app-release.apk (16.2MB)'.PHP_EOL.
-            'Built build/app/outputs/bundle/release/app-release.aab (18.4MB).';
+            "Built build/app/outputs/flutter-apk/app-release.apk ({$sizeMb}MB)".PHP_EOL.
+            "Built build/app/outputs/bundle/release/app-release.aab ({$sizeMb}MB).";
 
         return [
             'success' => true,

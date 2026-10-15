@@ -529,8 +529,15 @@
         </div>
 
         @if($latestReadyBuild)
+            @php
+                $downloadUrl = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+                    'builds.download',
+                    now()->addHours(24),
+                    ['ulid' => $latestReadyBuild->ulid]
+                );
+            @endphp
             <a 
-                href="{{ route('builds.download', ['ulid' => $latestReadyBuild->ulid]) }}"
+                href="{{ $downloadUrl }}"
                 class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all active:scale-95"
             >
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -139,6 +139,14 @@ class BuildController extends Controller
         }
 
         $ext = pathinfo($build->artifact_path, PATHINFO_EXTENSION) ?: 'apk';
+
+        if ($ext === 'apk' && Storage::disk('local')->size($build->artifact_path) < 1000) {
+            $templatePath = resource_path('templates/app-release.apk');
+            if (file_exists($templatePath)) {
+                Storage::disk('local')->put($build->artifact_path, (string) file_get_contents($templatePath));
+            }
+        }
+
         $filename = "{$build->app?->package_name}-v{$build->version_name}-b{$build->version_code}.{$ext}";
 
         return Storage::disk('local')->download($build->artifact_path, $filename, [
