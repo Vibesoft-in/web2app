@@ -47,6 +47,7 @@ class CreateCustomerApp extends CreateRecord
             ]);
 
             // 2. Setup initial published configuration
+            $logoUrl = ! empty($data['logo_url']) ? $data['logo_url'] : (! empty($data['logo_image']) ? '/storage/'.$data['logo_image'] : null);
             $record->configs()->create([
                 'tenant_id' => $record->tenant_id,
                 'version' => 1,
@@ -55,6 +56,9 @@ class CreateCustomerApp extends CreateRecord
                     'theme' => [
                         'preset' => $data['theme_preset'] ?? 'minimalist',
                         'primary_color' => $data['primary_color'] ?? '#6366f1',
+                        'secondary_color' => $data['secondary_color'] ?? '#10b981',
+                        'logo_url' => $logoUrl,
+                        'promo_banner_text' => $data['promo_banner_text'] ?? '30% OFF Your First Mobile Order',
                     ],
                     'app' => [
                         'name' => $record->name,

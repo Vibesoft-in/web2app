@@ -98,18 +98,67 @@ class CustomerAppResource extends Resource
                         ->description('Mobile visual design & theme preset')
                         ->icon('heroicon-o-paint-brush')
                         ->schema([
-                            Forms\Components\Radio::make('theme_preset')
-                                ->label('Select Theme Preset')
-                                ->options([
-                                    'minimalist' => 'Theme A: Modern Minimalist (Clean card layouts, subtle shadows, Inter font)',
-                                    'boutique' => 'Theme B: Boutique Glamour (Vibrant accents, rounded cards, Poppins font)',
-                                    'apex' => 'Theme C: Apex Dark Luxury (Sleek dark mode luxury palette with Outfit typography)',
-                                ])
-                                ->default('minimalist'),
-                            Forms\Components\ColorPicker::make('primary_color')
-                                ->label('Primary Brand Color')
-                                ->default('#6366f1'),
-                        ])->columns(1),
+                            Forms\Components\Group::make([
+                                Forms\Components\Section::make('Visual Theme Preset')
+                                    ->description('Choose an aesthetic foundation tailored for your store')
+                                    ->icon('heroicon-o-swatch')
+                                    ->schema([
+                                        Forms\Components\Radio::make('theme_preset')
+                                            ->label('Select Theme Preset')
+                                            ->options([
+                                                'minimalist' => 'Theme A: Modern Minimalist (Clean card layouts, subtle shadows, Inter font)',
+                                                'boutique' => 'Theme B: Boutique Glamour (Vibrant accents, rounded cards, Poppins font)',
+                                                'apex' => 'Theme C: Apex Dark Luxury (Sleek dark mode luxury palette with Outfit typography)',
+                                            ])
+                                            ->default('minimalist')
+                                            ->live(),
+                                    ]),
+
+                                Forms\Components\Section::make('Brand Colors & Palette')
+                                    ->description('Customize your brand accent tones')
+                                    ->icon('heroicon-o-paint-brush')
+                                    ->schema([
+                                        Forms\Components\ColorPicker::make('primary_color')
+                                            ->label('Primary Brand Color')
+                                            ->default('#6366f1')
+                                            ->live(),
+                                        Forms\Components\ColorPicker::make('secondary_color')
+                                            ->label('Secondary / Accent Color')
+                                            ->default('#10b981')
+                                            ->live(),
+                                    ])->columns(2),
+
+                                Forms\Components\Section::make('Logo & In-App Branding')
+                                    ->description('Upload store logo or specify promotional headline')
+                                    ->icon('heroicon-o-photo')
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('logo_image')
+                                            ->label('App Logo / Icon')
+                                            ->image()
+                                            ->disk('public')
+                                            ->directory('app-logos')
+                                            ->visibility('public')
+                                            ->imagePreviewHeight('100')
+                                            ->helperText('PNG or JPG recommended (at least 512x512px). Displayed live in app header and splash.')
+                                            ->live(),
+                                        Forms\Components\TextInput::make('logo_url')
+                                            ->label('Or External Logo Image URL')
+                                            ->placeholder('https://yourstore.com/logo.png')
+                                            ->url()
+                                            ->live(onBlur: true),
+                                        Forms\Components\TextInput::make('promo_banner_text')
+                                            ->label('Hero Promotional Banner Headline')
+                                            ->placeholder('e.g. 30% OFF Your First Mobile Order')
+                                            ->default('30% OFF Your First Mobile Order')
+                                            ->maxLength(100)
+                                            ->live(debounce: 400),
+                                    ])->columns(1),
+                            ])->columnSpan(['default' => 12, 'xl' => 7]),
+
+                            Forms\Components\Group::make([
+                                Forms\Components\View::make('filament.customer.wizard-phone-preview'),
+                            ])->columnSpan(['default' => 12, 'xl' => 5]),
+                        ])->columns(12),
 
                     Forms\Components\Wizard\Step::make('Build Options')
                         ->description('Distribution & notification settings')
