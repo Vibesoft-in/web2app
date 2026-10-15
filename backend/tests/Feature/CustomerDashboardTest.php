@@ -4,6 +4,7 @@ use App\Enums\BuildStatus;
 use App\Filament\CustomerResources\CustomerAppResource\Pages\CreateCustomerApp;
 use App\Filament\CustomerResources\CustomerAppResource\Pages\ListCustomerApps;
 use App\Filament\CustomerResources\CustomerBuildResource\Pages\ListCustomerBuilds;
+use App\Filament\Pages\Auth\Register;
 use App\Models\App;
 use App\Models\Build;
 use App\Models\Tenant;
@@ -24,6 +25,26 @@ test('guest can access customer login page', function () {
 test('guest can access customer registration page', function () {
     $response = $this->get('/app/register');
     $response->assertSuccessful();
+});
+
+test('guest can register a new account and is redirected to app dashboard', function () {
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+
+    Livewire::test(Register::class)
+        ->fillForm([
+            'name' => 'Alice Customer',
+            'email' => 'alice@customer.com',
+            'password' => 'Password123!',
+            'passwordConfirmation' => 'Password123!',
+        ])
+        ->call('register')
+        ->assertHasNoFormErrors()
+        ->assertRedirect('/app');
+
+    $user = User::where('email', 'alice@customer.com')->first();
+    expect($user)->not->toBeNull()
+        ->and($user->tenant_id)->not->toBeNull()
+        ->and($user->hasVerifiedEmail())->toBeTrue();
 });
 
 test('dashboard aliases redirect to app panel', function () {

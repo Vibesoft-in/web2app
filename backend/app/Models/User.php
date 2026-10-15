@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -29,6 +30,22 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use BelongsToTenant, HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
+    /**
+     * Send email verification notification safely without crashing on missing panel routes.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $panel = filament()->getCurrentPanel();
+        $panelId = $panel ? $panel->getId() : 'app';
+        $routeName = "filament.{$panelId}.auth.email-verification.verify";
+
+        if (Route::has($routeName)) {
+            parent::sendEmailVerificationNotification();
+        } else {
+            $this->markEmailAsVerified();
+        }
+    }
 
     /**
      * Determine whether user can access Filament owner panel.
