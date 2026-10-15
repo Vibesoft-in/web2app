@@ -3,18 +3,33 @@
     $thumbs = file_exists($thumbsFile) ? json_decode(file_get_contents($thumbsFile), true) : [];
     $sneakerImg = $thumbs['sneaker'] ?? asset('images/sneaker.jpg');
     $smartwatchImg = $thumbs['smartwatch'] ?? asset('images/smartwatch.jpg');
+    $initPreset = (isset($get) && is_callable($get) && $get('theme_preset')) ? $get('theme_preset') : 'minimalist';
+    $initPrimary = (isset($get) && is_callable($get) && $get('primary_color')) ? $get('primary_color') : '#6366F1';
+    $initSecondary = (isset($get) && is_callable($get) && $get('secondary_color')) ? $get('secondary_color') : '#06B6D4';
 @endphp
 
 <div 
     x-data="{
+        localPreset: '{{ $initPreset }}',
+        localPrimary: '{{ $initPrimary }}',
+        localSecondary: '{{ $initSecondary }}',
+
+        init() {
+            if ($wire && $wire.data) {
+                if ($wire.data.theme_preset) this.localPreset = $wire.data.theme_preset;
+                if ($wire.data.primary_color) this.localPrimary = $wire.data.primary_color;
+                if ($wire.data.secondary_color) this.localSecondary = $wire.data.secondary_color;
+            }
+        },
+
         get preset() {
-            return ($wire && $wire.data && $wire.data.theme_preset) ? $wire.data.theme_preset : 'minimalist';
+            return this.localPreset;
         },
         get primaryColor() {
-            return ($wire && $wire.data && $wire.data.primary_color) ? $wire.data.primary_color : '#6366F1';
+            return this.localPrimary || '#6366F1';
         },
         get secondaryColor() {
-            return ($wire && $wire.data && $wire.data.secondary_color) ? $wire.data.secondary_color : '#06B6D4';
+            return this.localSecondary || '#06B6D4';
         },
         get storeUrl() {
             return ($wire && $wire.data && $wire.data.store_url) ? $wire.data.store_url : '';
@@ -53,30 +68,38 @@
         },
 
         setTheme(theme) {
+            this.localPreset = theme;
+            let pColor = '#6366F1';
+            let sColor = '#06B6D4';
+            if (theme === 'boutique') {
+                pColor = '#F43F5E';
+                sColor = '#FB7185';
+            } else if (theme === 'apex') {
+                pColor = '#10B981';
+                sColor = '#06B6D4';
+            }
+            this.localPrimary = pColor;
+            this.localSecondary = sColor;
             if ($wire) {
                 $wire.set('data.theme_preset', theme);
-                if (theme === 'boutique') {
-                    $wire.set('data.primary_color', '#F43F5E');
-                    $wire.set('data.secondary_color', '#FB7185');
-                } else if (theme === 'apex') {
-                    $wire.set('data.primary_color', '#10B981');
-                    $wire.set('data.secondary_color', '#06B6D4');
-                } else {
-                    $wire.set('data.primary_color', '#6366F1');
-                    $wire.set('data.secondary_color', '#06B6D4');
-                }
+                $wire.set('data.primary_color', pColor);
+                $wire.set('data.secondary_color', sColor);
             }
         },
 
         setPrimary(color) {
+            let hex = (color || '').toUpperCase();
+            this.localPrimary = hex;
             if ($wire) {
-                $wire.set('data.primary_color', color.toUpperCase());
+                $wire.set('data.primary_color', hex);
             }
         },
 
         setSecondary(color) {
+            let hex = (color || '').toUpperCase();
+            this.localSecondary = hex;
             if ($wire) {
-                $wire.set('data.secondary_color', color.toUpperCase());
+                $wire.set('data.secondary_color', hex);
             }
         }
     }"
@@ -104,15 +127,15 @@
 
             <span style="font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 10px; display: block;">Select Theme Preset</span>
 
-            {{-- Preset Option A: Modern Minimalist (No Images, Sleek & Compact) --}}
+            {{-- Preset Option A: Modern Minimalist (No Images, No Color Dots, Clean & Sleek) --}}
             <div 
                 @click="setTheme('minimalist')"
-                style="border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; margin-bottom: 8px; box-sizing: border-box;"
+                style="border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; margin-bottom: 8px; box-sizing: border-box;"
                 :style="preset === 'minimalist' 
                     ? 'border: 1.5px solid #6366f1; background: rgba(99, 102, 241, 0.1); box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25);' 
                     : 'border: 1px solid #1e2433; background: #0c0f17;'"
             >
-                <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
                     {{-- Radio Indicator --}}
                     <div 
                         style="width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
@@ -124,27 +147,24 @@
                     </div>
                     <div>
                         <h4 style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme A: Modern Minimalist</h4>
-                        <p style="font-size: 11px; color: #94a3b8; margin: 2px 0 0 0;">Clean card layouts, subtle shadows, Inter font</p>
+                        <p style="font-size: 11px; color: #94a3b8; margin: 3px 0 0 0;">Clean card layouts, subtle shadows, Inter font</p>
                     </div>
                 </div>
 
-                {{-- Color Preview Dots (No bulky images) --}}
-                <div style="display: flex; align-items: center; gap: 5px; flex-shrink: 0;">
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #6366F1;"></span>
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #06B6D4;"></span>
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #FFFFFF; border: 1px solid #94a3b8;"></span>
+                <div x-show="preset === 'minimalist'" style="padding: 3px 8px; border-radius: 6px; background: rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;">
+                    Active
                 </div>
             </div>
 
-            {{-- Preset Option B: Boutique Glamour (No Images, Sleek & Compact) --}}
+            {{-- Preset Option B: Boutique Glamour (No Images, No Color Dots, Clean & Sleek) --}}
             <div 
                 @click="setTheme('boutique')"
-                style="border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; margin-bottom: 8px; box-sizing: border-box;"
+                style="border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; margin-bottom: 8px; box-sizing: border-box;"
                 :style="preset === 'boutique' 
                     ? 'border: 1.5px solid #f43f5e; background: rgba(244, 63, 94, 0.1); box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.25);' 
                     : 'border: 1px solid #1e2433; background: #0c0f17;'"
             >
-                <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
                     {{-- Radio Indicator --}}
                     <div 
                         style="width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
@@ -156,27 +176,24 @@
                     </div>
                     <div>
                         <h4 style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme B: Boutique Glamour</h4>
-                        <p style="font-size: 11px; color: #94a3b8; margin: 2px 0 0 0;">Vibrant accents, rounded cards, Poppins font</p>
+                        <p style="font-size: 11px; color: #94a3b8; margin: 3px 0 0 0;">Vibrant accents, rounded cards, Poppins font</p>
                     </div>
                 </div>
 
-                {{-- Color Preview Dots (No bulky images) --}}
-                <div style="display: flex; align-items: center; gap: 5px; flex-shrink: 0;">
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #F43F5E;"></span>
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #FB7185;"></span>
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #FEF3C7; border: 1px solid #f59e0b;"></span>
+                <div x-show="preset === 'boutique'" style="padding: 3px 8px; border-radius: 6px; background: rgba(244, 63, 94, 0.2); color: #fb7185; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;">
+                    Active
                 </div>
             </div>
 
-            {{-- Preset Option C: Apex Dark Luxury (No Images, Sleek & Compact) --}}
+            {{-- Preset Option C: Apex Dark Luxury (No Images, No Color Dots, Clean & Sleek) --}}
             <div 
                 @click="setTheme('apex')"
-                style="border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; box-sizing: border-box;"
+                style="border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; box-sizing: border-box;"
                 :style="preset === 'apex' 
                     ? 'border: 1.5px solid #10b981; background: rgba(16, 185, 129, 0.1); box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);' 
                     : 'border: 1px solid #1e2433; background: #0c0f17;'"
             >
-                <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 14px;">
                     {{-- Radio Indicator --}}
                     <div 
                         style="width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
@@ -188,15 +205,12 @@
                     </div>
                     <div>
                         <h4 style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme C: Apex Dark Luxury</h4>
-                        <p style="font-size: 11px; color: #94a3b8; margin: 2px 0 0 0;">Sleek dark mode luxury palette with Outfit typography</p>
+                        <p style="font-size: 11px; color: #94a3b8; margin: 3px 0 0 0;">Sleek dark mode luxury palette with Outfit typography</p>
                     </div>
                 </div>
 
-                {{-- Color Preview Dots (No bulky images) --}}
-                <div style="display: flex; align-items: center; gap: 5px; flex-shrink: 0;">
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #10B981;"></span>
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #06B6D4;"></span>
-                    <span style="width: 10px; height: 10px; border-radius: 50%; background: #0F172A; border: 1px solid #334155;"></span>
+                <div x-show="preset === 'apex'" style="padding: 3px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;">
+                    Active
                 </div>
             </div>
         </div>
@@ -221,18 +235,26 @@
                 {{-- Primary Color --}}
                 <div>
                     <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Primary Brand Color</label>
-                    <div style="display: flex; align-items: center; gap: 8px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 10px; padding: 6px 10px; box-sizing: border-box;">
-                        <input 
-                            type="color" 
-                            :value="primaryColor" 
-                            @input="setPrimary($event.target.value)"
-                            style="width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; background: transparent; padding: 0; flex-shrink: 0;"
-                        />
+                    <div style="display: flex; align-items: center; gap: 10px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 10px; padding: 7px 12px; box-sizing: border-box;">
+                        <label 
+                            style="display: block; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);" 
+                            :style="'background-color: ' + primaryColor"
+                            title="Click to pick primary color"
+                        >
+                            <input 
+                                type="color" 
+                                :value="/^#[0-9A-Fa-f]{6}$/.test(primaryColor) ? primaryColor : '#6366F1'" 
+                                @input="setPrimary($event.target.value)"
+                                style="position: absolute; top: -10px; left: -10px; width: 50px; height: 50px; opacity: 0; cursor: pointer; border: none; padding: 0;"
+                            />
+                        </label>
                         <input 
                             type="text" 
                             :value="primaryColor" 
                             @input="setPrimary($event.target.value)"
-                            style="background: transparent; border: none; color: #ffffff; font-size: 12px; font-family: monospace; font-weight: 700; width: 100%; outline: none;"
+                            placeholder="#6366F1"
+                            maxlength="7"
+                            style="background: transparent; border: none; color: #ffffff; font-size: 13px; font-family: monospace; font-weight: 700; width: 100%; outline: none;"
                         />
                     </div>
                 </div>
@@ -240,18 +262,26 @@
                 {{-- Secondary Color --}}
                 <div>
                     <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Secondary / Accent Color</label>
-                    <div style="display: flex; align-items: center; gap: 8px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 10px; padding: 6px 10px; box-sizing: border-box;">
-                        <input 
-                            type="color" 
-                            :value="secondaryColor" 
-                            @input="setSecondary($event.target.value)"
-                            style="width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; background: transparent; padding: 0; flex-shrink: 0;"
-                        />
+                    <div style="display: flex; align-items: center; gap: 10px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 10px; padding: 7px 12px; box-sizing: border-box;">
+                        <label 
+                            style="display: block; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);" 
+                            :style="'background-color: ' + secondaryColor"
+                            title="Click to pick secondary color"
+                        >
+                            <input 
+                                type="color" 
+                                :value="/^#[0-9A-Fa-f]{6}$/.test(secondaryColor) ? secondaryColor : '#06B6D4'" 
+                                @input="setSecondary($event.target.value)"
+                                style="position: absolute; top: -10px; left: -10px; width: 50px; height: 50px; opacity: 0; cursor: pointer; border: none; padding: 0;"
+                            />
+                        </label>
                         <input 
                             type="text" 
                             :value="secondaryColor" 
                             @input="setSecondary($event.target.value)"
-                            style="background: transparent; border: none; color: #ffffff; font-size: 12px; font-family: monospace; font-weight: 700; width: 100%; outline: none;"
+                            placeholder="#06B6D4"
+                            maxlength="7"
+                            style="background: transparent; border: none; color: #ffffff; font-size: 13px; font-family: monospace; font-weight: 700; width: 100%; outline: none;"
                         />
                     </div>
                 </div>
@@ -261,13 +291,24 @@
             <div>
                 <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Preset Color Palette</label>
                 <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                    <button type="button" @click="setPrimary('#6366F1')" style="width: 32px; height: 32px; border-radius: 50%; background: #6366F1; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#6366F1"></button>
-                    <button type="button" @click="setPrimary('#06B6D4')" style="width: 32px; height: 32px; border-radius: 50%; background: #06B6D4; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#06B6D4"></button>
-                    <button type="button" @click="setPrimary('#10B981')" style="width: 32px; height: 32px; border-radius: 50%; background: #10B981; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#10B981"></button>
-                    <button type="button" @click="setPrimary('#F59E0B')" style="width: 32px; height: 32px; border-radius: 50%; background: #F59E0B; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#F59E0B"></button>
-                    <button type="button" @click="setPrimary('#EF4444')" style="width: 32px; height: 32px; border-radius: 50%; background: #EF4444; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#EF4444"></button>
-                    <button type="button" @click="setPrimary('#EC4899')" style="width: 32px; height: 32px; border-radius: 50%; background: #EC4899; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#EC4899"></button>
-                    <button type="button" @click="setPrimary('#F8FAFC')" style="width: 32px; height: 32px; border-radius: 50%; background: #F8FAFC; cursor: pointer; border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#F8FAFC"></button>
+                    <template x-for="c in ['#6366F1', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#F8FAFC']" :key="c">
+                        <button 
+                            type="button" 
+                            @click="setPrimary(c)" 
+                            :style="{
+                                width: '32px',
+                                height: '32px',
+                                borderRadius: '50%',
+                                backgroundColor: c,
+                                cursor: 'pointer',
+                                border: primaryColor.toUpperCase() === c.toUpperCase() ? '2.5px solid #ffffff' : '2px solid rgba(255,255,255,0.2)',
+                                boxShadow: primaryColor.toUpperCase() === c.toUpperCase() ? '0 0 0 2px #6366f1, 0 2px 6px rgba(0,0,0,0.4)' : '0 2px 5px rgba(0,0,0,0.3)',
+                                transform: primaryColor.toUpperCase() === c.toUpperCase() ? 'scale(1.1)' : 'scale(1)',
+                                transition: 'all 0.15s ease'
+                            }" 
+                            :title="c"
+                        ></button>
+                    </template>
                 </div>
             </div>
         </div>
