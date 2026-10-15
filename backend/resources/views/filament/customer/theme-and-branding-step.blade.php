@@ -108,136 +108,152 @@
     {{-- ========================================================================= --}}
     {{-- LEFT SECTION: Minimalist Theme Presets & Brand Colors (Scrollable Flow)   --}}
     {{-- ========================================================================= --}}
-    <div style="flex: 1 1 380px; min-width: 300px; max-width: 560px; display: flex; flex-direction: column; gap: 18px; box-sizing: border-box;">
+    <div style="flex: 1 1 420px; min-width: 320px; max-width: 580px; display: flex; flex-direction: column; gap: 24px; box-sizing: border-box;">
 
         {{-- Card 1: Visual Theme Preset (Minimal, clean, NO IMAGES) --}}
-        <div style="background: #11141e; border: 1px solid #1e2433; border-radius: 16px; padding: 20px; box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4); box-sizing: border-box;">
+        <div style="background: #11141e; border: 1px solid #1e2433; border-radius: 18px; padding: 24px; box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4); box-sizing: border-box;">
             {{-- Header --}}
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                <div style="width: 36px; height: 36px; border-radius: 10px; background: #1a1e2d; border: 1px solid #282e42; display: flex; align-items: center; justify-content: center; color: #94a3b8; flex-shrink: 0;">
-                    <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px;">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: #1a1e2d; border: 1px solid #282e42; display: flex; align-items: center; justify-content: center; color: #94a3b8; flex-shrink: 0;">
+                    <svg style="width: 20px; height: 20px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 21a4 4 0 01-4-4 8.001 8.001 0 0113.109-6.07A8.001 8.001 0 0121 17a4 4 0 01-4 4 4 4 0 01-4-4H9a4 4 0 01-2 3.874z" />
                     </svg>
                 </div>
                 <div>
-                    <h3 style="font-size: 15px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Visual Theme Preset</h3>
-                    <p style="font-size: 12px; color: #94a3b8; margin: 2px 0 0 0;">Select a minimal aesthetic foundation for your mobile app</p>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Visual Theme Preset</h3>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0;">Select a minimal aesthetic foundation for your mobile app</p>
                 </div>
             </div>
 
-            <span style="font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 10px; display: block;">Select Theme Preset</span>
+            <div style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; display: block;">Select Theme Preset</div>
 
-            {{-- Preset Option A: Modern Minimalist (No Images, No Color Dots, Clean & Sleek) --}}
-            <div 
-                @click="setTheme('minimalist')"
-                style="border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; margin-bottom: 8px; box-sizing: border-box;"
-                :style="preset === 'minimalist' 
-                    ? 'border: 1.5px solid #6366f1; background: rgba(99, 102, 241, 0.1); box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.25);' 
-                    : 'border: 1px solid #1e2433; background: #0c0f17;'"
-            >
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    {{-- Radio Indicator --}}
+            {{-- Theme Preset Options Container with Proper Spacing (gap: 14px) --}}
+            <div style="display: flex; flex-direction: column; gap: 14px; width: 100%; box-sizing: border-box;">
+
+                {{-- Preset Option A: Modern Minimalist --}}
+                <div 
+                    @click="setTheme('minimalist')"
+                    style="border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box; width: 100%; flex-wrap: nowrap;"
+                    :style="preset === 'minimalist' 
+                        ? 'border: 2px solid #6366f1; background: rgba(99, 102, 241, 0.08); box-shadow: 0 4px 16px -2px rgba(99, 102, 241, 0.25);' 
+                        : 'border: 1px solid #1e2433; background: #0c0f17;'"
+                >
+                    <div style="display: flex; align-items: center; gap: 16px; min-width: 0; flex: 1 1 auto;">
+                        {{-- Radio Indicator --}}
+                        <div 
+                            style="width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s ease;"
+                            :style="preset === 'minimalist' 
+                                ? 'border: 2px solid #6366f1; background: #6366f1;' 
+                                : 'border: 2px solid #475569; background: #11141e;'"
+                        >
+                            <div x-show="preset === 'minimalist'" style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></div>
+                        </div>
+                        <div style="min-width: 0;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.3;">Theme A: Modern Minimalist</h4>
+                            <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Clean card layouts, subtle shadows, Inter font</p>
+                        </div>
+                    </div>
+
                     <div 
-                        style="width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
-                        :style="preset === 'minimalist' 
-                            ? 'border: 2px solid #6366f1; background: #6366f1;' 
-                            : 'border: 2px solid #475569; background: transparent;'"
+                        x-show="preset === 'minimalist'" 
+                        style="flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: rgba(99, 102, 241, 0.18); border: 1px solid rgba(99, 102, 241, 0.35); color: #a5b4fc; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap;"
                     >
-                        <div x-show="preset === 'minimalist'" style="width: 6px; height: 6px; border-radius: 50%; background: #ffffff;"></div>
-                    </div>
-                    <div>
-                        <h4 style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme A: Modern Minimalist</h4>
-                        <p style="font-size: 11px; color: #94a3b8; margin: 3px 0 0 0;">Clean card layouts, subtle shadows, Inter font</p>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #818cf8;"></span>
+                        Active
                     </div>
                 </div>
 
-                <div x-show="preset === 'minimalist'" style="padding: 3px 8px; border-radius: 6px; background: rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;">
-                    Active
-                </div>
-            </div>
+                {{-- Preset Option B: Boutique Glamour --}}
+                <div 
+                    @click="setTheme('boutique')"
+                    style="border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box; width: 100%; flex-wrap: nowrap;"
+                    :style="preset === 'boutique' 
+                        ? 'border: 2px solid #f43f5e; background: rgba(244, 63, 94, 0.08); box-shadow: 0 4px 16px -2px rgba(244, 63, 94, 0.25);' 
+                        : 'border: 1px solid #1e2433; background: #0c0f17;'"
+                >
+                    <div style="display: flex; align-items: center; gap: 16px; min-width: 0; flex: 1 1 auto;">
+                        {{-- Radio Indicator --}}
+                        <div 
+                            style="width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s ease;"
+                            :style="preset === 'boutique' 
+                                ? 'border: 2px solid #f43f5e; background: #f43f5e;' 
+                                : 'border: 2px solid #475569; background: #11141e;'"
+                        >
+                            <div x-show="preset === 'boutique'" style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></div>
+                        </div>
+                        <div style="min-width: 0;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.3;">Theme B: Boutique Glamour</h4>
+                            <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Vibrant accents, rounded cards, Poppins font</p>
+                        </div>
+                    </div>
 
-            {{-- Preset Option B: Boutique Glamour (No Images, No Color Dots, Clean & Sleek) --}}
-            <div 
-                @click="setTheme('boutique')"
-                style="border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; margin-bottom: 8px; box-sizing: border-box;"
-                :style="preset === 'boutique' 
-                    ? 'border: 1.5px solid #f43f5e; background: rgba(244, 63, 94, 0.1); box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.25);' 
-                    : 'border: 1px solid #1e2433; background: #0c0f17;'"
-            >
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    {{-- Radio Indicator --}}
                     <div 
-                        style="width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
-                        :style="preset === 'boutique' 
-                            ? 'border: 2px solid #f43f5e; background: #f43f5e;' 
-                            : 'border: 2px solid #475569; background: transparent;'"
+                        x-show="preset === 'boutique'" 
+                        style="flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: rgba(244, 63, 94, 0.18); border: 1px solid rgba(244, 63, 94, 0.35); color: #fda4af; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap;"
                     >
-                        <div x-show="preset === 'boutique'" style="width: 6px; height: 6px; border-radius: 50%; background: #ffffff;"></div>
-                    </div>
-                    <div>
-                        <h4 style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme B: Boutique Glamour</h4>
-                        <p style="font-size: 11px; color: #94a3b8; margin: 3px 0 0 0;">Vibrant accents, rounded cards, Poppins font</p>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #fb7185;"></span>
+                        Active
                     </div>
                 </div>
 
-                <div x-show="preset === 'boutique'" style="padding: 3px 8px; border-radius: 6px; background: rgba(244, 63, 94, 0.2); color: #fb7185; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;">
-                    Active
-                </div>
-            </div>
+                {{-- Preset Option C: Apex Dark Luxury --}}
+                <div 
+                    @click="setTheme('apex')"
+                    style="border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box; width: 100%; flex-wrap: nowrap;"
+                    :style="preset === 'apex' 
+                        ? 'border: 2px solid #10b981; background: rgba(16, 185, 129, 0.08); box-shadow: 0 4px 16px -2px rgba(16, 185, 129, 0.25);' 
+                        : 'border: 1px solid #1e2433; background: #0c0f17;'"
+                >
+                    <div style="display: flex; align-items: center; gap: 16px; min-width: 0; flex: 1 1 auto;">
+                        {{-- Radio Indicator --}}
+                        <div 
+                            style="width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s ease;"
+                            :style="preset === 'apex' 
+                                ? 'border: 2px solid #10b981; background: #10b981;' 
+                                : 'border: 2px solid #475569; background: #11141e;'"
+                        >
+                            <div x-show="preset === 'apex'" style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></div>
+                        </div>
+                        <div style="min-width: 0;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.3;">Theme C: Apex Dark Luxury</h4>
+                            <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Sleek dark mode luxury palette with Outfit typography</p>
+                        </div>
+                    </div>
 
-            {{-- Preset Option C: Apex Dark Luxury (No Images, No Color Dots, Clean & Sleek) --}}
-            <div 
-                @click="setTheme('apex')"
-                style="border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.15s ease; box-sizing: border-box;"
-                :style="preset === 'apex' 
-                    ? 'border: 1.5px solid #10b981; background: rgba(16, 185, 129, 0.1); box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25);' 
-                    : 'border: 1px solid #1e2433; background: #0c0f17;'"
-            >
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    {{-- Radio Indicator --}}
                     <div 
-                        style="width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"
-                        :style="preset === 'apex' 
-                            ? 'border: 2px solid #10b981; background: #10b981;' 
-                            : 'border: 2px solid #475569; background: transparent;'"
+                        x-show="preset === 'apex'" 
+                        style="flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.35); color: #6ee7b7; font-size: 11px; font-weight: 700; letter-spacing: 0.3px; white-space: nowrap;"
                     >
-                        <div x-show="preset === 'apex'" style="width: 6px; height: 6px; border-radius: 50%; background: #ffffff;"></div>
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #34d399;"></span>
+                        Active
                     </div>
-                    <div>
-                        <h4 style="font-size: 13px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme C: Apex Dark Luxury</h4>
-                        <p style="font-size: 11px; color: #94a3b8; margin: 3px 0 0 0;">Sleek dark mode luxury palette with Outfit typography</p>
-                    </div>
-                </div>
-
-                <div x-show="preset === 'apex'" style="padding: 3px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 10px; font-weight: 700; letter-spacing: 0.3px;">
-                    Active
                 </div>
             </div>
         </div>
 
         {{-- Card 2: Brand Colors & Palette --}}
-        <div style="background: #11141e; border: 1px solid #1e2433; border-radius: 16px; padding: 20px; box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4); box-sizing: border-box;">
+        <div style="background: #11141e; border: 1px solid #1e2433; border-radius: 18px; padding: 24px; box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4); box-sizing: border-box;">
             {{-- Header --}}
-            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                <div style="width: 36px; height: 36px; border-radius: 10px; background: #1a1e2d; border: 1px solid #282e42; display: flex; align-items: center; justify-content: center; color: #94a3b8; flex-shrink: 0;">
-                    <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px;">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: #1a1e2d; border: 1px solid #282e42; display: flex; align-items: center; justify-content: center; color: #94a3b8; flex-shrink: 0;">
+                    <svg style="width: 20px; height: 20px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
                 </div>
                 <div>
-                    <h3 style="font-size: 15px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Brand Colors &amp; Palette</h3>
-                    <p style="font-size: 12px; color: #94a3b8; margin: 2px 0 0 0;">Customize your brand accent tones in real-time</p>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Brand Colors &amp; Palette</h3>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0;">Customize your brand accent tones in real-time</p>
                 </div>
             </div>
 
             {{-- 2 Custom Color Pickers Side-by-Side --}}
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px;">
                 {{-- Primary Color --}}
                 <div>
-                    <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Primary Brand Color</label>
-                    <div style="display: flex; align-items: center; gap: 10px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 10px; padding: 7px 12px; box-sizing: border-box;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Primary Brand Color</label>
+                    <div style="display: flex; align-items: center; gap: 12px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 12px; padding: 8px 14px; box-sizing: border-box;">
                         <label 
-                            style="display: block; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);" 
+                            style="display: block; width: 28px; height: 28px; border-radius: 7px; cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);" 
                             :style="'background-color: ' + primaryColor"
                             title="Click to pick primary color"
                         >
@@ -261,10 +277,10 @@
 
                 {{-- Secondary Color --}}
                 <div>
-                    <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Secondary / Accent Color</label>
-                    <div style="display: flex; align-items: center; gap: 10px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 10px; padding: 7px 12px; box-sizing: border-box;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Secondary / Accent Color</label>
+                    <div style="display: flex; align-items: center; gap: 12px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 12px; padding: 8px 14px; box-sizing: border-box;">
                         <label 
-                            style="display: block; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);" 
+                            style="display: block; width: 28px; height: 28px; border-radius: 7px; cursor: pointer; flex-shrink: 0; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);" 
                             :style="'background-color: ' + secondaryColor"
                             title="Click to pick secondary color"
                         >
@@ -289,21 +305,21 @@
 
             {{-- Preset Swatches Row --}}
             <div>
-                <label style="display: block; font-size: 11px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Preset Color Palette</label>
-                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <label style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px;">Preset Color Palette</label>
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
                     <template x-for="c in ['#6366F1', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#EC4899', '#F8FAFC']" :key="c">
                         <button 
                             type="button" 
                             @click="setPrimary(c)" 
                             :style="{
-                                width: '32px',
-                                height: '32px',
+                                width: '34px',
+                                height: '34px',
                                 borderRadius: '50%',
                                 backgroundColor: c,
                                 cursor: 'pointer',
                                 border: primaryColor.toUpperCase() === c.toUpperCase() ? '2.5px solid #ffffff' : '2px solid rgba(255,255,255,0.2)',
                                 boxShadow: primaryColor.toUpperCase() === c.toUpperCase() ? '0 0 0 2px #6366f1, 0 2px 6px rgba(0,0,0,0.4)' : '0 2px 5px rgba(0,0,0,0.3)',
-                                transform: primaryColor.toUpperCase() === c.toUpperCase() ? 'scale(1.1)' : 'scale(1)',
+                                transform: primaryColor.toUpperCase() === c.toUpperCase() ? 'scale(1.12)' : 'scale(1)',
                                 transition: 'all 0.15s ease'
                             }" 
                             :title="c"
