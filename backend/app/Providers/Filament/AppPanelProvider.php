@@ -34,8 +34,7 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Indigo,
             ])
-            ->sidebarWidth('14rem')
-            ->sidebarCollapsibleOnDesktop()
+            ->sidebarWidth('16rem')
             ->maxContentWidth(MaxWidth::Full)
             ->discoverResources(in: app_path('Filament/CustomerResources'), for: 'App\\Filament\\CustomerResources')
             ->pages([

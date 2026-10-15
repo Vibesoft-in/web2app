@@ -1,3 +1,12 @@
+@php
+    $thumbsFile = public_path('images/thumbs.json');
+    $thumbs = file_exists($thumbsFile) ? json_decode(file_get_contents($thumbsFile), true) : [];
+    $sneakerImg = $thumbs['sneaker'] ?? asset('images/sneaker.jpg');
+    $smartwatchImg = $thumbs['smartwatch'] ?? asset('images/smartwatch.jpg');
+    $handbagImg = $thumbs['handbag'] ?? asset('images/handbag.jpg');
+    $luxuryWatchImg = $thumbs['luxury_watch'] ?? asset('images/luxury_watch.jpg');
+@endphp
+
 <div 
     x-data="{
         get preset() {
@@ -13,7 +22,7 @@
             return ($wire && $wire.data && $wire.data.name && $wire.data.name.trim() !== '') ? $wire.data.name : 'qwrt';
         },
         get appInitial() {
-            return this.appName.charAt(0).toUpperCase();
+            return (this.appName && this.appName.length > 0) ? this.appName.charAt(0).toUpperCase() : 'Q';
         },
 
         setTheme(theme) {
@@ -44,491 +53,424 @@
             }
         }
     }"
-    class="w-full flex flex-col lg:flex-row items-start justify-between gap-6 font-sans text-slate-100 select-none"
+    style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 28px; width: 100%; max-width: 100%; box-sizing: border-box; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #f8fafc; user-select: none;"
 >
     {{-- ========================================================================= --}}
     {{-- LEFT SECTION: Visual Theme Preset & Brand Colors & Palette Cards          --}}
     {{-- ========================================================================= --}}
-    <div class="w-full lg:flex-1 space-y-4">
+    <div style="flex: 1 1 380px; min-width: 320px; max-width: 540px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;">
 
         {{-- Card 1: Visual Theme Preset --}}
-        <div class="rounded-2xl bg-[#13161f] border border-slate-800/80 p-5 shadow-xl transition-all">
+        <div style="background: #11141e; border: 1px solid #1e2433; border-radius: 18px; padding: 22px; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4); box-sizing: border-box;">
             {{-- Header --}}
-            <div class="flex items-start gap-3 mb-4">
-                <div class="w-9 h-9 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-300 shadow-sm shrink-0">
-                    <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px;">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: #1a1e2d; border: 1px solid #282e42; display: flex; align-items: center; justify-content: center; color: #94a3b8; flex-shrink: 0;">
+                    <svg style="width: 20px; height: 20px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 21a4 4 0 01-4-4 8.001 8.001 0 0113.109-6.07A8.001 8.001 0 0121 17a4 4 0 01-4 4 4 4 0 01-4-4H9a4 4 0 01-2 3.874z" />
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-white tracking-wide">Visual Theme Preset</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Choose an aesthetic foundation tailored for your store</p>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Visual Theme Preset</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Choose an aesthetic foundation tailored for your store</p>
                 </div>
             </div>
 
-            <div class="space-y-3 pt-1">
-                <label class="text-xs font-semibold text-slate-300 tracking-wide block">Select Theme Preset</label>
+            <span style="font-size: 13px; font-weight: 600; color: #ffffff; margin-bottom: 12px; display: block;">Select Theme Preset</span>
 
-                {{-- Preset Option A: Modern Minimalist --}}
+            {{-- Preset Option A: Modern Minimalist --}}
+            <div 
+                @click="setTheme('minimalist')"
+                style="border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 12px; box-sizing: border-box;"
+                :style="preset === 'minimalist' 
+                    ? 'border: 1.5px solid #6366f1; background: rgba(99, 102, 241, 0.08); box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.2);' 
+                    : 'border: 1px solid #1e2433; background: #0c0f17;'"
+            >
+                {{-- Radio Indicator --}}
                 <div 
-                    @click="setTheme('minimalist')"
-                    :class="preset === 'minimalist' ? 'border-indigo-500/80 bg-slate-900/60 shadow-md ring-1 ring-indigo-500/30' : 'border-slate-800 hover:border-slate-700 bg-slate-950/40'"
-                    class="rounded-xl border p-3 flex items-center gap-3.5 cursor-pointer transition-all duration-200"
+                    style="width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease;"
+                    :style="preset === 'minimalist' 
+                        ? 'border: 2px solid #6366f1; background: #6366f1;' 
+                        : 'border: 2px solid #475569; background: transparent;'"
                 >
-                    {{-- Custom Radio Indicator --}}
-                    <div class="w-4 h-4 rounded-full border flex items-center justify-center shrink-0 transition-all"
-                        :class="preset === 'minimalist' ? 'border-indigo-500 bg-indigo-600' : 'border-slate-600 bg-transparent'">
-                        <div x-show="preset === 'minimalist'" class="w-1.5 h-1.5 rounded-full bg-white"></div>
-                    </div>
+                    <div x-show="preset === 'minimalist'" style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></div>
+                </div>
 
-                    {{-- Visual Mockup Thumbnail --}}
-                    <div class="w-[84px] h-[52px] rounded-lg bg-gradient-to-br from-indigo-50 to-slate-100 border border-slate-300/60 p-1 flex flex-col justify-between shrink-0 shadow-inner overflow-hidden">
-                        <div class="flex items-center justify-between">
-                            <span class="w-3.5 h-1.5 rounded-xs bg-indigo-400"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <div class="space-y-1 flex-1">
-                                <span class="block w-full h-1 rounded-2xs bg-slate-300"></span>
-                                <span class="block w-2/3 h-1 rounded-2xs bg-slate-300"></span>
-                            </div>
-                            <div class="w-7 h-7 rounded-md bg-indigo-200/60 border border-indigo-300/40 flex items-center justify-center text-indigo-500">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </div>
+                {{-- Mockup Preview Thumbnail --}}
+                <div style="width: 95px; height: 60px; border-radius: 12px; padding: 6px 8px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: #e0e7ff; border: 1px solid #c7d2fe; box-sizing: border-box; overflow: hidden;">
+                    <div style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                        <span style="width: 24px; height: 5px; border-radius: 3px; background: #6366f1;"></span>
+                        <span style="width: 36px; height: 4px; border-radius: 2px; background: #94a3b8;"></span>
+                        <span style="width: 24px; height: 4px; border-radius: 2px; background: #cbd5e1;"></span>
                     </div>
-
-                    {{-- Details --}}
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-xs font-bold text-white tracking-tight">Theme A: Modern Minimalist</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5 leading-snug">Clean card layouts, subtle shadows, Inter font</p>
+                    <div style="width: 32px; height: 32px; border-radius: 8px; background: #c7d2fe; display: flex; align-items: center; justify-content: center; color: #6366f1;">
+                        <svg style="width: 18px; height: 18px;" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                        </svg>
                     </div>
                 </div>
 
-                {{-- Preset Option B: Boutique Glamour --}}
+                {{-- Details --}}
+                <div style="flex: 1; min-width: 0;">
+                    <h4 style="font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme A: Modern Minimalist</h4>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Clean card layouts, subtle shadows, Inter font</p>
+                </div>
+            </div>
+
+            {{-- Preset Option B: Boutique Glamour --}}
+            <div 
+                @click="setTheme('boutique')"
+                style="border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s ease; margin-bottom: 12px; box-sizing: border-box;"
+                :style="preset === 'boutique' 
+                    ? 'border: 1.5px solid #f43f5e; background: rgba(244, 63, 94, 0.08); box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.2);' 
+                    : 'border: 1px solid #1e2433; background: #0c0f17;'"
+            >
+                {{-- Radio Indicator --}}
                 <div 
-                    @click="setTheme('boutique')"
-                    :class="preset === 'boutique' ? 'border-rose-500/80 bg-slate-900/60 shadow-md ring-1 ring-rose-500/30' : 'border-slate-800 hover:border-slate-700 bg-slate-950/40'"
-                    class="rounded-xl border p-3 flex items-center gap-3.5 cursor-pointer transition-all duration-200"
+                    style="width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease;"
+                    :style="preset === 'boutique' 
+                        ? 'border: 2px solid #f43f5e; background: #f43f5e;' 
+                        : 'border: 2px solid #475569; background: transparent;'"
                 >
-                    {{-- Custom Radio Indicator --}}
-                    <div class="w-4 h-4 rounded-full border flex items-center justify-center shrink-0 transition-all"
-                        :class="preset === 'boutique' ? 'border-rose-500 bg-rose-600' : 'border-slate-600 bg-transparent'">
-                        <div x-show="preset === 'boutique'" class="w-1.5 h-1.5 rounded-full bg-white"></div>
-                    </div>
+                    <div x-show="preset === 'boutique'" style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></div>
+                </div>
 
-                    {{-- Visual Mockup Thumbnail --}}
-                    <div class="w-[84px] h-[52px] rounded-lg bg-[#fff7ed] border border-[#fed7aa] p-1 flex flex-col justify-between shrink-0 shadow-inner overflow-hidden">
-                        <div class="flex items-center justify-between">
-                            <span class="w-3.5 h-1.5 rounded-xs bg-[#f43f5e]"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <div class="space-y-1 flex-1">
-                                <span class="block w-full h-1 rounded-2xs bg-amber-200"></span>
-                                <span class="block w-2/3 h-1 rounded-2xs bg-rose-200"></span>
-                            </div>
-                            <div class="w-7 h-7 rounded-md bg-white border border-amber-200 overflow-hidden shrink-0 shadow-xs">
-                                <img src="/images/handbag.jpg" alt="Boutique" class="w-full h-full object-cover" />
-                            </div>
-                        </div>
+                {{-- Mockup Preview Thumbnail --}}
+                <div style="width: 95px; height: 60px; border-radius: 12px; padding: 6px 8px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: #fef3c7; border: 1px solid #fde68a; box-sizing: border-box; overflow: hidden;">
+                    <div style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                        <span style="width: 24px; height: 5px; border-radius: 3px; background: #f43f5e;"></span>
+                        <span style="width: 36px; height: 4px; border-radius: 2px; background: #d97706;"></span>
+                        <span style="width: 24px; height: 4px; border-radius: 2px; background: #f59e0b;"></span>
                     </div>
-
-                    {{-- Details --}}
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-xs font-bold text-white tracking-tight">Theme B: Boutique Glamour</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5 leading-snug">Vibrant accents, rounded cards, Poppins font</p>
+                    <div style="width: 32px; height: 32px; border-radius: 8px; overflow: hidden; background: #ffffff; border: 1px solid #fed7aa; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                        <img src="{{ $handbagImg }}" alt="Handbag" style="width: 100%; height: 100%; object-fit: cover;" />
                     </div>
                 </div>
 
-                {{-- Preset Option C: Apex Dark Luxury --}}
+                {{-- Details --}}
+                <div style="flex: 1; min-width: 0;">
+                    <h4 style="font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme B: Boutique Glamour</h4>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Vibrant accents, rounded cards, Poppins font</p>
+                </div>
+            </div>
+
+            {{-- Preset Option C: Apex Dark Luxury --}}
+            <div 
+                @click="setTheme('apex')"
+                style="border-radius: 14px; padding: 12px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s ease; box-sizing: border-box;"
+                :style="preset === 'apex' 
+                    ? 'border: 1.5px solid #10b981; background: rgba(16, 185, 129, 0.08); box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2);' 
+                    : 'border: 1px solid #1e2433; background: #0c0f17;'"
+            >
+                {{-- Radio Indicator --}}
                 <div 
-                    @click="setTheme('apex')"
-                    :class="preset === 'apex' ? 'border-emerald-500/80 bg-slate-900/60 shadow-md ring-1 ring-emerald-500/30' : 'border-slate-800 hover:border-slate-700 bg-slate-950/40'"
-                    class="rounded-xl border p-3 flex items-center gap-3.5 cursor-pointer transition-all duration-200"
+                    style="width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease;"
+                    :style="preset === 'apex' 
+                        ? 'border: 2px solid #10b981; background: #10b981;' 
+                        : 'border: 2px solid #475569; background: transparent;'"
                 >
-                    {{-- Custom Radio Indicator --}}
-                    <div class="w-4 h-4 rounded-full border flex items-center justify-center shrink-0 transition-all"
-                        :class="preset === 'apex' ? 'border-emerald-500 bg-emerald-600' : 'border-slate-600 bg-transparent'">
-                        <div x-show="preset === 'apex'" class="w-1.5 h-1.5 rounded-full bg-white"></div>
-                    </div>
+                    <div x-show="preset === 'apex'" style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></div>
+                </div>
 
-                    {{-- Visual Mockup Thumbnail --}}
-                    <div class="w-[84px] h-[52px] rounded-lg bg-[#0b0f19] border border-amber-800/40 p-1 flex flex-col justify-between shrink-0 shadow-inner overflow-hidden">
-                        <div class="flex items-center justify-between">
-                            <span class="w-3.5 h-1.5 rounded-xs bg-amber-500"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400/80"></span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <div class="space-y-1 flex-1">
-                                <span class="block w-full h-1 rounded-2xs bg-slate-700"></span>
-                                <span class="block w-2/3 h-1 rounded-2xs bg-amber-600/60"></span>
-                            </div>
-                            <div class="w-7 h-7 rounded-md bg-slate-900 border border-amber-500/40 overflow-hidden shrink-0 shadow-xs">
-                                <img src="/images/luxury_watch.jpg" alt="Luxury" class="w-full h-full object-cover" />
-                            </div>
-                        </div>
+                {{-- Mockup Preview Thumbnail --}}
+                <div style="width: 95px; height: 60px; border-radius: 12px; padding: 6px 8px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: #0f172a; border: 1px solid #1e293b; box-sizing: border-box; overflow: hidden;">
+                    <div style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                        <span style="width: 24px; height: 5px; border-radius: 3px; background: #10b981;"></span>
+                        <span style="width: 36px; height: 4px; border-radius: 2px; background: #64748b;"></span>
+                        <span style="width: 24px; height: 4px; border-radius: 2px; background: #475569;"></span>
                     </div>
-
-                    {{-- Details --}}
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-xs font-bold text-white tracking-tight">Theme C: Apex Dark Luxury</h4>
-                        <p class="text-[11px] text-slate-400 mt-0.5 leading-snug">Sleek dark mode luxury palette with Outfit typography</p>
+                    <div style="width: 32px; height: 32px; border-radius: 8px; overflow: hidden; background: #000000; border: 1px solid #334155; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                        <img src="{{ $luxuryWatchImg }}" alt="Luxury Watch" style="width: 100%; height: 100%; object-fit: cover;" />
                     </div>
                 </div>
 
+                {{-- Details --}}
+                <div style="flex: 1; min-width: 0;">
+                    <h4 style="font-size: 14px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Theme C: Apex Dark Luxury</h4>
+                    <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Sleek dark mode luxury palette with Outfit typography</p>
+                </div>
             </div>
         </div>
 
         {{-- Card 2: Brand Colors & Palette --}}
-        <div class="rounded-2xl bg-[#13161f] border border-slate-800/80 p-5 shadow-xl transition-all">
+        <div style="background: #11141e; border: 1px solid #1e2433; border-radius: 18px; padding: 22px; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4); box-sizing: border-box;">
             {{-- Header --}}
-            <div class="flex items-start gap-3 mb-4">
-                <div class="w-9 h-9 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-300 shadow-sm shrink-0">
-                    <svg class="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px;">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: #1a1e2d; border: 1px solid #282e42; display: flex; align-items: center; justify-content: center; color: #94a3b8; flex-shrink: 0;">
+                    <svg style="width: 20px; height: 20px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-white tracking-wide">Brand Colors & Palette</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Customize your brand accent tones</p>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0; line-height: 1.2;">Brand Colors &amp; Palette</h3>
+                    <p style="font-size: 13px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">Customize your brand accent tones</p>
                 </div>
             </div>
 
-            {{-- Color Inputs (Side-by-Side) --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 mb-4">
-                {{-- Primary Color Input --}}
-                <div class="space-y-1.5">
-                    <label class="text-xs font-semibold text-slate-300">Primary Brand Color</label>
-                    <div class="flex items-center gap-2.5 p-2 rounded-xl bg-[#0d1016] border border-slate-800 shadow-inner">
-                        <label class="relative cursor-pointer shrink-0">
-                            <span class="block w-8 h-8 rounded-full border border-white/20 shadow-sm transition-transform hover:scale-105"
-                                  :style="{ backgroundColor: primaryColor }"></span>
-                            <input 
-                                type="color" 
-                                :value="primaryColor" 
-                                @input="setPrimary($event.target.value)" 
-                                class="opacity-0 absolute inset-0 w-full h-full cursor-pointer" 
-                            />
-                        </label>
+            {{-- 2 Custom Color Pickers Side-by-Side --}}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                {{-- Primary Color --}}
+                <div>
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Primary Brand Color</label>
+                    <div style="display: flex; align-items: center; gap: 10px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 12px; padding: 7px 12px; box-sizing: border-box;">
+                        <input 
+                            type="color" 
+                            :value="primaryColor" 
+                            @input="setPrimary($event.target.value)"
+                            style="width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer; background: transparent; padding: 0; flex-shrink: 0;"
+                        />
                         <input 
                             type="text" 
                             :value="primaryColor" 
-                            @input="setPrimary($event.target.value)" 
-                            class="bg-transparent text-xs font-mono font-bold text-white uppercase outline-none w-full tracking-wider" 
-                            maxlength="7"
+                            @input="setPrimary($event.target.value)"
+                            style="background: transparent; border: none; color: #ffffff; font-size: 13px; font-family: monospace; font-weight: 700; width: 100%; outline: none;"
                         />
                     </div>
                 </div>
 
-                {{-- Secondary Color Input --}}
-                <div class="space-y-1.5">
-                    <label class="text-xs font-semibold text-slate-300">Secondary / Accent Color</label>
-                    <div class="flex items-center gap-2.5 p-2 rounded-xl bg-[#0d1016] border border-slate-800 shadow-inner">
-                        <label class="relative cursor-pointer shrink-0">
-                            <span class="block w-8 h-8 rounded-full border border-white/20 shadow-sm transition-transform hover:scale-105"
-                                  :style="{ backgroundColor: secondaryColor }"></span>
-                            <input 
-                                type="color" 
-                                :value="secondaryColor" 
-                                @input="setSecondary($event.target.value)" 
-                                class="opacity-0 absolute inset-0 w-full h-full cursor-pointer" 
-                            />
-                        </label>
+                {{-- Secondary Color --}}
+                <div>
+                    <label style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Secondary / Accent Color</label>
+                    <div style="display: flex; align-items: center; gap: 10px; background: #0c0f17; border: 1px solid #1e2433; border-radius: 12px; padding: 7px 12px; box-sizing: border-box;">
+                        <input 
+                            type="color" 
+                            :value="secondaryColor" 
+                            @input="setSecondary($event.target.value)"
+                            style="width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer; background: transparent; padding: 0; flex-shrink: 0;"
+                        />
                         <input 
                             type="text" 
                             :value="secondaryColor" 
-                            @input="setSecondary($event.target.value)" 
-                            class="bg-transparent text-xs font-mono font-bold text-white uppercase outline-none w-full tracking-wider" 
-                            maxlength="7"
+                            @input="setSecondary($event.target.value)"
+                            style="background: transparent; border: none; color: #ffffff; font-size: 13px; font-family: monospace; font-weight: 700; width: 100%; outline: none;"
                         />
                     </div>
                 </div>
             </div>
 
-            {{-- Preset Color Palette Chips (7 circular dots) --}}
-            <div class="space-y-2 pt-1 border-t border-slate-800/80">
-                <label class="text-xs font-semibold text-slate-300 tracking-wide block">Preset Color Palette</label>
-                <div class="flex items-center gap-3">
-                    <button type="button" @click="setPrimary('#6366F1')" class="w-7 h-7 rounded-full bg-[#6366F1] hover:scale-115 active:scale-95 transition-all shadow-md ring-1 ring-white/20" title="#6366F1"></button>
-                    <button type="button" @click="setPrimary('#06B6D4')" class="w-7 h-7 rounded-full bg-[#06B6D4] hover:scale-115 active:scale-95 transition-all shadow-md ring-1 ring-white/20" title="#06B6D4"></button>
-                    <button type="button" @click="setPrimary('#10B981')" class="w-7 h-7 rounded-full bg-[#10B981] hover:scale-115 active:scale-95 transition-all shadow-md ring-1 ring-white/20" title="#10B981"></button>
-                    <button type="button" @click="setPrimary('#F59E0B')" class="w-7 h-7 rounded-full bg-[#F59E0B] hover:scale-115 active:scale-95 transition-all shadow-md ring-1 ring-white/20" title="#F59E0B"></button>
-                    <button type="button" @click="setPrimary('#EF4444')" class="w-7 h-7 rounded-full bg-[#EF4444] hover:scale-115 active:scale-95 transition-all shadow-md ring-1 ring-white/20" title="#EF4444"></button>
-                    <button type="button" @click="setPrimary('#EC4899')" class="w-7 h-7 rounded-full bg-[#EC4899] hover:scale-115 active:scale-95 transition-all shadow-md ring-1 ring-white/20" title="#EC4899"></button>
-                    <button type="button" @click="setPrimary('#FFFFFF')" class="w-7 h-7 rounded-full bg-white hover:scale-115 active:scale-95 transition-all shadow-md ring-1 ring-slate-400/40" title="#FFFFFF"></button>
+            {{-- Preset Swatches Row --}}
+            <div>
+                <label style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 10px;">Preset Color Palette</label>
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <button type="button" @click="setPrimary('#6366F1')" style="width: 34px; height: 34px; border-radius: 50%; background: #6366F1; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#6366F1"></button>
+                    <button type="button" @click="setPrimary('#06B6D4')" style="width: 34px; height: 34px; border-radius: 50%; background: #06B6D4; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#06B6D4"></button>
+                    <button type="button" @click="setPrimary('#10B981')" style="width: 34px; height: 34px; border-radius: 50%; background: #10B981; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#10B981"></button>
+                    <button type="button" @click="setPrimary('#F59E0B')" style="width: 34px; height: 34px; border-radius: 50%; background: #F59E0B; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#F59E0B"></button>
+                    <button type="button" @click="setPrimary('#EF4444')" style="width: 34px; height: 34px; border-radius: 50%; background: #EF4444; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#EF4444"></button>
+                    <button type="button" @click="setPrimary('#EC4899')" style="width: 34px; height: 34px; border-radius: 50%; background: #EC4899; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#EC4899"></button>
+                    <button type="button" @click="setPrimary('#F8FAFC')" style="width: 34px; height: 34px; border-radius: 50%; background: #F8FAFC; cursor: pointer; border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: transform 0.15s ease;" title="#F8FAFC"></button>
                 </div>
             </div>
-
         </div>
 
     </div>
 
     {{-- ========================================================================= --}}
-    {{-- RIGHT SECTION: Live Emulator (Full Phone Displayed With NO Scroll)        --}}
+    {{-- RIGHT SECTION: Live Emulator (iPhone 15/16 Pro Frame with Dynamic Island)   --}}
     {{-- ========================================================================= --}}
-    <div class="w-full lg:w-[320px] shrink-0 flex flex-col items-center">
-        
-        {{-- Section Title --}}
-        <div class="w-full mb-2.5 px-1">
-            <h2 class="text-base font-bold text-white tracking-wide">Live Emulator</h2>
-        </div>
+    <div style="width: 360px; max-width: 100%; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;">
+        <h2 style="font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 14px 0; width: 100%; text-align: left;">Live Emulator</h2>
 
-        {{-- iPhone 15/16 Pro Physical Chassis --}}
+        {{-- Physical Phone Chassis --}}
         <div 
             id="emulator-phone-chassis"
-            class="relative w-[305px] h-[540px] rounded-[42px] border-[7px] border-[#18191d] bg-[#18191d] shadow-[0_20px_50px_rgba(0,0,0,0.85)] ring-1 ring-white/10 flex flex-col overflow-hidden box-border select-none"
+            style="width: 360px; max-width: 100%; height: 710px; border-radius: 48px; border: 10px solid #1c1d22; background: #ffffff; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; box-sizing: border-box; user-select: none;"
         >
-            {{-- Hardware Buttons Glare --}}
-            <div class="absolute -left-[9px] top-16 w-[2px] h-6 bg-slate-600 rounded-l"></div>
-            <div class="absolute -left-[9px] top-26 w-[2px] h-9 bg-slate-600 rounded-l"></div>
-            <div class="absolute -left-[9px] top-38 w-[2px] h-9 bg-slate-600 rounded-l"></div>
-            <div class="absolute -right-[9px] top-22 w-[2px] h-12 bg-slate-600 rounded-r"></div>
-
-            {{-- Inner Screen Display (Zero Scroll: fits 100% inside chassis) --}}
-            <div 
-                :class="{
-                    'bg-white text-slate-900': preset === 'minimalist',
-                    'bg-[#fffbf5] text-slate-900': preset === 'boutique',
-                    'bg-[#090d16] text-slate-100': preset === 'apex'
-                }"
-                class="relative w-full h-full rounded-[35px] flex flex-col justify-between overflow-hidden p-2.5 transition-colors duration-300"
-            >
-
-                {{-- Dynamic Island & Top Status Bar --}}
-                <div class="relative z-30 pt-0.5 px-2 flex items-center justify-between text-[10px] font-semibold tracking-tight"
-                    :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-900'">
-                    <span>9:41</span>
-
-                    {{-- Pill Notch --}}
-                    <div class="absolute left-1/2 -translate-x-1/2 top-0.5 h-3.5 w-16 bg-black rounded-full flex items-center justify-between px-1.5 shadow-inner">
-                        <span class="w-1.5 h-1.5 rounded-full bg-slate-900 border border-slate-700"></span>
-                        <span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span>
-                    </div>
-
-                    {{-- Status Icons --}}
-                    <div class="flex items-center gap-1">
-                        {{-- Signal --}}
-                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor">
-                            <rect x="2" y="16" width="3" height="6" rx="1"/>
-                            <rect x="7" y="12" width="3" height="10" rx="1"/>
-                            <rect x="12" y="8" width="3" height="14" rx="1"/>
-                            <rect x="17" y="4" width="3" height="18" rx="1"/>
-                        </svg>
-                        {{-- Wifi --}}
-                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 4c3.34 0 6.38 1.38 8.56 3.61L12 19.33 3.44 11.61C5.62 9.38 8.66 8 12 8z"/>
-                        </svg>
-                        {{-- Battery --}}
-                        <div class="w-3.5 h-2 rounded-2xs border border-current p-0.5 flex items-center">
-                            <div class="h-full bg-current rounded-3xs w-2"></div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- App Header Bar --}}
-                <div class="flex items-center justify-between pt-0.5 pb-0.5">
-                    {{-- Logo Badge / Avatar --}}
-                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-white font-extrabold text-xs shadow-xs"
-                         :style="{ backgroundColor: primaryColor }">
-                        <span x-text="appInitial">Q</span>
-                    </div>
-
-                    {{-- Right Icons: Cart & Hamburger --}}
-                    <div class="flex items-center gap-2">
-                        {{-- Cart with badge --}}
-                        <div class="relative flex items-center justify-center">
-                            <svg class="w-4 h-4" :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-700'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                            <span class="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-blue-600 text-white text-[8px] font-bold flex items-center justify-center shadow-xs">
-                                2
-                            </span>
-                        </div>
-
-                        {{-- Hamburger ☰ --}}
-                        <button type="button" class="p-0.5 rounded-md hover:bg-black/5 transition-colors">
-                            <svg class="w-4 h-4" :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-800'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                {{-- In-App Search Bar --}}
-                <div class="relative w-full">
-                    <input 
-                        type="text" 
-                        :placeholder="`Search in ${appName}...`" 
-                        class="w-full text-[10px] rounded-lg py-1 pl-6 pr-2 border transition-colors outline-none shadow-2xs"
-                        :class="preset === 'apex' 
-                            ? 'bg-[#131926] border-slate-800 text-slate-200 placeholder-slate-500' 
-                            : 'bg-white border-slate-200 text-slate-800 placeholder-slate-400'"
-                    />
-                    <svg class="w-2.5 h-2.5 text-slate-400 absolute left-2 top-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-
-                {{-- Hero Promotional Card --}}
-                <div 
-                    class="rounded-xl p-2.5 text-white relative overflow-hidden shadow-sm flex flex-col justify-between"
-                    :style="{
-                        background: `linear-gradient(135deg, ${primaryColor} 0%, #172554 100%)`
-                    }"
-                >
-                    <div class="relative z-10">
-                        <span 
-                            class="inline-block px-1.5 py-0.5 rounded text-[7px] font-extrabold uppercase tracking-wider text-slate-900 bg-[#4ade80] shadow-xs mb-1"
-                        >
-                            Special Offer
-                        </span>
-                        <h4 class="text-[11px] font-extrabold leading-tight text-white">30% OFF Your First Mobile Order</h4>
-                        <p class="text-[8px] text-white/80 mt-0.5 font-medium">Use code: <span class="font-bold underline">APPSTORE</span></p>
-                    </div>
-
-                    <div class="relative z-10 mt-1.5 flex items-center justify-between">
-                        <button 
-                            type="button" 
-                            class="px-2 py-0.5 rounded-full text-[8px] font-bold bg-white text-slate-900 shadow hover:bg-slate-100 active:scale-95 transition-all"
-                        >
-                            Shop Now &gt;
-                        </button>
-                        <div class="flex items-center gap-1">
-                            <span class="w-1 h-1 rounded-full bg-white"></span>
-                            <span class="w-1 h-1 rounded-full bg-white/40"></span>
-                            <span class="w-1 h-1 rounded-full bg-white/40"></span>
-                            <span class="w-1 h-1 rounded-full bg-white/40"></span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Categories Horizontal Row (5 Circular Icons) --}}
-                <div class="flex items-center justify-between px-0.5">
-                    {{-- 1. All --}}
-                    <div class="flex flex-col items-center gap-1">
-                        <div class="w-7 h-7 rounded-full flex items-center justify-center text-white text-[9px] font-bold shadow-xs transition-transform hover:scale-105"
-                             :style="{ backgroundColor: primaryColor }">
-                            All
-                        </div>
-                        <span class="text-[8px] font-medium" :class="preset === 'apex' ? 'text-slate-400' : 'text-slate-600'">All</span>
-                    </div>
-
-                    {{-- 2. Trending --}}
-                    <div class="flex flex-col items-center gap-1">
-                        <div class="w-7 h-7 rounded-full bg-[#fef2f2] border border-red-100 flex items-center justify-center text-xs shadow-xs transition-transform hover:scale-105">
-                            🔥
-                        </div>
-                        <span class="text-[8px] font-medium" :class="preset === 'apex' ? 'text-slate-400' : 'text-slate-600'">Trending</span>
-                    </div>
-
-                    {{-- 3. Fashion --}}
-                    <div class="flex flex-col items-center gap-1">
-                        <div class="w-7 h-7 rounded-full bg-[#eff6ff] border border-blue-100 flex items-center justify-center text-xs shadow-xs transition-transform hover:scale-105">
-                            👗
-                        </div>
-                        <span class="text-[8px] font-medium" :class="preset === 'apex' ? 'text-slate-400' : 'text-slate-600'">Fashion</span>
-                    </div>
-
-                    {{-- 4. Shoes --}}
-                    <div class="flex flex-col items-center gap-1">
-                        <div class="w-7 h-7 rounded-full bg-[#faf5ff] border border-purple-100 flex items-center justify-center text-xs shadow-xs transition-transform hover:scale-105">
-                            👟
-                        </div>
-                        <span class="text-[8px] font-medium" :class="preset === 'apex' ? 'text-slate-400' : 'text-slate-600'">Shoes</span>
-                    </div>
-
-                    {{-- 5. Electronics --}}
-                    <div class="flex flex-col items-center gap-1">
-                        <div class="w-7 h-7 rounded-full bg-[#f8fafc] border border-slate-200 flex items-center justify-center text-xs shadow-xs transition-transform hover:scale-105">
-                            🎧
-                        </div>
-                        <span class="text-[8px] font-medium" :class="preset === 'apex' ? 'text-slate-400' : 'text-slate-600'">Electronics</span>
-                    </div>
-                </div>
-
-                {{-- Featured Products Section (2 Side-by-Side Cards) --}}
-                <div>
-                    <div class="flex items-center justify-between mb-1 px-0.5">
-                        <h5 class="text-[10px] font-bold tracking-tight" :class="preset === 'apex' ? 'text-slate-200' : 'text-slate-900'">
-                            Featured Products
-                        </h5>
-                        <span class="text-[8px] font-bold text-blue-600 hover:underline cursor-pointer">View All</span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2">
-                        {{-- Product 1: Sports Shoes --}}
-                        <div 
-                            class="rounded-xl border p-1.5 flex flex-col justify-between shadow-2xs"
-                            :class="preset === 'apex' ? 'bg-[#111726] border-slate-800' : 'bg-white border-slate-100'"
-                        >
-                            {{-- Product Image --}}
-                            <div class="relative w-full h-15 rounded-lg bg-slate-50 flex items-center justify-center overflow-hidden mb-1">
-                                <img src="/images/sneaker.jpg" alt="Sports Shoes" class="w-full h-full object-contain p-0.5" />
-                            </div>
-
-                            <div>
-                                <h6 class="text-[9px] font-bold truncate" :class="preset === 'apex' ? 'text-slate-200' : 'text-slate-800'">
-                                    Sports Shoes
-                                </h6>
-                                <div class="flex items-center justify-between mt-0.5">
-                                    <span class="text-[10px] font-black text-slate-900" :class="preset === 'apex' ? 'text-white' : 'text-slate-900'">
-                                        ₹2,499
-                                    </span>
-                                    <button 
-                                        type="button" 
-                                        class="w-4 h-4 rounded-md flex items-center justify-center text-white text-[9px] shadow-xs"
-                                        :style="{ backgroundColor: primaryColor }"
-                                    >
-                                        <svg class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Product 2: Smart Watch --}}
-                        <div 
-                            class="rounded-xl border p-1.5 flex flex-col justify-between shadow-2xs"
-                            :class="preset === 'apex' ? 'bg-[#111726] border-slate-800' : 'bg-white border-slate-100'"
-                        >
-                            {{-- Product Image --}}
-                            <div class="relative w-full h-15 rounded-lg bg-slate-50 flex items-center justify-center overflow-hidden mb-1">
-                                <img src="/images/smartwatch.jpg" alt="Smart Watch" class="w-full h-full object-contain p-0.5" />
-                            </div>
-
-                            <div>
-                                <h6 class="text-[9px] font-bold truncate" :class="preset === 'apex' ? 'text-slate-200' : 'text-slate-800'">
-                                    Smart Watch
-                                </h6>
-                                <div class="flex items-center justify-between mt-0.5">
-                                    <span class="text-[10px] font-black text-slate-900" :class="preset === 'apex' ? 'text-white' : 'text-slate-900'">
-                                        ₹4,999
-                                    </span>
-                                    <button 
-                                        type="button" 
-                                        class="w-4 h-4 rounded-md flex items-center justify-center text-white text-[9px] shadow-xs"
-                                        :style="{ backgroundColor: primaryColor }"
-                                    >
-                                        <svg class="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Bottom Home Indicator --}}
-                <div class="h-1 flex items-center justify-center pb-0.5">
-                    <div class="w-18 h-0.5 rounded-full" :class="preset === 'apex' ? 'bg-slate-700' : 'bg-slate-300'"></div>
-                </div>
-
+            {{-- Dynamic Island Top Pill --}}
+            <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 108px; height: 26px; background: #000000; border-radius: 20px; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); box-sizing: border-box;">
+                <span style="width: 9px; height: 9px; border-radius: 50%; background: #111827; border: 1.5px solid #1f2937;"></span>
+                <span style="width: 7px; height: 7px; border-radius: 50%; background: #059669;"></span>
             </div>
+
+            {{-- Top Status Bar --}}
+            <div style="padding: 12px 22px 2px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 700; color: #0f172a; position: relative; z-index: 30; box-sizing: border-box;">
+                <span>9:41</span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    {{-- Cellular Bars --}}
+                    <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="2" y="16" width="3" height="6" rx="1"/>
+                        <rect x="7" y="12" width="3" height="10" rx="1"/>
+                        <rect x="12" y="8" width="3" height="14" rx="1"/>
+                        <rect x="17" y="4" width="3" height="18" rx="1"/>
+                    </svg>
+                    {{-- Wi-Fi --}}
+                    <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 4c3.34 0 6.38 1.38 8.56 3.61L12 19.33 3.44 11.61C5.62 9.38 8.66 8 12 8z"/>
+                    </svg>
+                    {{-- Battery --}}
+                    <div style="width: 20px; height: 10px; border-radius: 3px; border: 1.5px solid currentColor; padding: 1px; display: flex; align-items: center;">
+                        <div style="height: 100%; width: 70%; background: currentColor; border-radius: 1px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- In-App Header Bar --}}
+            <div style="padding: 6px 18px 8px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+                {{-- Logo / App Initial Avatar --}}
+                <div 
+                    style="width: 38px; height: 38px; border-radius: 12px; color: #ffffff; font-size: 18px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.15);"
+                    :style="{ backgroundColor: primaryColor }"
+                >
+                    <span x-text="appInitial">Q</span>
+                </div>
+
+                {{-- Right Icons: Cart with Badge & Hamburger --}}
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+                        <svg style="width: 22px; height: 22px; color: #334155;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span style="position: absolute; top: -6px; right: -7px; width: 17px; height: 17px; border-radius: 50%; background: #3b82f6; color: #ffffff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 3px rgba(0,0,0,0.2);">
+                            2
+                        </span>
+                    </div>
+
+                    <button type="button" style="background: transparent; border: none; cursor: pointer; padding: 2px;">
+                        <svg style="width: 22px; height: 22px; color: #1e293b;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- In-App Search Bar --}}
+            <div style="margin: 2px 18px 10px; border-radius: 12px; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 9px 14px; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); box-sizing: border-box;">
+                <svg style="width: 15px; height: 15px; color: #64748b; flex-shrink: 0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <span style="font-size: 13px; color: #94a3b8; font-weight: 500;" x-text="'Search in ' + appName + '...'">Search in qwrt...</span>
+            </div>
+
+            {{-- Hero Promotional Card --}}
+            <div 
+                style="margin: 0 18px 12px; border-radius: 18px; padding: 14px 16px; color: #ffffff; position: relative; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.12); box-sizing: border-box;"
+                :style="{ background: 'linear-gradient(135deg, ' + primaryColor + ' 0%, #1e1b4b 100%)' }"
+            >
+                <span style="display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; background: #10b981; color: #ffffff; letter-spacing: 0.3px; margin-bottom: 6px;">
+                    Special Offer
+                </span>
+                <h4 style="font-size: 14px; font-weight: 800; color: #ffffff; margin: 0 0 3px 0; line-height: 1.25;">30% OFF Your First Mobile Order</h4>
+                <p style="font-size: 12px; color: rgba(255, 255, 255, 0.9); margin: 0 0 10px 0; font-weight: 500;">
+                    Use code: <span style="font-weight: 800; text-decoration: underline;">APPSTORE</span>
+                </p>
+
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <button 
+                        type="button" 
+                        style="padding: 5px 14px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #ffffff; color: #0f172a; border: none; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                    >
+                        Shop Now &gt;
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                        <span style="width: 7px; height: 7px; border-radius: 50%; background: #ffffff;"></span>
+                        <span style="width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4);"></span>
+                        <span style="width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4);"></span>
+                        <span style="width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4);"></span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Categories Horizontal Row (5 Categories) --}}
+            <div style="margin: 0 18px 12px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+                {{-- 1. All --}}
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <div 
+                        style="width: 42px; height: 42px; border-radius: 50%; color: #ffffff; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.15);"
+                        :style="{ backgroundColor: primaryColor }"
+                    >
+                        All
+                    </div>
+                    <span style="font-size: 11px; font-weight: 600; color: #475569;">All</span>
+                </div>
+
+                {{-- 2. Trending --}}
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; background: #fff1f2; border: 1px solid #ffe4e6; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                        🔥
+                    </div>
+                    <span style="font-size: 11px; font-weight: 600; color: #475569;">Trending</span>
+                </div>
+
+                {{-- 3. Fashion --}}
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; background: #eff6ff; border: 1px solid #dbeafe; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                        👗
+                    </div>
+                    <span style="font-size: 11px; font-weight: 600; color: #475569;">Fashion</span>
+                </div>
+
+                {{-- 4. Shoes --}}
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; background: #faf5ff; border: 1px solid #f3e8ff; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                        👟
+                    </div>
+                    <span style="font-size: 11px; font-weight: 600; color: #475569;">Shoes</span>
+                </div>
+
+                {{-- 5. Electronics --}}
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; background: #f8fafc; border: 1px solid #e2e8f0; font-size: 18px; display: flex; align-items: center; justify-content: center;">
+                        🎧
+                    </div>
+                    <span style="font-size: 11px; font-weight: 600; color: #475569;">Electronics</span>
+                </div>
+            </div>
+
+            {{-- Featured Products Section (2-Column Cards) --}}
+            <div style="margin: 0 18px 6px; box-sizing: border-box;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                    <h5 style="font-size: 14px; font-weight: 800; color: #0f172a; margin: 0;">Featured Products</h5>
+                    <span style="font-size: 12px; font-weight: 700; color: #3b82f6; cursor: pointer;">View All</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    {{-- Product 1: Sports Shoes --}}
+                    <div style="border-radius: 16px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 2px rgba(0,0,0,0.03); box-sizing: border-box;">
+                        <div style="width: 100%; height: 90px; border-radius: 12px; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px;">
+                            <img src="{{ $sneakerImg }}" alt="Sports Shoes" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+                        </div>
+                        <div>
+                            <h6 style="font-size: 12px; font-weight: 700; color: #1e293b; margin: 0 0 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Sports Shoes</h6>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="font-size: 13px; font-weight: 900; color: #0f172a;">₹2,499</span>
+                                <button 
+                                    type="button" 
+                                    style="width: 24px; height: 24px; border-radius: 7px; color: #ffffff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+                                    :style="{ backgroundColor: primaryColor }"
+                                >
+                                    <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Product 2: Smart Watch --}}
+                    <div style="border-radius: 16px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 1px 2px rgba(0,0,0,0.03); box-sizing: border-box;">
+                        <div style="width: 100%; height: 90px; border-radius: 12px; background: #ffffff; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 6px;">
+                            <img src="{{ $smartwatchImg }}" alt="Smart Watch" style="max-width: 100%; max-height: 100%; object-fit: contain;" />
+                        </div>
+                        <div>
+                            <h6 style="font-size: 12px; font-weight: 700; color: #1e293b; margin: 0 0 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Smart Watch</h6>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <span style="font-size: 13px; font-weight: 900; color: #0f172a;">₹4,999</span>
+                                <button 
+                                    type="button" 
+                                    style="width: 24px; height: 24px; border-radius: 7px; color: #ffffff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+                                    :style="{ backgroundColor: primaryColor }"
+                                >
+                                    <svg style="width: 13px; height: 13px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Bottom Home Indicator Bar --}}
+            <div style="width: 120px; height: 4px; background: #0f172a; border-radius: 999px; margin: 6px auto 10px; flex-shrink: 0;"></div>
         </div>
     </div>
 </div>
