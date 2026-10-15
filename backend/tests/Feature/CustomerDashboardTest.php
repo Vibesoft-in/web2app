@@ -345,3 +345,63 @@ test('customer can view builds list and download APK and AAB from builds page', 
 
     $downloadAab->assertFileDownloaded('com.megamart.app-v2.1.0-b5.aab');
 });
+
+test('customer dashboard renders actual dynamic tenant data without hardcoding', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Jane Merchant',
+        'role' => 'owner',
+    ]);
+
+    $app1 = App::create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Jane Boutique',
+        'platform' => 'woo',
+        'package_name' => 'com.jane.boutique',
+        'app_key' => 'wia_jane_key_1',
+    ]);
+
+    $app2 = App::create([
+        'tenant_id' => $tenant->id,
+        'name' => 'Jane Electronics',
+        'platform' => 'shopify',
+        'package_name' => 'com.jane.electronics',
+        'app_key' => 'wia_jane_key_2',
+    ]);
+
+    Build::create([
+        'tenant_id' => $tenant->id,
+        'app_id' => $app1->id,
+        'status' => BuildStatus::READY,
+        'version_code' => 1,
+        'version_name' => '1.0.0',
+    ]);
+
+    Build::create([
+        'tenant_id' => $tenant->id,
+        'app_id' => $app2->id,
+        'status' => BuildStatus::BUILDING,
+        'version_code' => 2,
+        'version_name' => '1.0.0',
+    ]);
+
+    $response = $this->actingAs($user)->get('/app');
+    $response->assertSuccessful();
+
+    // Verify dynamic welcome banner
+    $response->assertSee('Welcome back, Jane Merchant');
+    $response->assertSee('J'); // User Initial
+
+    // Verify dynamic apps list and counts
+    $response->assertSee('Jane Boutique');
+    $response->assertSee('com.jane.boutique');
+    $response->assertSee('Jane Electronics');
+    $response->assertSee('com.jane.electronics');
+
+    // Verify it does NOT contain hardcoded sample data from mockup
+    $response->assertDontSee('QWRT Store');
+    $response->assertDontSee('com.qwrt.store');
+    $response->assertDontSee('Fashion Hub');
+    $response->assertDontSee('com.fashion.hub');
+});
