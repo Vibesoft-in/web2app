@@ -95,11 +95,11 @@ export function PhoneFrame({
     <div
       data-testid="phone-frame"
       style={{
-        width: "360px",
+        width: "330px",
         maxWidth: "100%",
-        height: "710px",
-        borderRadius: "48px",
-        border: "10px solid #1c1d22",
+        height: "min(650px, calc(100vh - 120px))",
+        borderRadius: "44px",
+        border: "9px solid #1c1d22",
         backgroundColor,
         color: textColor,
         boxShadow: "0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08)",
@@ -274,14 +274,17 @@ export function PhoneFrame({
         </div>
       </div>
 
+      {/* Scrollable Screen Body */}
+      <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden", padding: "0 16px 4px", display: "flex", flexDirection: "column", gap: "10px", scrollbarWidth: "none", boxSizing: "border-box" }}>
+
       {/* In-App Search Bar */}
       <div
         style={{
-          margin: "2px 18px 10px",
-          borderRadius: "12px",
+          margin: "2px 0 0",
+          borderRadius: "10px",
           backgroundColor: "#ffffff",
           border: "1.5px solid #e2e8f0",
-          padding: "9px 14px",
+          padding: "7px 12px",
           display: "flex",
           alignItems: "center",
           gap: "10px",
@@ -479,14 +482,16 @@ export function PhoneFrame({
         </div>
       </div>
 
+      </div>
+
       {/* Bottom Home Indicator Bar */}
       <div
         style={{
-          width: "120px",
+          width: "110px",
           height: "4px",
           backgroundColor: "#0f172a",
           borderRadius: "999px",
-          margin: "6px auto 10px",
+          margin: "4px auto 6px",
           flexShrink: 0,
         }}
       />

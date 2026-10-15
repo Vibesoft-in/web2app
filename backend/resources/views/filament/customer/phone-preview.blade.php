@@ -88,35 +88,38 @@
     {{-- Smartphone Frame Shell --}}
     <div 
         id="phone-device-chassis"
-        style="width: 360px; max-width: 100%; height: 710px; border-radius: 48px; border: 10px solid #1c1d22; background: #ffffff; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; box-sizing: border-box; user-select: none;"
+        style="width: 330px; max-width: 100%; height: min(650px, calc(100vh - 120px)); border-radius: 44px; border: 9px solid #1c1d22; background: #ffffff; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.08); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; box-sizing: border-box; user-select: none;"
     >
         {{-- Dynamic Island Top Pill --}}
-        <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 108px; height: 26px; background: #000000; border-radius: 20px; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); box-sizing: border-box;">
-            <span style="width: 9px; height: 9px; border-radius: 50%; background: #111827; border: 1.5px solid #1f2937;"></span>
-            <span style="width: 7px; height: 7px; border-radius: 50%; background: #059669;"></span>
+        <div style="position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 100px; height: 24px; background: #000000; border-radius: 20px; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 0 9px; box-shadow: 0 2px 6px rgba(0,0,0,0.5); box-sizing: border-box;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #111827; border: 1.5px solid #1f2937;"></span>
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #059669;"></span>
         </div>
 
         {{-- Top Status Bar --}}
-        <div style="padding: 12px 22px 2px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 700; color: #0f172a; position: relative; z-index: 30; box-sizing: border-box;">
+        <div style="padding: 10px 20px 2px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: #0f172a; position: relative; z-index: 30; box-sizing: border-box;">
             <span>9:41</span>
-            <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="display: flex; align-items: center; gap: 5px;">
                 {{-- Cellular Bars --}}
-                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="currentColor">
+                <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="currentColor">
                     <rect x="2" y="16" width="3" height="6" rx="1"/>
                     <rect x="7" y="12" width="3" height="10" rx="1"/>
                     <rect x="12" y="8" width="3" height="14" rx="1"/>
                     <rect x="17" y="4" width="3" height="18" rx="1"/>
                 </svg>
                 {{-- Wi-Fi --}}
-                <svg style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="currentColor">
+                <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 4c3.34 0 6.38 1.38 8.56 3.61L12 19.33 3.44 11.61C5.62 9.38 8.66 8 12 8z"/>
                 </svg>
                 {{-- Battery --}}
-                <div style="width: 20px; height: 10px; border-radius: 3px; border: 1.5px solid currentColor; padding: 1px; display: flex; align-items: center;">
+                <div style="width: 18px; height: 9px; border-radius: 3px; border: 1.5px solid currentColor; padding: 1px; display: flex; align-items: center;">
                     <div style="height: 100%; width: 70%; background: currentColor; border-radius: 1px;"></div>
                 </div>
             </div>
         </div>
+
+        {{-- Scrollable Screen Body --}}
+        <div style="flex: 1; overflow-y: auto; overflow-x: hidden; padding: 0 16px 4px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; box-sizing: border-box;">
 
         {{-- In-App Header Bar --}}
         <div style="padding: 6px 18px 8px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
@@ -290,7 +293,7 @@
         </div>
 
         {{-- Bottom Home Indicator Bar --}}
-        <div style="width: 120px; height: 4px; background: #0f172a; border-radius: 999px; margin: 6px auto 10px; flex-shrink: 0;"></div>
+        <div style="width: 110px; height: 4px; background: #0f172a; border-radius: 999px; margin: 4px auto 6px; flex-shrink: 0;"></div>
     </div>
 
     {{-- Bottom Engine / Package Info & Download Bar --}}
