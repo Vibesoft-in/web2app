@@ -7,6 +7,7 @@ use App\Models\App;
 use App\Models\Plan;
 use App\Models\Subscription;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Validation\ValidationException;
@@ -14,6 +15,11 @@ use Illuminate\Validation\ValidationException;
 class CreateCustomerApp extends CreateRecord
 {
     protected static string $resource = CustomerAppResource::class;
+
+    public function getMaxContentWidth(): MaxWidth
+    {
+        return MaxWidth::Full;
+    }
 
     protected function getRedirectUrl(): string
     {

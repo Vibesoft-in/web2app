@@ -153,12 +153,12 @@ class CustomerAppResource extends Resource
                                             ->maxLength(100)
                                             ->live(debounce: 400),
                                     ])->columns(1),
-                            ])->columnSpan(['default' => 12, 'xl' => 7]),
+                            ])->columnSpan(['default' => 12, 'lg' => 7, 'xl' => 7]),
 
                             Forms\Components\Group::make([
                                 Forms\Components\View::make('filament.customer.wizard-phone-preview'),
-                            ])->columnSpan(['default' => 12, 'xl' => 5]),
-                        ])->columns(12),
+                            ])->columnSpan(['default' => 12, 'lg' => 5, 'xl' => 5]),
+                        ])->columns(['default' => 1, 'lg' => 12]),
 
                     Forms\Components\Wizard\Step::make('Build Options')
                         ->description('Distribution & notification settings')

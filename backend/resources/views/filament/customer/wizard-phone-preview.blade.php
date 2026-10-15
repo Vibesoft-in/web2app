@@ -69,57 +69,53 @@
             }, 2200);
         }
     }"
-    class="sticky top-6 flex flex-col items-center justify-start w-full select-none font-sans"
+    class="sticky top-4 w-full flex flex-col items-center justify-start select-none font-sans"
 >
     {{-- Device Header & Quick Presets Toolbar --}}
-    <div class="w-full max-w-[340px] mb-3 bg-slate-900/90 backdrop-blur-md rounded-2xl p-2.5 border border-slate-800 text-white shadow-xl flex flex-col gap-2">
-        <div class="flex items-center justify-between">
+    <div class="w-full max-w-[300px] sm:max-w-[310px] mb-2.5 p-2 rounded-2xl bg-slate-900 border border-slate-800 text-white shadow-lg space-y-1.5">
+        <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-1.5">
-                <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-indigo-600 text-xs font-bold text-white shadow">
-                    📱
-                </span>
-                <div>
-                    <h4 class="text-[11px] font-bold tracking-wide text-white uppercase">Live Emulator</h4>
-                    <p class="text-[9px] text-slate-400">Real-time Visual Preview</p>
-                </div>
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-[11px] font-bold tracking-wide text-slate-200 uppercase">Live Phone Emulator</span>
             </div>
-
-            {{-- Interactive Theme Quick Switchers --}}
-            <div class="flex items-center gap-1 bg-slate-800/80 rounded-lg p-0.5 border border-slate-700 text-[10px]">
-                <button 
-                    type="button" 
-                    @click="setTheme('minimalist')" 
-                    :class="preset === 'minimalist' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-white'"
-                    class="px-2 py-0.5 rounded font-medium transition-all"
-                >
-                    Minimalist
-                </button>
-                <button 
-                    type="button" 
-                    @click="setTheme('boutique')" 
-                    :class="preset === 'boutique' ? 'bg-rose-600 text-white shadow' : 'text-slate-400 hover:text-white'"
-                    class="px-2 py-0.5 rounded font-medium transition-all"
-                >
-                    Boutique
-                </button>
-                <button 
-                    type="button" 
-                    @click="setTheme('apex')" 
-                    :class="preset === 'apex' ? 'bg-slate-700 text-emerald-400 shadow' : 'text-slate-400 hover:text-white'"
-                    class="px-2 py-0.5 rounded font-medium transition-all"
-                >
-                    Apex
-                </button>
-            </div>
+            <span class="text-[9px] px-1.5 py-0.2 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-medium">Real-time</span>
         </div>
 
-        {{-- Quick Color Palette Bar --}}
-        <div class="flex items-center justify-between pt-1 border-t border-slate-800/80 text-[10px]">
+        {{-- 3-Way Theme Switcher Grid --}}
+        <div class="grid grid-cols-3 gap-1 p-0.5 bg-slate-950/80 rounded-xl border border-slate-800 text-[10px] font-medium text-center">
+            <button 
+                type="button" 
+                @click="setTheme('minimalist')" 
+                :class="preset === 'minimalist' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-white'"
+                class="py-1 px-1 rounded-lg transition-all truncate"
+            >
+                Minimalist
+            </button>
+            <button 
+                type="button" 
+                @click="setTheme('boutique')" 
+                :class="preset === 'boutique' ? 'bg-rose-600 text-white shadow' : 'text-slate-400 hover:text-white'"
+                class="py-1 px-1 rounded-lg transition-all truncate"
+            >
+                Boutique
+            </button>
+            <button 
+                type="button" 
+                @click="setTheme('apex')" 
+                :class="preset === 'apex' ? 'bg-slate-700 text-emerald-400 shadow' : 'text-slate-400 hover:text-white'"
+                class="py-1 px-1 rounded-lg transition-all truncate"
+            >
+                Apex Dark
+            </button>
+        </div>
+
+        {{-- Color Quick Picks Row --}}
+        <div class="flex items-center justify-between px-1 pt-1 border-t border-slate-800/80 text-[10px]">
             <span class="text-slate-400 flex items-center gap-1">
                 Accent:
-                <span class="inline-block w-3 h-3 rounded-full border border-white/20 shadow-sm" :style="{ backgroundColor: primaryColor }"></span>
+                <span class="inline-block w-2.5 h-2.5 rounded-full border border-white/20 shadow-xs" :style="{ backgroundColor: primaryColor }"></span>
             </span>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1">
                 <button type="button" @click="setColor('#6366f1')" class="w-3.5 h-3.5 rounded-full bg-indigo-500 hover:scale-125 transition-transform ring-1 ring-white/20" title="Indigo"></button>
                 <button type="button" @click="setColor('#0ea5e9')" class="w-3.5 h-3.5 rounded-full bg-sky-500 hover:scale-125 transition-transform ring-1 ring-white/20" title="Sky"></button>
                 <button type="button" @click="setColor('#10b981')" class="w-3.5 h-3.5 rounded-full bg-emerald-500 hover:scale-125 transition-transform ring-1 ring-white/20" title="Emerald"></button>
@@ -138,92 +134,92 @@
             'bg-amber-50/50 text-slate-900 border-slate-900': preset === 'boutique',
             'bg-slate-950 text-slate-100 border-slate-800': preset === 'apex'
         }"
-        class="relative w-[320px] sm:w-[340px] h-[640px] rounded-[46px] border-[9px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col transition-all duration-300 ring-1 ring-black/10"
+        class="relative w-full max-w-[290px] sm:max-w-[310px] h-[580px] sm:h-[610px] rounded-[42px] border-[8px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col transition-all duration-300 ring-1 ring-black/10 box-border"
         :style="{ '--app-primary': primaryColor, '--app-secondary': secondaryColor }"
     >
         {{-- Side Hardware Buttons --}}
-        <div class="absolute -left-[11px] top-20 w-[3px] h-8 bg-slate-700 rounded-l"></div>
-        <div class="absolute -left-[11px] top-32 w-[3px] h-11 bg-slate-700 rounded-l"></div>
-        <div class="absolute -left-[11px] top-48 w-[3px] h-11 bg-slate-700 rounded-l"></div>
-        <div class="absolute -right-[11px] top-28 w-[3px] h-14 bg-slate-700 rounded-r"></div>
+        <div class="absolute -left-[10px] top-16 w-[3px] h-7 bg-slate-700 rounded-l"></div>
+        <div class="absolute -left-[10px] top-28 w-[3px] h-10 bg-slate-700 rounded-l"></div>
+        <div class="absolute -left-[10px] top-42 w-[3px] h-10 bg-slate-700 rounded-l"></div>
+        <div class="absolute -right-[10px] top-24 w-[3px] h-12 bg-slate-700 rounded-r"></div>
 
         {{-- Dynamic Island & Status Bar --}}
-        <div class="relative z-30 pt-2.5 px-5 flex items-center justify-between text-[11px] font-semibold tracking-tight"
+        <div class="relative z-30 pt-2 px-4 flex items-center justify-between text-[10px] font-semibold tracking-tight"
             :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-800'">
             <span>9:41</span>
 
             {{-- Pill Notch --}}
-            <div class="absolute left-1/2 -translate-x-1/2 top-2 h-5 w-20 bg-black rounded-full flex items-center justify-between px-2 shadow-inner">
-                <span class="w-2 h-2 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center">
-                    <span class="w-1 h-1 rounded-full bg-indigo-500/80"></span>
+            <div class="absolute left-1/2 -translate-x-1/2 top-1.5 h-4 w-18 bg-black rounded-full flex items-center justify-between px-2 shadow-inner">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center">
+                    <span class="w-0.5 h-0.5 rounded-full bg-indigo-500/80"></span>
                 </span>
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="w-1 h-1 rounded-full bg-emerald-500 animate-pulse"></span>
             </div>
 
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1">
                 {{-- Signal Icon --}}
-                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor">
                     <rect x="2" y="16" width="3" height="6" rx="1"/>
                     <rect x="7" y="12" width="3" height="10" rx="1"/>
                     <rect x="12" y="8" width="3" height="14" rx="1"/>
                     <rect x="17" y="4" width="3" height="18" rx="1"/>
                 </svg>
                 {{-- Wifi Icon --}}
-                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 4c3.34 0 6.38 1.38 8.56 3.61L12 19.33 3.44 11.61C5.62 9.38 8.66 8 12 8z"/>
                 </svg>
                 {{-- Battery Icon --}}
-                <div class="w-4 h-2 rounded-2xs border border-current p-0.5 flex items-center">
-                    <div class="h-full bg-current rounded-3xs w-2.5"></div>
+                <div class="w-3.5 h-2 rounded-2xs border border-current p-0.5 flex items-center">
+                    <div class="h-full bg-current rounded-3xs w-2"></div>
                 </div>
             </div>
         </div>
 
         {{-- App Header Bar --}}
-        <div class="relative z-20 px-3.5 pt-2.5 pb-2 flex items-center justify-between border-b"
+        <div class="relative z-20 px-3 pt-2 pb-1.5 flex items-center justify-between border-b"
             :class="preset === 'apex' ? 'border-slate-800/90 bg-slate-950/90' : 'border-slate-100 bg-white/90 backdrop-blur-sm'"
         >
-            <div class="flex items-center gap-2">
-                <button type="button" class="p-1 rounded-lg hover:bg-black/5 transition-colors">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="flex items-center gap-1.5">
+                <button type="button" class="p-0.5 rounded-md hover:bg-black/5 transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h12M4 18h16" />
                     </svg>
                 </button>
                 
-                {{-- Dynamic Logo / Initial --}}
-                <div class="flex items-center gap-1.5">
+                {{-- Dynamic Logo / Monogram --}}
+                <div class="flex items-center gap-1">
                     <template x-if="logoUrl">
-                        <img :src="logoUrl" alt="Logo" class="w-6 h-6 rounded-lg object-contain border border-slate-200/50 shadow-sm" />
+                        <img :src="logoUrl" alt="Logo" class="w-5 h-5 rounded-md object-contain border border-slate-200/50 shadow-xs" />
                     </template>
                     <template x-if="!logoUrl">
-                        <span class="w-6 h-6 rounded-lg flex items-center justify-center text-white text-[11px] font-black shadow-sm"
+                        <span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-[10px] font-black shadow-xs"
                             :style="{ backgroundColor: primaryColor }">
                             <span x-text="(appName ? appName.charAt(0).toUpperCase() : 'M')"></span>
                         </span>
                     </template>
                     
-                    <h3 class="text-xs font-bold tracking-tight truncate max-w-[120px]" 
+                    <h3 class="text-[11px] font-bold tracking-tight truncate max-w-[105px]" 
                         :class="preset === 'apex' ? 'text-white' : 'text-slate-900'"
                         x-text="appName">
                     </h3>
                 </div>
             </div>
 
-            <div class="flex items-center gap-1.5">
-                <button type="button" class="p-1 rounded-lg hover:bg-black/5 transition-colors relative">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="flex items-center gap-1">
+                <button type="button" class="p-0.5 rounded-md hover:bg-black/5 transition-colors relative">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
-                    <span class="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full" :style="{ backgroundColor: primaryColor }"></span>
+                    <span class="absolute top-0 right-0 w-1 h-1 rounded-full" :style="{ backgroundColor: primaryColor }"></span>
                 </button>
 
-                <button type="button" @click="addToCart()" class="p-1 rounded-lg hover:bg-black/5 transition-colors relative">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button type="button" @click="addToCart()" class="p-0.5 rounded-md hover:bg-black/5 transition-colors relative">
+                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
                     <span 
                         x-text="cartCount"
-                        class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full text-white text-[8px] font-bold flex items-center justify-center shadow-sm"
+                        class="absolute -top-1 -right-1 w-3 h-3 rounded-full text-white text-[7px] font-bold flex items-center justify-center shadow-xs"
                         :style="{ backgroundColor: primaryColor }"
                     >2</span>
                 </button>
@@ -231,7 +227,7 @@
         </div>
 
         {{-- Phone Screen Body (Scrollable) --}}
-        <div class="flex-1 overflow-y-auto px-3 py-2.5 space-y-3 scrollbar-thin scrollbar-thumb-slate-300">
+        <div class="flex-1 overflow-y-auto px-2.5 py-2 space-y-2.5 scrollbar-thin scrollbar-thumb-slate-300">
 
             {{-- In-App Floating Toast --}}
             <div 
@@ -242,10 +238,10 @@
                 x-transition:leave="transition ease-in duration-150"
                 x-transition:leave-start="opacity-100 translate-y-0"
                 x-transition:leave-end="opacity-0 -translate-y-2"
-                class="bg-slate-900/95 text-white text-[10px] py-1 px-2.5 rounded-xl shadow-lg border border-slate-700 flex items-center justify-between"
+                class="bg-slate-900/95 text-white text-[9px] py-1 px-2 rounded-xl shadow-lg border border-slate-700 flex items-center justify-between"
             >
                 <span class="flex items-center gap-1">
-                    <span class="text-emerald-400 font-bold">✓</span> Added to mobile cart!
+                    <span class="text-emerald-400 font-bold">✓</span> Added to cart!
                 </span>
                 <span class="text-[8px] text-slate-400">Checkout &rarr;</span>
             </div>
@@ -255,95 +251,94 @@
                 <input 
                     type="text" 
                     :placeholder="`Search in ${appName}...`" 
-                    class="w-full text-[11px] rounded-xl py-1.5 pl-7 pr-3 border transition-colors outline-none"
+                    class="w-full text-[10px] rounded-xl py-1.5 pl-6 pr-2.5 border transition-colors outline-none"
                     :class="preset === 'apex' 
                         ? 'bg-slate-900 border-slate-800 text-slate-200 placeholder-slate-500 focus:border-indigo-500' 
                         : 'bg-slate-100/90 border-slate-200 text-slate-800 placeholder-slate-400 focus:border-indigo-400'"
                 />
-                <svg class="w-3 h-3 text-slate-400 absolute left-2 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-2.5 h-2.5 text-slate-400 absolute left-2 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
 
             {{-- Dynamic Hero Promo Banner --}}
             <div 
-                class="rounded-2xl p-3 text-white relative overflow-hidden shadow-md flex flex-col justify-between min-h-[105px]"
+                class="rounded-xl p-2.5 text-white relative overflow-hidden shadow-xs flex flex-col justify-between min-h-[95px]"
                 :style="{
                     background: `linear-gradient(135deg, ${primaryColor} 0%, #0f172a 100%)`
                 }"
             >
-                <div class="relative z-10 max-w-[170px]">
+                <div class="relative z-10 max-w-[155px]">
                     <span 
-                        class="inline-block px-1.5 py-0.5 rounded text-[8px] font-extrabold uppercase tracking-wider text-white backdrop-blur-sm mb-1"
+                        class="inline-block px-1.5 py-0.2 rounded text-[7px] font-extrabold uppercase tracking-wider text-white backdrop-blur-sm mb-1"
                         :style="{ backgroundColor: secondaryColor }"
                     >
                         Special Offer
                     </span>
-                    <h4 class="text-xs font-extrabold leading-tight text-white line-clamp-2" x-text="bannerText"></h4>
-                    <p class="text-[9px] text-white/80 mt-0.5 font-medium">Use code: <span class="font-bold underline">APPSTORE</span></p>
+                    <h4 class="text-[11px] font-extrabold leading-tight text-white line-clamp-2" x-text="bannerText"></h4>
+                    <p class="text-[8px] text-white/80 mt-0.5 font-medium">Use code: <span class="font-bold underline">APPSTORE</span></p>
                 </div>
 
-                <div class="relative z-10 mt-2 flex items-center justify-between">
+                <div class="relative z-10 mt-1.5 flex items-center justify-between">
                     <button 
                         type="button" 
-                        class="px-2 py-0.5 rounded-lg text-[9px] font-bold bg-white text-slate-900 shadow hover:bg-slate-100 active:scale-95 transition-all"
+                        class="px-2 py-0.5 rounded-md text-[8px] font-bold bg-white text-slate-900 shadow hover:bg-slate-100 active:scale-95 transition-all"
                     >
                         Shop Now &rarr;
                     </button>
-                    <div class="flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+                    <div class="flex items-center gap-0.5">
+                        <span class="w-1 h-1 rounded-full bg-white"></span>
+                        <span class="w-1 h-1 rounded-full bg-white/40"></span>
+                        <span class="w-1 h-1 rounded-full bg-white/40"></span>
                     </div>
                 </div>
 
-                {{-- Visual Glow Element --}}
-                <div class="absolute -right-3 -bottom-5 w-20 h-20 rounded-full bg-white/10 blur-xl pointer-events-none"></div>
-                <div class="absolute right-2 top-2 text-2xl opacity-20 pointer-events-none">✨</div>
+                <div class="absolute -right-2 -bottom-4 w-16 h-16 rounded-full bg-white/10 blur-lg pointer-events-none"></div>
+                <div class="absolute right-1.5 top-1.5 text-xl opacity-20 pointer-events-none">✨</div>
             </div>
 
             {{-- Categories Horizontal Pills --}}
             <div>
-                <div class="flex items-center justify-between mb-1.5">
-                    <h5 class="text-[10px] font-bold tracking-tight" :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-800'">
+                <div class="flex items-center justify-between mb-1">
+                    <h5 class="text-[9px] font-bold tracking-tight" :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-800'">
                         Categories
                     </h5>
-                    <span class="text-[9px] text-slate-400 font-medium">View all</span>
+                    <span class="text-[8px] text-slate-400 font-medium">View all</span>
                 </div>
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[10px]">
+                <div class="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none text-[9px]">
                     <button 
                         type="button" 
                         @click="activeCategory = 'all'" 
-                        :class="activeCategory === 'all' ? 'text-white shadow-sm' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
+                        :class="activeCategory === 'all' ? 'text-white shadow-xs' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
                         :style="activeCategory === 'all' ? { backgroundColor: primaryColor } : {}"
-                        class="px-2.5 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
+                        class="px-2 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
                     >
                         All
                     </button>
                     <button 
                         type="button" 
                         @click="activeCategory = 'trending'" 
-                        :class="activeCategory === 'trending' ? 'text-white shadow-sm' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
+                        :class="activeCategory === 'trending' ? 'text-white shadow-xs' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
                         :style="activeCategory === 'trending' ? { backgroundColor: primaryColor } : {}"
-                        class="px-2.5 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
+                        class="px-2 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
                     >
                         🔥 Popular
                     </button>
                     <button 
                         type="button" 
                         @click="activeCategory = 'clothing'" 
-                        :class="activeCategory === 'clothing' ? 'text-white shadow-sm' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
+                        :class="activeCategory === 'clothing' ? 'text-white shadow-xs' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
                         :style="activeCategory === 'clothing' ? { backgroundColor: primaryColor } : {}"
-                        class="px-2.5 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
+                        class="px-2 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
                     >
                         👗 Fashion
                     </button>
                     <button 
                         type="button" 
-                        @click="activeCategory = 'accessories'" 
-                        :class="activeCategory === 'accessories' ? 'text-white shadow-sm' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
-                        :style="activeCategory === 'accessories' ? { backgroundColor: primaryColor } : {}"
-                        class="px-2.5 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
+                        @click="activeCategory = 'shoes'" 
+                        :class="activeCategory === 'shoes' ? 'text-white shadow-xs' : (preset === 'apex' ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600')"
+                        :style="activeCategory === 'shoes' ? { backgroundColor: primaryColor } : {}"
+                        class="px-2 py-0.5 rounded-full font-semibold whitespace-nowrap transition-all"
                     >
                         👟 Shoes
                     </button>
@@ -352,36 +347,36 @@
 
             {{-- 2-Column Product Grid --}}
             <div>
-                <div class="flex items-center justify-between mb-1.5">
-                    <h5 class="text-[10px] font-bold tracking-tight" :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-800'">
-                        Trending in Store
+                <div class="flex items-center justify-between mb-1">
+                    <h5 class="text-[9px] font-bold tracking-tight" :class="preset === 'apex' ? 'text-slate-300' : 'text-slate-800'">
+                        Featured Items
                     </h5>
-                    <span class="text-[9px] text-slate-400 font-medium">4 items</span>
+                    <span class="text-[8px] text-slate-400 font-medium">4 items</span>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-1.5">
                     {{-- Product 1 --}}
                     <div 
-                        class="rounded-xl border p-2 flex flex-col justify-between transition-all"
-                        :class="preset === 'apex' ? 'bg-slate-900/80 border-slate-800 text-white' : 'bg-white border-slate-100 shadow-xs text-slate-900'"
+                        class="rounded-lg border p-1.5 flex flex-col justify-between transition-all"
+                        :class="preset === 'apex' ? 'bg-slate-900/80 border-slate-800 text-white' : 'bg-white border-slate-100 shadow-2xs text-slate-900'"
                     >
-                        <div class="relative w-full h-24 rounded-lg bg-gradient-to-br from-indigo-50 to-slate-100 flex items-center justify-center overflow-hidden mb-1.5">
-                            <span class="text-3xl">👟</span>
+                        <div class="relative w-full h-18 rounded-md bg-gradient-to-br from-indigo-50 to-slate-100 flex items-center justify-center overflow-hidden mb-1">
+                            <span class="text-2xl">👟</span>
                             <span 
-                                class="absolute top-1 left-1 px-1 py-0.2 rounded text-[7px] font-extrabold uppercase text-white shadow-xs"
+                                class="absolute top-0.5 left-0.5 px-1 py-0.2 rounded text-[6px] font-extrabold uppercase text-white shadow-xs"
                                 :style="{ backgroundColor: secondaryColor }"
                             >
                                 -25%
                             </span>
                         </div>
                         <div>
-                            <h6 class="text-[10px] font-bold truncate">Air Retro Sneakers</h6>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-[11px] font-black" :style="{ color: primaryColor }">$89.00</span>
+                            <h6 class="text-[9px] font-bold truncate">Retro Sneakers</h6>
+                            <div class="flex items-center justify-between mt-0.5">
+                                <span class="text-[10px] font-black" :style="{ color: primaryColor }">$89.00</span>
                                 <button 
                                     type="button" 
-                                    @click="addToCart('Air Retro Sneakers')"
-                                    class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold shadow-xs active:scale-90 transition-transform"
+                                    @click="addToCart('Retro Sneakers')"
+                                    class="w-4 h-4 rounded-md flex items-center justify-center text-white text-[10px] font-bold shadow-xs active:scale-90 transition-transform"
                                     :style="{ backgroundColor: primaryColor }"
                                 >
                                     +
@@ -392,26 +387,26 @@
 
                     {{-- Product 2 --}}
                     <div 
-                        class="rounded-xl border p-2 flex flex-col justify-between transition-all"
-                        :class="preset === 'apex' ? 'bg-slate-900/80 border-slate-800 text-white' : 'bg-white border-slate-100 shadow-xs text-slate-900'"
+                        class="rounded-lg border p-1.5 flex flex-col justify-between transition-all"
+                        :class="preset === 'apex' ? 'bg-slate-900/80 border-slate-800 text-white' : 'bg-white border-slate-100 shadow-2xs text-slate-900'"
                     >
-                        <div class="relative w-full h-24 rounded-lg bg-gradient-to-br from-rose-50 to-slate-100 flex items-center justify-center overflow-hidden mb-1.5">
-                            <span class="text-3xl">👜</span>
+                        <div class="relative w-full h-18 rounded-md bg-gradient-to-br from-rose-50 to-slate-100 flex items-center justify-center overflow-hidden mb-1">
+                            <span class="text-2xl">👜</span>
                             <span 
-                                class="absolute top-1 left-1 px-1 py-0.2 rounded text-[7px] font-extrabold uppercase text-white shadow-xs"
+                                class="absolute top-0.5 left-0.5 px-1 py-0.2 rounded text-[6px] font-extrabold uppercase text-white shadow-xs"
                                 :style="{ backgroundColor: secondaryColor }"
                             >
                                 Hot
                             </span>
                         </div>
                         <div>
-                            <h6 class="text-[10px] font-bold truncate">Classic Leather Bag</h6>
-                            <div class="flex items-center justify-between mt-1">
-                                <span class="text-[11px] font-black" :style="{ color: primaryColor }">$120.00</span>
+                            <h6 class="text-[9px] font-bold truncate">Leather Bag</h6>
+                            <div class="flex items-center justify-between mt-0.5">
+                                <span class="text-[10px] font-black" :style="{ color: primaryColor }">$120.00</span>
                                 <button 
                                     type="button" 
-                                    @click="addToCart('Classic Leather Bag')"
-                                    class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-bold shadow-xs active:scale-90 transition-transform"
+                                    @click="addToCart('Leather Bag')"
+                                    class="w-4 h-4 rounded-md flex items-center justify-center text-white text-[10px] font-bold shadow-xs active:scale-90 transition-transform"
                                     :style="{ backgroundColor: primaryColor }"
                                 >
                                     +
@@ -426,7 +421,7 @@
 
         {{-- Mobile Bottom Navigation Bar --}}
         <div 
-            class="relative z-20 px-3 py-1.5 flex items-center justify-around border-t"
+            class="relative z-20 px-2.5 py-1.5 flex items-center justify-around border-t"
             :class="preset === 'apex' ? 'border-slate-800 bg-slate-950 text-slate-400' : 'border-slate-100 bg-white/95 text-slate-500'"
         >
             <button 
@@ -436,10 +431,10 @@
                 :class="activeTab === 'home' ? 'font-bold' : 'text-slate-400'"
                 :style="activeTab === 'home' ? { color: primaryColor } : {}"
             >
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
-                <span class="text-[8px]">Home</span>
+                <span class="text-[7px]">Home</span>
             </button>
 
             <button 
@@ -449,10 +444,10 @@
                 :class="activeTab === 'categories' ? 'font-bold' : 'text-slate-400'"
                 :style="activeTab === 'categories' ? { color: primaryColor } : {}"
             >
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                 </svg>
-                <span class="text-[8px]">Catalog</span>
+                <span class="text-[7px]">Catalog</span>
             </button>
 
             <button 
@@ -462,10 +457,10 @@
                 :class="activeTab === 'cart' ? 'font-bold' : 'text-slate-400'"
                 :style="activeTab === 'cart' ? { color: primaryColor } : {}"
             >
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <span class="text-[8px]">Cart</span>
+                <span class="text-[7px]">Cart</span>
             </button>
 
             <button 
@@ -475,16 +470,16 @@
                 :class="activeTab === 'account' ? 'font-bold' : 'text-slate-400'"
                 :style="activeTab === 'account' ? { color: primaryColor } : {}"
             >
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span class="text-[8px]">Account</span>
+                <span class="text-[7px]">Account</span>
             </button>
         </div>
 
         {{-- iPhone Home Indicator --}}
-        <div class="h-3 flex items-center justify-center pb-0.5">
-            <div class="w-24 h-0.5 rounded-full" :class="preset === 'apex' ? 'bg-slate-700' : 'bg-slate-300'"></div>
+        <div class="h-2.5 flex items-center justify-center pb-0.5">
+            <div class="w-20 h-0.5 rounded-full" :class="preset === 'apex' ? 'bg-slate-700' : 'bg-slate-300'"></div>
         </div>
     </div>
 </div>
