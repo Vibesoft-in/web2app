@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Responses\Auth\CustomerLoginResponse;
+use App\Http\Responses\Auth\CustomerRegistrationResponse;
 use App\Services\Build\FakeFirebaseProvisioner;
 use App\Services\Build\FirebaseProvisionerInterface;
 use App\Services\Build\FlutterRunnerInterface;
@@ -12,6 +14,8 @@ use App\Services\Notifications\FcmService;
 use App\Services\Notifications\FcmServiceInterface;
 use App\Services\Notifications\WhatsAppService;
 use App\Services\Notifications\WhatsAppServiceInterface;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
+use Filament\Http\Responses\Auth\Contracts\RegistrationResponse;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -42,6 +46,15 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(FcmServiceInterface::class, FcmService::class);
         $this->app->singleton(WhatsAppServiceInterface::class, WhatsAppService::class);
+
+        $this->app->bind(
+            RegistrationResponse::class,
+            CustomerRegistrationResponse::class
+        );
+        $this->app->bind(
+            LoginResponse::class,
+            CustomerLoginResponse::class
+        );
     }
 
     public function boot(): void

@@ -4,12 +4,14 @@ use App\Enums\BuildStatus;
 use App\Filament\CustomerResources\CustomerAppResource\Pages\CreateCustomerApp;
 use App\Filament\CustomerResources\CustomerAppResource\Pages\ListCustomerApps;
 use App\Filament\CustomerResources\CustomerBuildResource\Pages\ListCustomerBuilds;
+use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\Register;
 use App\Models\App;
 use App\Models\Build;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Support\TenantContext;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
@@ -45,6 +47,46 @@ test('guest can register a new account and is redirected to app dashboard', func
     expect($user)->not->toBeNull()
         ->and($user->tenant_id)->not->toBeNull()
         ->and($user->hasVerifiedEmail())->toBeTrue();
+});
+
+test('guest registration safely redirects to app even if session has stale admin intended URL', function () {
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+
+    session()->put('url.intended', 'http://localhost/admin');
+
+    Livewire::test(Register::class)
+        ->fillForm([
+            'name' => 'Stale Intended User',
+            'email' => 'stale@customer.com',
+            'password' => 'Password123!',
+            'passwordConfirmation' => 'Password123!',
+        ])
+        ->call('register')
+        ->assertHasNoFormErrors()
+        ->assertRedirect('/app');
+
+    expect(session()->has('url.intended'))->toBeFalse();
+});
+
+test('customer login safely redirects to app even if session has stale admin intended URL', function () {
+    $tenant = Tenant::factory()->create();
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+        'role' => 'owner',
+        'password' => Hash::make('Password123!'),
+    ]);
+
+    filament()->setCurrentPanel(filament()->getPanel('app'));
+    session()->put('url.intended', 'http://localhost/admin');
+
+    Livewire::test(Login::class)
+        ->fillForm([
+            'email' => $user->email,
+            'password' => 'Password123!',
+        ])
+        ->call('authenticate')
+        ->assertHasNoFormErrors()
+        ->assertRedirect('/app');
 });
 
 test('dashboard aliases redirect to app panel', function () {
